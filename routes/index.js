@@ -9,5 +9,10 @@ router.get('/not-found', function(req, res, next) {
 });
 
 
+// Rute untuk menampilkan halaman ubahPassword.ejs
+router.get('/ubahPassword', function(req, res) {
+  res.render('ubahPassword', { title: 'Ubah Password' }); // Menggunakan fungsi render untuk menampilkan halaman EJS
+});
+
 
 module.exports = router;
