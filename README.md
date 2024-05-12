@@ -1,8 +1,7 @@
-# Web Pendaftaran Semester Pendek
+# TB Kelompok 16
 
-## Panduan Penggunaan
 
-1. **Clone repo ini**
+1. **Clone repo**
 
    ```bash
    git clone https://github.com/Rizkaicaa/tb_pweb_16
