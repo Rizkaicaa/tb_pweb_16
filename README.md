@@ -1,6 +1,5 @@
 # TB Kelompok 16
 
-
 1. **Clone repo**
 
    ```bash
@@ -59,5 +58,3 @@
    git commit -m "lihat profil"
    git push -u origin (nama_branch)
    ```
-
-
