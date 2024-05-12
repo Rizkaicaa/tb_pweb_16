@@ -7,16 +7,21 @@
     "build": "npx tailwindcss -i ./src/input.css -o ./public/stylesheets/style.css --watch"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
     "cookieparser": "^0.1.0",
     "debug": "~2.6.9",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
-    "preline": "^2.1.0"
+    "mysql2": "^3.9.7",
+    "preline": "^2.1.0",
+    "sequelize": "^6.37.3"
   },
   "devDependencies": {
+    "sequelize-cli": "^6.6.2",
     "tailwindcss": "^3.4.3"
   }
 }
