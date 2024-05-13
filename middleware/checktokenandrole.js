@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function verifyTokenAndRole(role) {
+function checktokenandrole(role) {
   return function(req, res, next) {
     const token = req.cookies.token;
 
@@ -26,4 +26,4 @@ function verifyTokenAndRole(role) {
   };
 }
 
-module.exports = verifyTokenAndRole;
+module.exports = checktokenandrole;
