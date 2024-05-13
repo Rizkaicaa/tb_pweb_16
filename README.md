@@ -42,17 +42,7 @@
    npx sequelize-cli db:seed:all
    ```
 
-7. **Jalankan Express dan Tailwind dengan perintah berikut di 2 terminal yang berbeda**
-
-   ```bash
-   npm run start # untuk menjalankan express
-   npm run build # untuk menjalankan tailwind
-   ```
-
-8. **Untuk push perubahan silahkan buatlah branch baru terlebih dahulu**
-
-   ```bash
-   git branch (nama_branch) //buat branch baru
+7. **Jalankan Express dan Tailwind dengan perintah bnpm
    git checkout (nama_branch)
    git add .
    git commit -m "lihat profil"

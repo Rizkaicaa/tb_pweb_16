@@ -14,5 +14,8 @@ router.get('/ubahPassword', function(req, res) {
   res.render('ubahPassword', { title: 'Ubah Password' }); // Menggunakan fungsi render untuk menampilkan halaman EJS
 });
 
+router.get('/editProfil', function(req, res) {
+  res.render('editProfil',{title: 'Edit Profile'} )
+})
 
 module.exports = router;
