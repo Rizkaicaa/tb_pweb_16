@@ -6,7 +6,6 @@ function verifyTokenAndRole(role) {
 
     if (!token) {
       return res.redirect("/auth/login");
-      // return res.status(401).send({ auth: false, message: 'Token not found.' });
     }
 
     jwt.verify(token, 'yangtautauaja', function(err, decoded) {

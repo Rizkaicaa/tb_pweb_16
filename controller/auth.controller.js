@@ -22,17 +22,14 @@ const prosesLogin = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    // Buat token JWT
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       'yangtautauaja',
       { expiresIn: 86400 }
     );
 
-    // Set cookie dengan token
     res.cookie("token", token, { httpOnly: true });
 
-    // Redirect ke halaman sesuai dengan peran pengguna
     if (user.role == "Admin"){
       return res.redirect("/admin/dashboard");
     } else if (user.role == "Kepala Lab"){
@@ -41,7 +38,6 @@ const prosesLogin = async (req, res) => {
       return res.redirect("/kadep/dashboard");
     }
 
-    // Jika tidak ada peran yang cocok, berikan respons standar
     res.status(200).send({ auth: true, token: token });
 
   } catch (err) {
