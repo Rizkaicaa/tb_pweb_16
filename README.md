@@ -24,7 +24,7 @@
    "development": {
     "username": "root",
     "password": null,
-    "database": "pendaftaransp",
+    "database": "asetlab",
     "host": "localhost",
     "dialect": "mysql"
    }
