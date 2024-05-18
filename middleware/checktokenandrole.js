@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
 
-function verifyTokenAndRole(role) {
+function checktokenandrole(role) {
   return function(req, res, next) {
     const token = req.cookies.token;
 
     if (!token) {
       return res.redirect("/auth/login");
-      // return res.status(401).send({ auth: false, message: 'Token not found.' });
     }
 
     jwt.verify(token, 'yangtautauaja', function(err, decoded) {
@@ -27,4 +26,4 @@ function verifyTokenAndRole(role) {
   };
 }
 
-module.exports = verifyTokenAndRole;
+module.exports = checktokenandrole;
