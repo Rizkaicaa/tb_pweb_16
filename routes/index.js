@@ -1,20 +1,19 @@
 var express = require('express');
 var router = express.Router();
+const auth = require("../controller/auth.controller.js");
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('login', { title: 'Express' });
 });
 router.get('/not-found', function(req, res, next) {
   res.render('notfound');
 });
 
 
+// Rute untuk menampilkan halaman ubahPassword.ejs
 router.get('/ubahPassword', function(req, res) {
-  res.render('ubahPassword', { title: 'Ubah Password' }); 
+  res.render('ubahPassword', { title: 'Ubah Password' }); // Menggunakan fungsi render untuk menampilkan halaman EJS
 });
 
-router.get('/editProfil', function(req, res) {
-  res.render('editProfil',{title: 'Edit Profile'} )
-})
 
 module.exports = router;
