@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const verifyTokenAndRole = require('../middleware/verifyTokenAndRole');
+const cek = require('../middleware/checktokenandrole');
 
-
-router.get('/dashboard',verifyTokenAndRole('Admin'), function(req, res, next) {
-    res.render('admin/dashboard');
-  });
-
+router.get('/dashboard', cek('Admin'), function (req, res, next) {
+  res.render('admin/dashboard');
+});
 
 module.exports = router;
