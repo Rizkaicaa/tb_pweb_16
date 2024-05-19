@@ -10,7 +10,7 @@ function checktokenandrole(role) {
 
     jwt.verify(token, 'yangtautauaja', function(err, decoded) {
       if (err) {
-        return res.status(500).send({ auth: false, message: 'Gagal untuk melakukan verifikasi token.' });
+        return res.redirect('/auth/login');
       }
 
       req.userId = decoded.id;
