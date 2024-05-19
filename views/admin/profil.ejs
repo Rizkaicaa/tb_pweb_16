@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>ini dashboard admin</h1>
+    
+    <h1>ini profil dashboard admin</h1>
     <br>
     <%= user.id %>
     <br>
@@ -15,11 +16,10 @@
     <%= user.nama %>
     <br>
     <%= user.no_hp %>
-    <form action="/auth/logout" method="POST">
-        <button type="submit"> Logout</button>
-    </form>
-    
-    <a href="/admin/profil"> info profil </a>
 
+    <br>
+    <a href="/admin/dashboard">kembali</a>
+    <a href="/admin/edit-profil">edit info</a>
+    
 </body>
 </html>

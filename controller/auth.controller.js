@@ -9,12 +9,7 @@ const form = (req, res) => {
   if (token) {
     jwt.verify(token, 'yangtautauaja', function (err, decoded) {
       if (err) {
-        return res
-          .status(500)
-          .send({
-            auth: false,
-            message: "Gagal untuk melakukan verifikasi token.",
-          });
+        res.render('login');
       }
 
       req.userId = decoded.id;
@@ -48,7 +43,7 @@ const prosesLogin = async (req, res) => {
     return res.status(401).json({ message: 'Invalid password' });
   }
 
-  const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, 'yangtautauaja', { expiresIn: 900 });
+  const token = jwt.sign({ id: user.id, email: user.email, role: user.role, nama:user.nama, no_hp: user.no_hp }, 'yangtautauaja', { expiresIn: 900 });
 
   res.cookie('token', token, { httpOnly: true });
 
@@ -68,8 +63,84 @@ function logout(req, res) {
   res.redirect('/auth/login');
 }
 
+function checkUserLoggedIn(req) {
+  const token = req.cookies.token;
+  let user = null;
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, 'yangtautauaja'); 
+      user = {
+        id: decoded.id,
+        nama: decoded.nama,
+        email: decoded.email,
+        no_hp: decoded.no_hp,
+        role: decoded.role,
+      };
+
+      console.log('User logged in:', user);
+    } catch (error) {
+      console.error('Token invalid or expired:', error.message);
+      return { user: null };
+    }
+  }
+
+  return { user };
+}
+
+const getUser = async (req) => {
+  const { user } = checkUserLoggedIn(req);
+  
+  if (!user) {
+    throw new Error('User not authenticated');
+  }
+
+  const newProfile = await User.findByPk(user.id);
+  
+  if (!newProfile) {
+    throw new Error('User not found');
+  }
+  
+  return newProfile;
+};
+
+const editProfil = async (req, res) => {
+  const { newName, newEmail, newHp } = req.body;
+
+  try {
+    // Pastikan req.userId sudah di-set dengan benar oleh middleware cek
+    if (!req.userId) {
+      return res.status(401).json({ message: "Pengguna tidak terotentikasi" });
+    }
+
+    // Gunakan req.userId untuk mencari data pengguna yang akan di-edit
+    const user = await User.findByPk(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+
+    // Lakukan pembaruan data pengguna
+    await user.update({
+      nama: newName,
+      email: newEmail,
+      no_hp: newHp
+    });
+
+    // Redirect ke halaman profil setelah berhasil melakukan pembaruan
+    return res.redirect('/admin/profil');
+  } catch (error) {
+    console.error('Error during profile editing:', error);
+    return res.status(500).json({ message: 'Kesalahan server internal' });
+  }
+};
+
+
+
 module.exports = {
   form,
   prosesLogin,
   logout,
+  checkUserLoggedIn,
+  getUser,
+  editProfil
 };
