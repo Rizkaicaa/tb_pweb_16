@@ -10,11 +10,13 @@ const form = (req, res) => {
     jwt.verify(token, 'yangtautauaja', function (err, decoded) {
       if (err) {
         res.render('login');
+
       }
 
       req.userId = decoded.id;
       req.userRole = decoded.role;
       req.userEmail = decoded.email;
+    
     });
     
     if (req.userRole == "Admin"){
@@ -43,7 +45,7 @@ const prosesLogin = async (req, res) => {
     return res.status(401).json({ message: 'Invalid password' });
   }
 
-  const token = jwt.sign({ id: user.id, email: user.email, role: user.role, nama:user.nama, no_hp: user.no_hp }, 'yangtautauaja', { expiresIn: 900 });
+  const token = jwt.sign({ id: user.id, email: user.email, role: user.role , nama:user.nama, no_hp: user.no_hp }, 'yangtautauaja', { expiresIn: 900 });
 
   res.cookie('token', token, { httpOnly: true });
 
@@ -62,6 +64,7 @@ function logout(req, res) {
   res.clearCookie('token');
   res.redirect('/auth/login');
 }
+
 
 function checkUserLoggedIn(req) {
   const token = req.cookies.token;
@@ -142,5 +145,5 @@ module.exports = {
   logout,
   checkUserLoggedIn,
   getUser,
-  editProfil
+  editProfil,
 };
