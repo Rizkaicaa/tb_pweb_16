@@ -4,22 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+    
 </head>
 <body>
-    <h1>ini dashboard admin</h1>
-    <br>
-    <%= user.id %>
-    <br>
-    <%= user.email %>
-    <br>
-    <%= user.nama %>
-    <br>
-    <%= user.no_hp %>
-    <form action="/auth/logout" method="POST">
-        <button type="submit"> Logout</button>
-    </form>
+    <header>
+        <%- include("../header.ejs") %>
+    </header>
+    <main>
+        <%- include("../admin/sidebarAdmin.ejs") %>
+        
     
-    <a href="/admin/profil"> info profil </a>
-
+    
+    </main>
+    
 </body>
 </html>

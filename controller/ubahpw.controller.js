@@ -26,7 +26,26 @@ const changePassword = async (req, res) => {
       await user.update({ password: hashedNewPassword });
   
 
-      res.redirect('/kalab/dashboard')
+      // Tentukan URL redirect berdasarkan peran pengguna
+      let redirectUrl;
+      switch (user.role) { // 'role' adalah kolom yang menyimpan peran pengguna
+          case 'Admin':
+              redirectUrl = '/admin/dashboard';
+              break;
+          case 'Kepala Lab':
+              redirectUrl = '/kalab/dashboard';
+              break;
+          case 'Kepala Departemen':
+              redirectUrl = '/kadep/dashboard';
+              break;
+          default:
+              redirectUrl = '/dashboard'; // Default redirect jika peran tidak dikenal
+              break;
+      }
+
+      // Redirect pengguna ke URL yang sesuai
+      res.redirect(redirectUrl);
+      
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Terjadi kesalahan server" });
