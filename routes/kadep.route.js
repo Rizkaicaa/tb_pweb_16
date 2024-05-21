@@ -13,6 +13,15 @@ router.get('/dashboard', cek('Kepala Departemen'), async function (req, res, nex
   }
 });
 
+router.get('/profil', cek('Kepala Departemen'), async function (req, res, next) {
+  try {
+    const user = await getUser(req);
+    res.render('kadep/profil', { user });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/edit-profil', cek('Kepala Departemen'), async function (req, res, next) {
   try {
     const user = await getUser(req);
