@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 const cek = require('../middleware/checktokenandrole');
 const {getUser} = require('../controller/auth.controller');
+
 const {editProfil} = require('../controller/auth.controller');
 
 router.get('/dashboard', cek('Admin'), async function (req, res, next) {
-  try{
+  try {
     const user = await getUser(req);
     res.render('admin/dashboard', { user });
   } catch (error) {
@@ -13,7 +14,7 @@ router.get('/dashboard', cek('Admin'), async function (req, res, next) {
   }
 });
 
-router.get('/profil', cek('Admin'), async function (req, res, next) {
+router.get('/profil', cek(''), async function (req, res, next) {
   try {
     const user = await getUser(req);
     res.render('admin/profil', { user });
@@ -22,7 +23,7 @@ router.get('/profil', cek('Admin'), async function (req, res, next) {
   }
 });
 
-router.get('/edit-profil', cek('Admin'), async function (req, res, next) {
+router.get('/edit-profil', cek(''), async function (req, res, next) {
   try {
     const user = await getUser(req);
     res.render('admin/editProfil', { user });
@@ -31,8 +32,12 @@ router.get('/edit-profil', cek('Admin'), async function (req, res, next) {
   }
 });
 
-router.post('/edit-profil', cek('Admin'), async (req, res, next) => {
-  await editProfil(req, res, next);
+router.post('/edit-profil', cek('Admin'), async (req, res,next)=> {
+  await editProfil(req, res,next);
+
 })
+
+
+
 
 module.exports = router;

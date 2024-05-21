@@ -38,7 +38,7 @@
             padding: 0;
             color: #333;
             text-align: center;
-            text-transform: uppercase;
+            text-transform: capitalize;
         }
 
         .form-group {
@@ -94,23 +94,28 @@
             background-color: #0056b3;
         }
     </style>
-</head>`
+</head>
 <body>
     <!-- Form untuk mengedit profil -->
-    <form class="edit-profile-form" action="/admin/edit-profil" method="POST">
-        <div class="form-group">
-            <input type="email" name="floating_email" id="floating_email" class="input-field" value="<%= user.email %>" />
-            <label for="floating_email" class="input-label">Email</label>
-        </div>
-        <div class="form-group">
-            <input type="text" name="floating_first_name" id="floating_first_name" class="input-field" value="<%= user.nama %>" />
-            <label for="floating_first_name" class="input-label">First Name</label>
-        </div>
-        <div class="form-group">
-            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="input-field" value="<%= user.no_hp %>" />
-            <label for="floating_phone" class="input-label">Nomor Telefon</label>
-        </div>
+    <div class="container">
+        <div class="login-box">
+            <h2>Edit Profil</h2>
+            <form class="edit-profile-form" action="/admin/edit-profil" method="POST" >
+                <div class="form-group">
+                    <input type="email" name="newEmail" id="floating_email" class="input-field" value="<%= user.email %>" />
+                    <label for="floating_email" class="input-label">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="newName" id="floating_first_name" class="input-field" value="<%= user.nama %>"/>
+                    <label for="floating_first_name" class="input-label">Full Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="text"  name="newHp" id="floating_phone" class="input-field" value="<%= user.no_hp %>"/>
+                    <label for="floating_phone" class="input-label">Nomor Telefon</label>
+                </div>
         <button type="submit" class="submit-button">Submit</button>
     </form>
+    </div>
+    </div>
 </body>
 </html>
