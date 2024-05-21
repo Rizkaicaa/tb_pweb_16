@@ -13,6 +13,15 @@ router.get('/dashboard', cek('Kepala Lab'), async function (req, res, next) {
   }
 });
 
+router.get('/profil', cek('Kepala Lab'), async function (req, res, next) {
+  try {
+    const user = await getUser(req);
+    res.render('kalab/profil', { user });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/edit-profil', cek('Kepala Lab'), async function (req, res, next) {
   try {
     const user = await getUser(req);
