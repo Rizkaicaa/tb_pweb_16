@@ -1,11 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const cek = require('../middleware/checktokenandrole');
-const {getUser} = require('../controller/auth.controller');
+const { getUser } = require('../controller/auth.controller');
 
-const {editProfil} = require('../controller/auth.controller');
+// Import controller lab
+const labController = require('../controller/lab.controller');
 
-router.get('/dashboard', cek('Admin'), async function (req, res, next) {
+// Routes untuk lab
+router.get('/lab', cek('Admin'), labController.getAllLabs);
+
+// Routes untuk dashboard, profil, dan edit profil
+router.get('/dashboard', cek('Admin'), async (req, res, next) => {
   try {
     const user = await getUser(req);
     res.render('admin/dashboard', { user });
@@ -14,7 +19,7 @@ router.get('/dashboard', cek('Admin'), async function (req, res, next) {
   }
 });
 
-router.get('/profil', cek(''), async function (req, res, next) {
+router.get('/profil', cek(''), async (req, res, next) => {
   try {
     const user = await getUser(req);
     res.render('admin/profil', { user });
@@ -23,7 +28,7 @@ router.get('/profil', cek(''), async function (req, res, next) {
   }
 });
 
-router.get('/edit-profil', cek(''), async function (req, res, next) {
+router.get('/edit-profil', cek(''), async (req, res, next) => {
   try {
     const user = await getUser(req);
     res.render('admin/editProfil', { user });
@@ -32,12 +37,8 @@ router.get('/edit-profil', cek(''), async function (req, res, next) {
   }
 });
 
-router.post('/edit-profil', cek('Admin'), async (req, res,next)=> {
-  await editProfil(req, res,next);
-
-})
-
-
-
+router.post('/edit-profil', cek('Admin'), async (req, res, next) => {
+  await editProfil(req, res, next);
+});
 
 module.exports = router;

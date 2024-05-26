@@ -1,12 +1,32 @@
+/* Untuk aside (sidebar) */
+.sidebar {
+    width: 200px;
+    background-color: #322C29;
+}
+/* Untuk header */
 .sticky-top {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ffffff;
+    left: 200px; /* Sesuaikan dengan lebar sidebar */
+    width: calc(100% - 200px); /* Lebar = 100% minus lebar sidebar */
+    background-color: #c4aeae;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    
 }
+
+/* Untuk footer */
+.header, .footer {
+    position: fixed;
+    bottom: 0;
+    left: 200px; /* Sesuaikan dengan lebar sidebar */
+    width: calc(100% - 200px); /* Lebar = 100% minus lebar sidebar */
+}
+
+.content {
+    float: right;
+    width: calc(100% - 200px); /* Lebar = 100% minus lebar "aside" */
+    /* Gaya lain untuk elemen "main" */
+}
+
 
 .navbar {
     display: flex;
@@ -67,4 +87,35 @@
     width: 30px; /* Ukuran gambar ikon */
     height: 30px;
     display: block; /* Pastikan gambar tampil sebagai block */
+}
+
+
+/* mengubah warna latar belakang sidebar */
+#docs-sidebar {
+    background-color: #322C29; /* Warna latar belakang sesuai dengan pallet color 322C29 */
+}
+
+/* mengubah warna latar belakang saat hover pada tombol atau tautan */
+.hs-accordion-toggle:hover {
+    background-color: #E65F2B; 
+}
+
+.menu:hover, .sub-menu:hover {
+    background-color: #E65F2B; 
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
 }
