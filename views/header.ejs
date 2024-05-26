@@ -11,11 +11,13 @@
         <nav class="navbar">
             <div class="container">
                 <div class="navbar-items">
-                    <div class="avatar">
-                        <img src="/images/avatar-s-1.png" alt="Avatar" srcset="">
-                    </div>
-                    <form action="/auth/logout" method="POST"> <!-- Menggunakan elemen form -->
-                        <button type="submit" class="btn btn-danger">Logout</button> <!-- Tombol Logout -->
+                    <!-- Icon Notifikasi -->
+                    <a href="/notifications" class="notification-icon">
+                        <img src="/images/notifikasi.png" alt="Notifikasi" class="notif-icon-img">
+                    </a>
+                    <!-- Tombol Logout -->
+                    <form action="/auth/logout" method="POST">
+                        <button type="submit" class="btn btn-danger">Logout</button>
                     </form>
                 </div>
             </div>
