@@ -1,20 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
 
+<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/sidebarKalab.ejs") %>
+
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        
+        <% if (user && user.role) { %>
+                        <span><h3>Selamat Datang,</h3> <%= user.role %></span>
+                        <div class="avatar">
+                            <% if (user.role === 'admin') { %>
+                                <img src="/images/profile-admin.png" alt="Admin Avatar" />
+                            <% } else if (user.role === 'Kepala Departemen') { %>
+                                <img src="/images/profile-kadep.png" alt="Kadep Avatar" />
+                            <% } else if (user.role === 'Kepala Lab BI') { %>
+                                <img src="/images/profile-.png" alt="LBI Avatar" />
+                            <% } else if (user.role === 'Kepala Lab GIS') { %>
+                                <img src="/images/profile-labgis.png" alt="LabGIS Avatar" />
+                            <% } else if (user.role === 'Kepala Lab EA') { %>
+                                <img src="/images/profile-lea.png" alt="LEA Avatar" />
+                            <% } else if (user.role === 'Kepala Lab LDKOM') { %>
+                                <img src="/images/profile-ldkom.png" alt="LDKOM Avatar" />
+                            <% } else { %>
+                                <img src="/images/cadangan.png" alt="Default Avatar" />
+                            <% } %>
+                        </div>
+                    <% } %>
+
+    </div>
     
-</head>
-<body>
-    <header>
-        <%- include("../layouts/header.ejs") %>
-    </header>
-    <main>
-        <%- include("../layouts/sidebarKalab.ejs") %>
-    </main>
-    
-</body>
-</html>
+
+
+</main>
+            
+<%- include("../layouts/footer.ejs") %>

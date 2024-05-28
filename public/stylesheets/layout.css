@@ -1,55 +1,47 @@
-/* Untuk aside (sidebar) */
-.sidebar {
-    width: 200px;
-    background-color: #322C29;
+/* CSS UNTUK LAYOUT */
+
+
+.body{
+    background-color: #EBE1D6;
 }
-/* Untuk header */
+
+
 .sticky-top {
-    position: fixed;
     top: 0;
-    left: 200px; /* Sesuaikan dengan lebar sidebar */
-    width: calc(100% - 200px); /* Lebar = 100% minus lebar sidebar */
-    background-color: #c4aeae;
+    left: 280px;
+    width: 100%;
+    position: fixed;
+    left: 280px; 
+    width: calc(100% - 280px); 
+    background-color: #EBE1D6;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Untuk footer */
-.header, .footer {
-    position: fixed;
-    bottom: 0;
-    left: 200px; /* Sesuaikan dengan lebar sidebar */
-    width: calc(100% - 200px); /* Lebar = 100% minus lebar sidebar */
-}
-
-.content {
-    float: right;
-    margin-top: 100px;
-    width: calc(100% - 400px); /* Lebar = 100% minus lebar "aside" */
-    /* Gaya lain untuk elemen "main" */
-}
-
-.header-lab {
-    font-weight: bold;    /* Menebalkan teks */
-    font-size: 24px;      /* Memperbesar teks, sesuaikan sesuai kebutuhan */
-    text-align: left;     /* Memindahkan teks ke kiri */
-    margin-left: 0;       /* Pastikan tidak ada margin kiri */
-}
-
-
-.button-tambahlab {
-    background-color: #E65F2B;
-    color: #fff;
-    margin-left: 900px;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-}
-
-th + th {
-    padding: 20px 60px;
-}
-
 .navbar {
+display: flex;
+justify-content: space-between; 
+align-items: center;
+}
+
+
+.navbar  h1 {
+margin-left: 20px; /* Remove default margin */
+font-size: 24px;
+font-weight: bold;
+}
+
+.header-content h2 {
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0; 
+}
+.navbar-items {
+display: flex;
+gap: 10px; /* Add spacing between icon and button */
+  }
+
+
+.navbar-items {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -73,51 +65,17 @@ th + th {
     background-color: #da0b1f;
 }
 
-/* Header styling */
-.header {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #ffffff;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-
-.avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-left: 20px; 
-}
-
-.btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-
-.navbar-items {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Add this line */
-}
-
 .notif-icon-img {
-    width: 30px; /* Ukuran gambar ikon */
+    width: 30px; 
     height: 30px;
-    display: block; /* Pastikan gambar tampil sebagai block */
+    display: block; 
 }
 
-
-/* mengubah warna latar belakang sidebar */
 #docs-sidebar {
-    background-color: #322C29; /* Warna latar belakang sesuai dengan pallet color 322C29 */
+    background-color: #322C29; 
 }
 
-/* mengubah warna latar belakang saat hover pada tombol atau tautan */
-.hs-accordion-toggle:hover {
+ .hs-accordion-toggle:hover {
     background-color: #E65F2B; 
 }
 
@@ -125,18 +83,115 @@ th + th {
     background-color: #E65F2B; 
 }
 
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
+.footer {
     position: fixed;
     bottom: 0;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
+    left: 280px; 
+    width: calc(100% - 280px); 
+    background-color:  #EBE1D6;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
 }
 
 footer p {
     margin: 0;
     font-size: 14px;
 }
+
+.content {
+    margin-top: 70px; 
+    margin-right: 200px;
+    margin-bottom: 20px;
+    margin-left: 300px; 
+    width: calc(100% - 320px); 
+    background-color:#e3e3e3;
+    padding: 20px; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px; 
+}
+
+.header-content h3 {
+    font-weight: 500;
+    font-size: 20px;
+    
+}
+
+.button-tambah {
+    background-color: #E65F2B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+}
+
+.button-tambah:hover {
+    background-color: #d84500;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead {
+    background-color: #f7f7f7;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.button-edit, .button-hapus {
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-edit {
+    background-color: #4CAF50;
+}
+
+.button-edit:hover {
+    background-color: #45a049;
+}
+
+.button-hapus {
+    background-color: #f44336;
+}
+
+.button-hapus:hover {
+    background-color: #e53935;
+}
+
+
+
+
+
