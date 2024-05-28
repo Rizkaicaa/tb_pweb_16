@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/layout.css" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
-<body>
+<body class="body">
     <!-- ========== HEADER ========== -->
     <header class="sticky-top">
         <nav class="navbar">
+            <h1><%= title %></h1>
             <div class="container">
                 <div class="navbar-items">
+                    
                     <!-- Icon Notifikasi -->
                     <a href="/notifications" class="notification-icon">
                         <img src="/images/notifikasi.png" alt="Notifikasi" class="notif-icon-img">
@@ -24,5 +26,4 @@
                 </div>
             </div>
         </nav>
-    </header> 
-
+    </header>

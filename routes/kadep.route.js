@@ -7,7 +7,7 @@ const {editProfil} = require('../controller/auth.controller');
 router.get('/dashboard', cek('Kepala Departemen'), async function (req, res, next) {
   try {
     const user = await getUser(req);
-    res.render('kadep/dashboard', { user });
+    res.render('kadep/dashboard', { title: 'Dashboard',user });
   } catch (error) {
     next(error);
   }
@@ -16,7 +16,7 @@ router.get('/dashboard', cek('Kepala Departemen'), async function (req, res, nex
 router.get('/profil', cek('Kepala Departemen'), async function (req, res, next) {
   try {
     const user = await getUser(req);
-    res.render('kadep/profil', { user });
+    res.render('kadep/profil', { title: 'Profile',user });
   } catch (error) {
     next(error);
   }
@@ -25,7 +25,7 @@ router.get('/profil', cek('Kepala Departemen'), async function (req, res, next) 
 router.get('/edit-profil', cek('Kepala Departemen'), async function (req, res, next) {
   try {
     const user = await getUser(req);
-    res.render('kadep/editProfil', { user });
+    res.render('kadep/editProfil', { title: 'Profile',user });
   } catch (error) {
     next(error);
   }
