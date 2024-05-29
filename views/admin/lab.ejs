@@ -6,8 +6,13 @@
     <main class="content">
         <div class="header-content">
             <h3>Daftar Laboratorium</h3>
-            <button class="button-tambah" onclick="openModal()" >Tambah Lab</button>
+            <button class="button-tambah" onclick="openModalTambah()">Tambah Lab</button>
         </div>
+
+        <!-- Notifikasi -->
+        <div id="notification" style="display: none;"></div>
+
+
         <table>
             <thead>
                 <tr>
@@ -23,132 +28,151 @@
                 <% labs.forEach((lab, index) => { %>
                 <tr>
                     <td><%= index + 1 %></td>
-                    <td><%= lab.namaLab %></td>
-                    <td><%= lab.kepalaLab %></td>
-                    <td><%= lab.namaKordas %></td>
-                    <td><%= lab.jumlahAsisten %></td>
+                    <td><%= lab.nama_lab %></td>
+                    <td><%= lab.nama_kepala %></td>
+                    <td><%= lab.nama_kordas %></td>
+                    <td><%= lab.jumlah_aslab %></td>
                     <td>
-                        <button onclick="window.location.href='/edit-lab/<%= lab.id %>'">Edit</button>
-                        <button onclick="hapusLab()">Hapus</button>
+                        <div style="display: inline-block;">
+                            <button class="button-edit" onclick="openModalEdit('<%= lab.id %>')">Edit</button>
+                            <form id="deleteLabForm-<%= lab.id %>" action="/admin/lab/delete/<%= lab.id %>" method="post" style="display: inline-block; margin-left: -5px;">
+                                <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus lab ini?')">Hapus</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 <% }); %>
             </tbody>
         </table>
+        
 
         
-<!-- The Modal -->
-<div id="myModal" class="modal" style="
-display: none;
-position: fixed;
-z-index: 1;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-overflow: auto;
-background-color: rgb(0, 0, 0);
-background-color: rgba(0, 0, 0, 0.4);
-">
-<div class="modal-content" style="
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-">
-    <span class="close" onclick="closeModal()" style="
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    ">&times;</span>
-    <h3>Tambah Lab Baru</h3>
-    <form id="tambahLabForm" action="/admin/tambah-lab" method="post">
-        
-        <label for="namaLab">Nama Lab:</label>
-        <input type="text" id="namaLab" name="namaLab" required style="
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        ">
-        
-        <label for="kepalaLab">Kepala Lab:</label>
-        <input type="text" id="kepalaLab" name="kepalaLab" required style="
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        ">
-        
-        <label for="namaKordas">Nama Kordas:</label>
-        <input type="text" id="namaKordas" name="namaKordas" required style="
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        ">
-        
-        <label for="jumlahAsisten">Jumlah Asisten:</label>
-        <input type="number" id="jumlahAsisten" name="jumlahAsisten" required style="
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        ">
-        
-        <button type="submit" style="
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        ">Tambah</button>
-    </form>
-</div>
-</div>
-</main>
+        <!-- The Modal untuk Tambah Lab -->
+        <div id="tambahModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModalTambah()">&times;</span>
+                <h3 class="center-text">Tambah Lab Baru</h3>
+                <form id="tambahLabForm" action="/admin/tambah-lab" method="post">
+                    <!-- Form tambah lab -->
+                    <div class="form-group">
+                        <label for="namaLab">Nama Lab:</label>
+                        <input type="text" id="namaLab" name="namaLab" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="kepalaLab">Kepala Lab:</label>
+                        <input type="text" id="kepalaLab" name="kepalaLab" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="namaKordas">Nama Kordas:</label>
+                        <input type="text" id="namaKordas" name="namaKordas" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jumlahAsisten">Jumlah Asisten:</label>
+                        <input type="number" id="jumlahAsisten" name="jumlahAsisten" min="1" step="1" required>
+                    </div>
+                    
+                    <button type="submitlab">Tambah</button>
+                </form>
+                
+            </div>
+        </div>
 
-<%- include("layouts/footer") %>
+        <!-- The Modal untuk Edit Lab -->
+        <div id="editModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModalEdit()">&times;</span>
+                <h3 class="center-text">Edit Data Lab</h3>
+                <form id="editLabForm" action="/admin/edit-lab" method="post">
+                    <!-- Form edit lab -->
+                    <label for="editNamaLab">Nama Lab:</label>
+                    <input type="text" id="editNamaLab" name="namaLab" required>
+                    
+                    <label for="editKepalaLab">Kepala Lab:</label>
+                    <input type="text" id="editKepalaLab" name="kepalaLab" required>
+                    
+                    <label for="editNamaKordas">Nama Kordas:</label>
+                    <input type="text" id="editNamaKordas" name="namaKordas" required>
+                    
+                    <label for="editJumlahAsisten">Jumlah Asisten:</label>
+                    <input type="number" id="editJumlahAsisten" name="jumlahAsisten"  min="1" step="1" required>
+                    <button type="submitedit" id="editLabButton">Edit</button>
+                </form>
+                
+            </div>
+        </div>
 
-<script>
-function openModal() {
-document.getElementById("myModal").style.display = "block";
-}
+    </main>
 
-function closeModal() {
-document.getElementById("myModal").style.display = "none";
-}
 
-document.querySelector('.button-tambah').addEventListener('mouseover', function() {
-this.style.backgroundColor = '#d3541b';
-});
+    <script>
+        // Fungsi untuk membuka modal tambah lab
+        function openModalTambah() {
+            document.getElementById("tambahModal").style.display = "block";
+        }
 
-document.querySelector('.button-tambah').addEventListener('mouseout', function() {
-this.style.backgroundColor = '#E65F2B';
-});
+        // Fungsi untuk menutup modal tambah lab
+        function closeModalTambah() {
+            document.getElementById("tambahModal").style.display = "none";
+        }
 
-document.querySelector('.close').addEventListener('mouseover', function() {
-this.style.color = 'black';
-});
+        // Fungsi untuk membuka modal edit lab dengan menampilkan data yang sesuai
+        async function openModalEdit(id) {
+        // Menampilkan modal edit
+        document.getElementById("editModal").style.display = "block";
 
-document.querySelector('.close').addEventListener('mouseout', function() {
-this.style.color = '#aaa';
-});
-</script>
-    
+        try {
+            // Mengambil data laboratorium dari server berdasarkan ID
+            const response = await fetch(`/admin/edit-lab/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch lab data');
+            }
+            const labData = await response.json();
+
+            // Debug: Periksa data yang diterima dari server
+            console.log('Lab data:', labData);
+
+            // Mengisi nilai-nilai form edit dengan data laboratorium yang diterima
+            document.getElementById("editNamaLab").value = labData.nama_lab;
+            document.getElementById("editKepalaLab").value = labData.nama_kepala;
+            document.getElementById("editNamaKordas").value = labData.nama_kordas;
+            document.getElementById("editJumlahAsisten").value = labData.jumlah_aslab;
+
+            // Lakukan pengaturan form edit lab sesuai dengan id yang diteruskan
+            document.getElementById("editLabForm").setAttribute("action", `/admin/edit-lab/${id}`);
+        } catch (error) {
+            console.error('Error fetching lab data:', error);
+            // Jika terjadi kesalahan dalam mengambil data laboratorium, tutup modal edit
+            closeModalEdit();
+        }
+    }
+
+        // Fungsi untuk menutup modal edit lab
+        function closeModalEdit() {
+            document.getElementById("editModal").style.display = "none";
+        }
+
+        // Fungsi untuk menampilkan notifikasi
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.innerText = message;
+            notification.style.display = 'block';
+            notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
+            notification.style.color = '#721c24'; // Warna teks merah gelap
+            notification.style.padding = '10px';
+            notification.style.margin = '10px 0';
+            notification.style.borderRadius = '5px';
+        }
+
+        // Cek parameter query untuk pesan kesalahan
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('error');
+        if (errorMessage) {
+            showNotification(errorMessage);
+        }
+
+    </script>
+    <%- include("../layouts/footer.ejs") %>

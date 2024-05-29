@@ -34,28 +34,63 @@ router.get('/edit-profil', cek(''), async (req, res, next) => {
 
 router.post('/edit-profil', cek('Admin'), async (req, res, next) => {
   try {
-    await editProfil(req, res, next);
+    await editProfil(req, res, next); // Pastikan untuk mengimpor dan menggunakan fungsi editProfil yang sesuai
   } catch (error) {
     next(error);
   }
 });
 
-
-
 // Rute untuk menampilkan daftar laboratorium
-router.get('/admin/lab', labController.getAllLabs);
+router.get('/lab', async (req, res, next) => {
+  try {
+    await labController.getAllLabs(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 
 // Rute untuk menambah laboratorium baru melalui modal
-router.post('/admin/tambah-lab', labController.addLab);
+router.post('/tambah-lab', labController.addLab);
 
+// Rute untuk menampilkan form edit laboratorium berdasarkan ID
+router.get('/edit-lab/:id', async (req, res, next) => {
+  try {
+    await labController.getEditLab(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 
-// Rute untuk menampilkan form edit laboratorium
-router.get('/admin/lab/edit/:id', labController.getEditLab);
-
-// Rute untuk mengedit laboratorium
-router.post('/admin/lab/edit/:id', labController.editLab);
+// Rute untuk mengedit laboratorium (dari formulir edit)
+router.post('/edit-lab/:id', async (req, res, next) => {
+  try {
+    await labController.editLab(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 
 // Rute untuk menghapus laboratorium
-router.post('/admin/lab/delete/:id', labController.deleteLab);
+router.post('/lab/delete/:id', async (req, res, next) => {
+  try {
+    await labController.deleteLab(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+// Rute untuk menampilkan daftar laboratorium
+router.get('/manajemen_kalab', async (req, res, next) => {
+  try {
+    await labController.getAllLabs(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 
 module.exports = router;
