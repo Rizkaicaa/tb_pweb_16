@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akun Kalab</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/akunKalab.css">
+</head>
+<body>
+    <%- include("../layouts/header.ejs") %>
+    <%- include("../layouts/sidebarAdmin.ejs") %>
+
+    <!-- ========== MAIN ========== -->
+    <main class="content">
+        <div class="header-content">
+            <h3>Akun Kalab</h3>
+            <button class="button-tambah" onclick="openModalTambah()">Tambah Akun Kalab</button>
+        </div>
+
+        <!-- Notifikasi -->
+        <div id="error-message" style="color: red; text-align: center;"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Jenis Lab</th>
+                    <th>Email</th>
+                    <th>NIP</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Tanggal Lahir</th>
+                    <th>No HP</th>
+                    <th>Alamat</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach((user, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= user.nama %></td>
+                    <td><%= user.jenis_lab %></td> 
+                    <td><%= user.email %></td>
+                    <td><%= user.nip %></td>
+                    <td><%= user.jenis_kelamin %></td>
+                    <td><%= user.tanggal_lahir %></td>
+                    <td><%= user.no_hp %></td>
+                    <td><%= user.alamat %></td> 
+                    <td>
+                        <div style="display: flex;">
+                            <button class="button-edit" onclick="openModalEdit('<%= user.id %>')">Edit</button>
+                            <form id="deleteKalabForm-<%= user.id %>" action="/admin/akunKalab/delete/<%= user.id %>" method="post" style="margin-left: 5px;">
+                                <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus akun Kalab ini?')">Hapus</button>
+                            </form>
+                        </div>
+                    </td>
+                    
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <div id="tambahModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModalTambah()">&times;</span>
+                <h3 class="center-text">Tambah Akun Kalab Baru</h3>
+                <form id="tambahAkunKalabForm" action="/admin/tambah-akun-kalab" method="post">
+                    <!-- Form tambah akun Kalab -->
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="nama">Nama:</label>
+                            <select id="nama" name="nama" required>
+                                <!-- Opsi untuk nama kepala dari data lab -->
+                                <% labs.forEach((lab, index) => { %>
+                                    <option value="<%= lab.nama_kepala %>">
+                                        <%= lab.nama_kepala %>
+                                    </option>
+                                <% }); %>
+                            </select>
+                        </div>
+
+                        <div class="form-group form-group-half">
+                            <label for="nip">NIP:</label>
+                            <input type="text" id="nip" name="nip" required>
+                        </div>                      
+                    </div>
+                    
+                    <div class="form-row">                   
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="jenis_lab">Jenis Lab:</label>
+                            <select id="jenis_lab" name="jenis_lab" required>
+                                <!-- Opsi untuk jenis lab dari data lab -->
+                                <% labs.forEach((lab, index) => { %>
+                                    <option value="<%= lab.nama_lab %>">
+                                        <%= lab.nama_lab %>
+                                    </option>
+                                <% }); %>
+                            </select> 
+                        </div>
+
+                        <div class="form-group form-group-half">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email" required>
+                        </div>                                         
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="jenis_kelamin">Jenis Kelamin:</label>
+                            <select id="jenis_kelamin" name="jenis_kelamin" required>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        
+                        
+                        <div class="form-group form-group-half">
+                            <label for="no_hp">No HP:</label>
+                            <input type="text" id="no_hp" name="no_hp" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="tanggal_lahir">Tanggal Lahir:</label>
+                            <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
+                        </div>
+
+                        <div class="form-group form-group-half">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>  
+                    
+                    </div>
+        
+                    <div class="form-row">
+                        <div class="form-group form-group-half">
+                            <label for="alamat">Alamat:</label>
+                            <input type="text" id="alamat" name="alamat" required>
+                        </div>
+
+                        <div class="form-group form-group-half">
+                            <label for="confirm_password">Konfirmasi Password:</label>
+                            <input type="password" id="confirm_password" name="confirm_password" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submitakun">Tambah</button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="editModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModalEdit()">&times;</span>
+                <h3 class="center-text">Edit Akun Kalab</h3>
+                <form id="editAkunKalabForm" action="/admin/edit-akun-kalab" method="post">
+                    <!-- Form edit akun Kalab -->
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="editNama">Nama:</label>
+                            <select id="editNama" name="nama" required>
+                                <!-- Opsi untuk nama kepala dari data lab -->
+                                <% labs.forEach((lab, index) => { %>
+                                    <option value="<%= lab.nama_kepala %>">
+                                        <%= lab.nama_kepala %>
+                                    </option>
+                                <% }); %>
+                            </select>
+                        </div>
+        
+                        <div class="form-group form-group-half">
+                            <label for="editNIP">NIP:</label>
+                            <input type="text" id="editNIP" name="nip" required>
+                        </div>
+                    </div>
+        
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="editJenisLab">Jenis Lab:</label>
+                            <select id="editJenisLab" name="jenis_lab" required>
+                                <!-- Opsi untuk jenis lab dari data lab -->
+                                <% labs.forEach((lab, index) => { %>
+                                    <option value="<%= lab.nama_lab %>">
+                                        <%= lab.nama_lab %>
+                                    </option>
+                                <% }); %>
+                            </select>
+                        </div>
+        
+                        <div class="form-group form-group-half">
+                            <label for="editEmail">Email:</label>
+                            <input type="text" id="editEmail" name="email" required>
+                        </div>
+                    </div>
+        
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="editJenisKelamin">Jenis Kelamin:</label>
+                            <select id="editJenisKelamin" name="jenis_kelamin" required>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+        
+                        <div class="form-group form-group-half">
+                            <label for="editNoHP">No HP:</label>
+                            <input type="text" id="editNoHP" name="no_hp" required>
+                        </div>
+                    </div>
+        
+                    <div class="form-row">
+                        <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                            <label for="editTanggalLahir">Tanggal Lahir:</label>
+                            <input type="date" id="editTanggalLahir" name="tanggal_lahir" required>
+                        </div>
+        
+                        <div class="form-group form-group-half">
+                            <label for="editAlamat">Alamat:</label>
+                            <input type="text" id="editAlamat" name="alamat" required>
+                        </div>
+                    </div>
+        
+                    <button type="submitedit">Simpan</button>
+                </form>
+            </div>
+        </div>
+            
+        </main>
+    
+        <%- include("../layouts/footer.ejs") %>
+    
+        <script>
+            function openModalTambah() {
+                // Menampilkan modal tambah akun Kalab
+                document.getElementById("tambahModal").style.display = "block";
+            }
+        
+            // Fungsi untuk menutup modal tambah lab
+            function closeModalTambah() {
+                document.getElementById("tambahModal").style.display = "none";
+            }
+
+            document.getElementById("tambahAkunKalabForm").addEventListener("submit", function(event) {
+                const password = document.getElementById("password").value;
+                 const confirmPassword = document.getElementById("confirm_password").value;
+
+                if (password !== confirmPassword) {
+                    alert("Password dan Konfirmasi Password tidak sesuai.");
+                    event.preventDefault();
+                }
+            });
+
+            // Mendapatkan pesan error dari URL query string jika ada
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get('error');
+
+            // Menampilkan pesan error di bawah judul
+            if (errorMessage) {
+                document.getElementById('error-message').innerText = errorMessage;
+            }
+    
+            async function openModalEdit(id) {
+                // Menampilkan modal edit
+                document.getElementById("editModal").style.display = "block";
+    
+                try {
+                    // Mengambil data akun kalab dari server berdasarkan ID
+                    const response = await fetch(`/admin/edit-akun-kalab/${id}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch akun kalab data');
+                    }
+                    const userData = await response.json();
+    
+                    // Debug: Periksa data yang diterima dari server
+                    console.log('User data:', userData);
+    
+                    // Mengisi nilai-nilai form edit dengan data akun kalab yang diterima
+                    document.getElementById("editNama").value = userData.nama;
+                    document.getElementById("editNIP").value = userData.nip;
+                    document.getElementById("editJenisKelamin").value = userData.jenis_kelamin;
+                    document.getElementById("editTanggalLahir").value = userData.tanggal_lahir;
+                    document.getElementById("editNoHP").value = userData.no_hp;
+                    document.getElementById("editAlamat").value = userData.alamat;
+                    document.getElementById("editJenisLab").value = userData.jenis_lab;
+                    document.getElementById("editEmail").value = userData.email;
+    
+                    // Lakukan pengaturan form edit akun kalab sesuai dengan id yang diteruskan
+                    document.getElementById("editAkunKalabForm").setAttribute("action", `/admin/edit-akun-kalab/${id}`);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    // Jika terjadi kesalahan dalam mengambil data akun kalab, tutup modal edit
+                    closeModalEdit();
+                }
+            }
+    
+            // Fungsi untuk menutup modal edit akun kalab
+            function closeModalEdit() {
+                document.getElementById("editModal").style.display = "none";
+            }
+    
+        </script>
+    </body>
+    </html>
+    

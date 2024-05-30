@@ -1,0 +1,163 @@
+/* Style for modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Style for modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 800px; /* Set max width */
+    border-radius: 10px;
+}
+
+/* Style for modal close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.center-text {
+    text-align: center;
+}
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group-half {
+    flex: 0 0 48%;
+}
+
+.form-group-full {
+    flex: 0 0 100%;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="password"]
+{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submitakun"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button[type="submitedit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button.button-edit {
+    background-color: #4CAF50; /* Warna latar belakang untuk tombol Edit */
+    color: white; /* Warna teks */
+    border: none; /* Menghapus border */
+    padding: 8px 16px; /* Padding di atas dan bawah 8px, samping kiri dan kanan 16px */
+    cursor: pointer; /* Menampilkan kursor pointer saat diarahkan */
+    border-radius: 4px; /* Membuat sudut melengkung */
+    margin-right: 8px; /* Jarak kanan antara tombol */
+}
+
+button.button-hapus {
+    background-color: red; /* Warna latar belakang untuk tombol Hapus */
+    color: white; /* Warna teks */
+    border: none; /* Menghapus border */
+    padding: 8px 16px; /* Padding di atas dan bawah 8px, samping kiri dan kanan 16px */
+    cursor: pointer; /* Menampilkan kursor pointer saat diarahkan */
+    border-radius: 4px; /* Membuat sudut melengkung */
+}
+
+button.button-edit:hover {
+    background-color: darkgreen; /* Warna latar belakang saat dihover */
+}
+
+button.button-hapus:hover {
+    background-color: darkred; /* Warna latar belakang saat dihover */
+}
+
+/* Tampilan tabel */
+table {
+    width: 100%; /* Tabel akan mengisi lebar parent container */
+    border-collapse: collapse; /* Menggabungkan border-cells */
+    border-spacing: 0; /* Jarak antara border-cells */
+}
+
+thead {
+    background-color: #f2f2f2; /* Warna latar belakang untuk header */
+}
+
+tbody {
+    background-color: #fff; /* Warna latar belakang untuk body */
+}
+
+tr {
+    border-bottom: 1px solid #ddd; /* Garis bawah setiap baris */
+}
+
+th, td {
+    padding: 12px 15px; /* Padding sel pada header dan body */
+    text-align: left; /* Teks rata kiri */
+}
+
+/* Ganti warna latar belakang setiap baris saat dihover */
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
