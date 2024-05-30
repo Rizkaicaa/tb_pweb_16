@@ -13,6 +13,18 @@ exports.getAllLabs = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getAllLabsAdmin = async (req, res, next) => {
+  try {
+    console.log('Fetching all labs');
+    const labs = await Lab.findAll();
+    console.log('Labs fetched:', labs);
+    res.render('kadep/lab', { title: 'Laboratorium', labs });
+  } catch (error) {
+    console.error('Error in getAllLabs:', error);
+    next(error);
+  }
+};
 // Menambah laboratorium baru melalui modal
 exports.addLab = async (req, res) => {
   try {

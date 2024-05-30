@@ -3,6 +3,7 @@ var router = express.Router();
 const cek = require('../middleware/checktokenandrole');
 const {getUser} = require('../controller/auth.controller');
 const {editProfil} = require('../controller/auth.controller');
+const labController = require('../controller/lab.controller');
 
 router.get('/dashboard', cek('Kepala Departemen'), async function (req, res, next) {
   try {
@@ -35,5 +36,15 @@ router.post('/edit-profil', cek('Kepala Departemen'), async (req, res,next)=> {
   await editProfil(req, res,next);
 
 })
+
+// Rute untuk menampilkan daftar laboratorium
+router.get('/lab', async (req, res, next) => {
+  try {
+    await labController.getAllLabsAdmin(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 
 module.exports = router;

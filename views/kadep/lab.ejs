@@ -1,0 +1,41 @@
+
+<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/sidebarKadep.ejs") %>
+
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        <h3>Daftar Laboratorium </h3>
+    </div>
+
+    <!-- Notifikasi -->
+    <div id="notification" style="display: none;"></div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Lab</th>
+                <th>Kepala Lab</th>
+                <th>Nama Kordas</th>
+                <th>Jumlah Asisten</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% labs.forEach((lab, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= lab.nama_lab %></td>
+                <td><%= lab.nama_kepala %></td>
+                <td><%= lab.nama_kordas %></td>
+                <td><%= lab.jumlah_aslab %></td>
+                
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+</main>
+
+<%- include("../layouts/footer.ejs") %>
