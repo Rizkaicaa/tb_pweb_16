@@ -5,7 +5,6 @@
     background-color: #EBE1D6;
 }
 
-
 .sticky-top {
     top: 0;
     left: 280px;
@@ -25,9 +24,11 @@ align-items: center;
 
 
 .navbar  h1 {
-margin-left: 20px; /* Remove default margin */
+margin-left: 25px; /* Remove default margin */
 font-size: 24px;
 font-weight: bold;
+color: #322C29;
+white-space: nowrap;
 }
 
 .header-content h2 {
@@ -75,12 +76,14 @@ gap: 10px; /* Add spacing between icon and button */
     background-color: #322C29; 
 }
 
- .hs-accordion-toggle:hover {
+.hs-accordion-toggle:hover {
     background-color: #E65F2B; 
+    cursor: pointer;
 }
 
 .menu:hover, .sub-menu:hover {
-    background-color: #E65F2B; 
+    background-color: #E65F2B;
+    cursor: pointer;
 }
 
 .footer {
