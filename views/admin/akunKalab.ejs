@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akun Kalab</title>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/akunKalab.css">
-</head>
-<body>
+
     <%- include("../layouts/header.ejs") %>
     <%- include("../layouts/sidebarAdmin.ejs") %>
 
     <!-- ========== MAIN ========== -->
     <main class="content">
         <div class="header-content">
-            <h3>Akun Kalab</h3>
+            <h3>Data Kepala Lab</h3>
             <button class="button-tambah" onclick="openModalTambah()">Tambah Akun Kalab</button>
         </div>
 
@@ -229,7 +221,6 @@
             
         </main>
     
-        <%- include("../layouts/footer.ejs") %>
     
         <script>
             function openModalTambah() {
@@ -301,6 +292,5 @@
             }
     
         </script>
-    </body>
-    </html>
-    
+
+    <%- include("../layouts/footer.ejs") %>

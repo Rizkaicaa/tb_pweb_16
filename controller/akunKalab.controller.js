@@ -8,7 +8,7 @@ exports.getAllAkunKalab = async (req, res, next) => {
 try {
     const users = await User.findAll({ where: { role: 'Kepala Lab' } });
     const labs = await Lab.findAll(); // Ambil data lab dari database
-    res.render('admin/akunKalab', { title: 'Akun Kalab', users, labs }); // Melewatkan data lab ke template EJS
+    res.render('admin/akunKalab', { title: 'Manajemen Akun Kepala Lab', users, labs }); // Melewatkan data lab ke template EJS
 } catch (error) {
     console.error('Error in getAllAkunKalab:', error);
     next(error);
