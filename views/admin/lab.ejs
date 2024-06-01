@@ -1,113 +1,111 @@
 
-    <%- include("../layouts/header.ejs") %>
-    <%- include("../layouts/sidebarAdmin.ejs") %>
+<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/sidebarAdmin.ejs") %>
 
-    <!-- ========== MAIN ========== -->
-    <main class="content">
-        <div class="header-content">
-            <h3>Daftar Laboratorium</h3>
-            <button class="button-tambah" onclick="openModalTambah()">Tambah Lab</button>
-        </div>
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        <h3>Daftar Laboratorium</h3>
+        <button class="button-tambah" onclick="openModalTambah()">Tambah Lab</button>
+    </div>
 
-        <!-- Notifikasi -->
-        <div id="notification" style="display: none;"></div>
+    <!-- Notifikasi -->
+    <div id="notification" style="display: none;"></div>
 
-
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Lab</th>
-                    <th>Kepala Lab</th>
-                    <th>Nama Kordas</th>
-                    <th>Jumlah Asisten</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% labs.forEach((lab, index) => { %>
-                <tr>
-                    <td><%= index + 1 %></td>
-                    <td><%= lab.nama_lab %></td>
-                    <td><%= lab.nama_kepala %></td>
-                    <td><%= lab.nama_kordas %></td>
-                    <td><%= lab.jumlah_aslab %></td>
-                    <td>
-                        <div style="display: inline-block;">
-                            <button class="button-edit" onclick="openModalEdit('<%= lab.id %>')">Edit</button>
-                            <form id="deleteLabForm-<%= lab.id %>" action="/admin/lab/delete/<%= lab.id %>" method="post" style="display: inline-block; margin-left: -5px;">
-                                <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus lab ini?')">Hapus</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                <% }); %>
-            </tbody>
-        </table>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Lab</th>
+                <th>Kepala Lab</th>
+                <th>Nama Kordas</th>
+                <th>Jumlah Asisten</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% labs.forEach((lab, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= lab.nama_lab %></td>
+                <td><%= lab.nama_kepala %></td>
+                <td><%= lab.nama_kordas %></td>
+                <td><%= lab.jumlah_aslab %></td>
+                <td>
+                    <div style="display: inline-block;">
+                        <button class="button-edit" onclick="openModalEdit('<%= lab.id %>')">Edit</button>
+                        <form id="deleteLabForm-<%= lab.id %>" action="/admin/lab/delete/<%= lab.id %>" method="post" style="display: inline-block; margin-left: -5px;">
+                            <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus lab ini?')">Hapus</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
         
-
-        
-        <!-- The Modal untuk Tambah Lab -->
-        <div id="tambahModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeModalTambah()">&times;</span>
-                <h3 class="center-text">Tambah Lab Baru</h3>
-                <form id="tambahLabForm" action="/admin/tambah-lab" method="post">
-                    <!-- Form tambah lab -->
-                    <div class="form-group">
-                        <label for="namaLab">Nama Lab:</label>
-                        <input type="text" id="namaLab" name="namaLab" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="kepalaLab">Kepala Lab:</label>
-                        <input type="text" id="kepalaLab" name="kepalaLab" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="namaKordas">Nama Kordas:</label>
-                        <input type="text" id="namaKordas" name="namaKordas" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="jumlahAsisten">Jumlah Asisten:</label>
-                        <input type="number" id="jumlahAsisten" name="jumlahAsisten" min="1" step="1" required>
-                    </div>
-                    
-                    <button type="submitlab">Tambah</button>
-                </form>
+    <!-- The Modal untuk Tambah Lab -->
+    <div id="tambahModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModalTambah()">&times;</span>
+            <h3 class="center-text">Tambah Lab Baru</h3>
+            <form id="tambahLabForm" action="/admin/tambah-lab" method="post">
+                <!-- Form tambah lab -->
+                <div class="form-group">
+                    <label for="namaLab">Nama Lab:</label>
+                    <input type="text" id="namaLab" name="namaLab" required oninput="validateTextInput(this)">
+                </div>
                 
-            </div>
-        </div>
-
-        <!-- The Modal untuk Edit Lab -->
-        <div id="editModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeModalEdit()">&times;</span>
-                <h3 class="center-text">Edit Data Lab</h3>
-                <form id="editLabForm" action="/admin/edit-lab" method="post">
-                    <!-- Form edit lab -->
-                    <label for="editNamaLab">Nama Lab:</label>
-                    <input type="text" id="editNamaLab" name="namaLab" required>
-                    
-                    <label for="editKepalaLab">Kepala Lab:</label>
-                    <input type="text" id="editKepalaLab" name="kepalaLab" required>
-                    
-                    <label for="editNamaKordas">Nama Kordas:</label>
-                    <input type="text" id="editNamaKordas" name="namaKordas" required>
-                    
-                    <label for="editJumlahAsisten">Jumlah Asisten:</label>
-                    <input type="number" id="editJumlahAsisten" name="jumlahAsisten"  min="1" step="1" required>
-                    <button type="submitedit" id="editLabButton">Edit</button>
-                </form>
+                <div class="form-group">
+                    <label for="kepalaLab">Kepala Lab:</label>
+                    <input type="text" id="kepalaLab" name="kepalaLab" required oninput="validateTextInput(this)">
+                </div>
                 
-            </div>
+                <div class="form-group">
+                    <label for="namaKordas">Nama Kordas:</label>
+                    <input type="text" id="namaKordas" name="namaKordas" required oninput="validateTextInput(this)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="jumlahAsisten">Jumlah Asisten:</label>
+                    <input type="number" id="jumlahAsisten" name="jumlahAsisten" min="1" step="1" required>
+                </div>
+                
+                <button type="submitlab">Tambah</button>
+            </form>
         </div>
+    </div>
 
-    </main>
+    <!-- The Modal untuk Edit Lab -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModalEdit()">&times;</span>
+            <h3 class="center-text">Edit Data Lab</h3>
+            <form id="editLabForm" action="/admin/edit-lab" method="post">
+                <!-- Form edit lab -->
+                <label for="editNamaLab">Nama Lab:</label>
+                <input type="text" id="editNamaLab" name="namaLab" required oninput="validateTextInput(this)">
+                
+                <label for="editKepalaLab">Kepala Lab:</label>
+                <input type="text" id="editKepalaLab" name="kepalaLab" required oninput="validateTextInput(this)">
+                
+                <label for="editNamaKordas">Nama Kordas:</label>
+                <input type="text" id="editNamaKordas" name="namaKordas" required oninput="validateTextInput(this)">
+                
+                <label for="editJumlahAsisten">Jumlah Asisten:</label>
+                <input type="number" id="editJumlahAsisten" name="jumlahAsisten" min="1" step="1" required>
+                <button type="submitedit" id="editLabButton">Edit</button>
+            </form>
+        </div>
+    </div>
 
+</main>
 
     <script>
+
+        function validateTextInput(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s.,]/g, '');
+        }
         // Fungsi untuk membuka modal tambah lab
         function openModalTambah() {
             document.getElementById("tambahModal").style.display = "block";
@@ -166,6 +164,11 @@
             notification.style.margin = '10px 0';
             notification.style.borderRadius = '5px';
         }
+
+        // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 5000);
 
         // Cek parameter query untuk pesan kesalahan
         const urlParams = new URLSearchParams(window.location.search);
