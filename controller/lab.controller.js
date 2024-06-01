@@ -7,7 +7,7 @@ exports.getAllLabs = async (req, res, next) => {
     console.log('Fetching all labs');
     const labs = await Lab.findAll();
     console.log('Labs fetched:', labs);
-    res.render('admin/lab', { title: 'Laboratorium', labs });
+    res.render('admin/lab', { title: 'Data Laboratorium', labs });
   } catch (error) {
     console.error('Error in getAllLabs:', error);
     next(error);
@@ -19,7 +19,7 @@ exports.getAllLabsAdmin = async (req, res, next) => {
     console.log('Fetching all labs');
     const labs = await Lab.findAll();
     console.log('Labs fetched:', labs);
-    res.render('kadep/lab', { title: 'Laboratorium', labs });
+    res.render('kadep/lab', { title: 'Data Laboratorium', labs });
   } catch (error) {
     console.error('Error in getAllLabs:', error);
     next(error);
@@ -33,7 +33,7 @@ exports.addLab = async (req, res) => {
     // Cek apakah sudah ada lab dengan nama_lab yang sama
     const existingLab = await Lab.findOne({ where: { nama_lab: namaLab } });
     if (existingLab) {
-      return res.redirect('/admin/lab?error=Nama lab sudah ada');
+      return res.redirect('/admin/lab?error=Gagal, nama lab sudah ada');
     }
 
     // Cek apakah sudah ada lab dengan nama_kepala yang sama
@@ -77,7 +77,6 @@ exports.getEditLab = async (req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 
 // Mengedit laboratorium
 exports.editLab = async (req, res, next) => {

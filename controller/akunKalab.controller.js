@@ -8,7 +8,7 @@ exports.getAllAkunKalab = async (req, res, next) => {
 try {
     const users = await User.findAll({ where: { role: 'Kepala Lab' } });
     const labs = await Lab.findAll(); // Ambil data lab dari database
-    res.render('admin/akunKalab', { title: 'Manajemen Akun Kepala Lab', users, labs }); // Melewatkan data lab ke template EJS
+    res.render('admin/akunKalab', { title: 'Manajemen Akun Kepala Lab', users, labs }); 
 } catch (error) {
     console.error('Error in getAllAkunKalab:', error);
     next(error);
@@ -44,7 +44,7 @@ if (existingUser) {
 // Cek apakah nama sudah ada di database
 existingUser = await User.findOne({ where: { nama } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Nama sudah ada');
+    return res.redirect('/admin/akunKalab?error=Nama Kepala Lab sama dengan lab lain');
 }
 
 // Cek apakah no_hp sudah ada di database
@@ -128,7 +128,7 @@ if (existingUser) {
 // Cek apakah nama yang diinput sudah ada di database, kecuali jika nama itu milik user yang sedang diedit
 existingUser = await User.findOne({ where: { nama, id: { [Op.ne]: user.id } } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Nama sudah ada');
+    return res.redirect('/admin/akunKalab?error=Nama Kepala Lab sama dengan lab lain');
 }
 
 // Cek apakah no_hp yang diinput sudah ada di database, kecuali jika no_hp itu milik user yang sedang diedit
