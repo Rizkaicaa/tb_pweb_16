@@ -1,0 +1,82 @@
+<%- include("../layouts/header.ejs" )%>
+<%- include("../layouts/sidebarKalab.ejs") %>
+
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        <h1>Daftar Pengajuan Pembelian Aset</h1>
+        <button class="button-tambah" onclick="openModalTambah()">Tambah Data Pengajuan</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Aset</th>
+                <th>Jumlah</th>
+                <th>Perkiraan Harga</th>
+                <th>Tujuan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% pengajuans.forEach((pembelianaset, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= pembelianaset.nama_aset %></td>
+                <td><%= pembelianaset.jumlah %></td>
+                <td><%= pembelianaset.perkiraan_harga %></td>
+                <td><%= pembelianaset.tujuan %></td>
+                <td><%= pembelianaset.status %></td>
+                <td>
+                    <div style="display: inline-block;">
+                        <button class="button-edit">Edit</button>
+                        <form id="deleteAsetForm-<%= id_pembelianaset %>" action="/kalab/pengajuan/delete/<%= id_pembelianaset %>" method="post" style="display: inline-block; margin-left: -5px;">
+                            <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?')">Hapus</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+        
+    <!-- The Modal untuk Tambah Aset -->
+    <div id="tambahModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModalTambah()">&times;</span>
+            <h3 class="center-text">Tambah Data Pembelian</h3>
+            <form id="tambahAsetForm" action="/kalab/pengajuan/tambah" method="post">
+                <!-- Form tambah aset -->
+                <div class="form-group">
+                    <label for="namaAset">Nama Aset:</label>
+                    <input type="text" id="namaAset" name="nama_aset" required>                   
+                </div>
+                
+                <div class="form-group">
+                    <label for="jumlah">Jumlah:</label>
+                    <input type="number" id="jumlah" name="jumlah" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="perkiraanHarga">Perkiraan Harga:</label>
+                    <input type="number" id="perkiraanHarga" name="perkiraan_harga" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tujuan">Tujuan:</label>
+                    <input type="text" id="tujuan" name="tujuan" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <input type="text" id="status" name="status" required>
+                </div>
+                
+                <button type="submit">Tambah</button>
+            </form>
+        </div>
+    </div>
+</script>
+<%- include("../layouts/footer.ejs") %>
