@@ -17,10 +17,10 @@ try {
 
 exports.addAkunKalab = async (req, res) => {
 try {
-const { email, password, confirm_password, nama, nip, tanggal_lahir, jenis_kelamin, no_hp, alamat, jenis_lab } = req.body;
+const { email, password, confirm_password, nama, nip, tanggal_lahir, jenis_kelamin, no_hp, alamat } = req.body;
 
 // Validasi data tidak boleh kosong
-if (!email || !password || !confirm_password || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !alamat || !jenis_lab) {
+if (!email || !password || !confirm_password || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !alamat ) {
     return res.redirect('/admin/akunKalab?error=Semua data harus diisi');
 }
 
@@ -53,12 +53,6 @@ if (existingUser) {
     return res.redirect('/admin/akunKalab?error=No HP sudah ada');
 }
 
-// Cek apakah jenis_lab sudah ada di database
-existingUser = await User.findOne({ where: { jenis_lab } });
-if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Lab sudah ada');
-}
-
 // Hash password
 const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -72,8 +66,7 @@ await User.create({
     tanggal_lahir,
     jenis_kelamin,
     no_hp,
-    alamat,
-    jenis_lab
+    alamat
 });
 
 res.redirect('/admin/akunKalab');
@@ -101,7 +94,7 @@ try {
 const { email, nama, nip, tanggal_lahir, jenis_kelamin, no_hp, alamat, jenis_lab } = req.body;
 
 // Validasi data tidak boleh kosong
-if (!email || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !alamat || !jenis_lab) {
+if (!email || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !alamat ) {
     return res.redirect('/admin/akunKalab?error=Semua data harus diisi');
 }
 
@@ -137,11 +130,6 @@ if (existingUser) {
     return res.redirect('/admin/akunKalab?error=No HP sudah ada');
 }
 
-// Cek apakah jenis_lab yang diinput sudah ada di database, kecuali jika jenis_lab itu milik user yang sedang diedit
-existingUser = await User.findOne({ where: { jenis_lab, id: { [Op.ne]: user.id } } });
-if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Lab sudah ada');
-}
 
 // Update data user
 user.email = email;
@@ -151,7 +139,6 @@ user.tanggal_lahir = tanggal_lahir;
 user.jenis_kelamin = jenis_kelamin;
 user.no_hp = no_hp;
 user.alamat = alamat;
-user.jenis_lab = jenis_lab;
 
 // Simpan perubahan data user
 await user.save();

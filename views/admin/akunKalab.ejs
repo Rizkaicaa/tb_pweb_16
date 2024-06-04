@@ -17,7 +17,6 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Jenis Lab</th>
                     <th>Email</th>
                     <th>NIP</th>
                     <th>Jenis Kelamin</th>
@@ -32,7 +31,6 @@
                 <tr>
                     <td><%= index + 1 %></td>
                     <td><%= user.nama %></td>
-                    <td><%= user.jenis_lab %></td> 
                     <td><%= user.email %></td>
                     <td><%= user.nip %></td>
                     <td><%= user.jenis_kelamin %></td>
@@ -63,40 +61,28 @@
                 <!-- Form tambah akun Kalab -->
                 <div class="form-row">
                     <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
-                        <label for="nama">Nama:</label>
-                        <select id="nama" name="nama" required>
-                            <!-- Opsi untuk nama kepala dari data lab -->
-                            <% labs.forEach((lab, index) => { %>
-                                <option value="<%= lab.nama_kepala %>">
-                                    <%= lab.nama_kepala %>
-                                </option>
-                            <% }); %>
-                        </select>
-                    </div>
-
-                    <div class="form-group form-group-half">
-                        <label for="nip">NIP:</label>
-                        <input type="text" id="nip" name="nip" required oninput="validateNumberInput(this)">
-                    </div>                      
-                </div>
-                
-                <div class="form-row">                   
-                    <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
-                        <label for="jenis_lab">Jenis Lab:</label>
-                        <select id="jenis_lab" name="jenis_lab" required>
-                            <!-- Opsi untuk jenis lab dari data lab -->
-                            <% labs.forEach((lab, index) => { %>
-                                <option value="<%= lab.nama_lab %>">
-                                    <%= lab.nama_lab %>
-                                </option>
-                            <% }); %>
-                        </select> 
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" required oninput="validateTextInput(this)">
                     </div>
 
                     <div class="form-group form-group-half">
                         <label for="email">Email:</label>
                         <input type="text" id="email" name="email" required oninput="validateEmailInput(this)">
-                    </div>                                         
+                    </div>                       
+                </div>
+                
+                <div class="form-row">                   
+                    <div class="form-group form-group-half">
+                        <label for="nip">NIP:</label>
+                        <input type="text" id="nip" name="nip" required oninput="validateNumberInput(this)">
+                    </div>
+                    
+                    <div class="form-group form-group-half">
+                        <label for="no_hp">No HP:</label>
+                        <input type="text" id="no_hp" name="no_hp" required oninput="validateNumberInput(this)">
+                    </div>
+                    
+
                 </div>
                 
                 <div class="form-row">
@@ -108,11 +94,10 @@
                         </select>
                     </div>
                     
-                    
                     <div class="form-group form-group-half">
-                        <label for="no_hp">No HP:</label>
-                        <input type="text" id="no_hp" name="no_hp" required oninput="validateNumberInput(this)">
-                    </div>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div> 
                 </div>
 
                 <div class="form-row">
@@ -122,10 +107,10 @@
                     </div>
 
                     <div class="form-group form-group-half">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
+                        <label for="confirm_password">Konfirmasi Password:</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
                     </div>  
-                
+                    
                 </div>
 
                 <div class="form-row">
@@ -134,10 +119,6 @@
                         <input type="text" id="alamat" name="alamat" required>
                     </div>
 
-                    <div class="form-group form-group-half">
-                        <label for="confirm_password">Konfirmasi Password:</label>
-                        <input type="password" id="confirm_password" name="confirm_password" required>
-                    </div>
                 </div>
                 
                 <button type="submitakun">Tambah</button>
@@ -155,33 +136,7 @@
                 <div class="form-row">
                     <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
                         <label for="editNama">Nama:</label>
-                        <select id="editNama" name="nama" required>
-                            <!-- Opsi untuk nama kepala dari data lab -->
-                            <% labs.forEach((lab, index) => { %>
-                                <option value="<%= lab.nama_kepala %>">
-                                    <%= lab.nama_kepala %>
-                                </option>
-                            <% }); %>
-                        </select>
-                    </div>
-
-                    <div class="form-group form-group-half">
-                        <label for="editNIP">NIP:</label>
-                        <input type="text" id="editNIP" name="nip" required oninput="validateNumberInput(this)">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
-                        <label for="editJenisLab">Jenis Lab:</label>
-                        <select id="editJenisLab" name="jenis_lab" required>
-                            <!-- Opsi untuk jenis lab dari data lab -->
-                            <% labs.forEach((lab, index) => { %>
-                                <option value="<%= lab.nama_lab %>">
-                                    <%= lab.nama_lab %>
-                                </option>
-                            <% }); %>
-                        </select>
+                        <input type="text" id="editNama" name="nama" required oninput="validateTextInput(this)">
                     </div>
 
                     <div class="form-group form-group-half">
@@ -191,17 +146,30 @@
                 </div>
 
                 <div class="form-row">
+                    <div class="form-group form-group-half">
+                        <label for="editNIP">NIP:</label>
+                        <input type="text" id="editNIP" name="nip" required oninput="validateNumberInput(this)">
+                    </div>
+                    
+                    <div class="form-group form-group-half">
+                        <label for="editNoHP">No HP:</label>
+                        <input type="text" id="editNoHP" name="no_hp" required oninput="validateNumberInput(this)">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
                     <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
                         <label for="editJenisKelamin">Jenis Kelamin:</label>
                         <select id="editJenisKelamin" name="jenis_kelamin" required>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
-                    </div>
+                    </div> 
 
                     <div class="form-group form-group-half">
-                        <label for="editNoHP">No HP:</label>
-                        <input type="text" id="editNoHP" name="no_hp" required oninput="validateNumberInput(this)">
+                        <label for="editAlamat">Alamat:</label>
+                        <input type="text" id="editAlamat" name="alamat" required>
                     </div>
                 </div>
 
@@ -209,11 +177,6 @@
                     <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
                         <label for="editTanggalLahir">Tanggal Lahir:</label>
                         <input type="date" id="editTanggalLahir" name="tanggal_lahir" required>
-                    </div>
-
-                    <div class="form-group form-group-half">
-                        <label for="editAlamat">Alamat:</label>
-                        <input type="text" id="editAlamat" name="alamat" required>
                     </div>
                 </div>
 
@@ -281,38 +244,38 @@
         });
 
         async function openModalEdit(id) {
-            // Menampilkan modal edit
-            document.getElementById("editModal").style.display = "block";
+    // Menampilkan modal edit
+    document.getElementById("editModal").style.display = "block";
 
-            try {
-                // Mengambil data akun kalab dari server berdasarkan ID
-                const response = await fetch(`/admin/edit-akun-kalab/${id}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch akun kalab data');
-                }
-                const userData = await response.json();
-
-                // Debug: Periksa data yang diterima dari server
-                console.log('User data:', userData);
-
-                // Mengisi nilai-nilai form edit dengan data akun kalab yang diterima
-                document.getElementById("editNama").value = userData.nama;
-                document.getElementById("editNIP").value = userData.nip;
-                document.getElementById("editJenisKelamin").value = userData.jenis_kelamin;
-                document.getElementById("editTanggalLahir").value = userData.tanggal_lahir;
-                document.getElementById("editNoHP").value = userData.no_hp;
-                document.getElementById("editAlamat").value = userData.alamat;
-                document.getElementById("editJenisLab").value = userData.jenis_lab;
-                document.getElementById("editEmail").value = userData.email;
-
-                // Lakukan pengaturan form edit akun kalab sesuai dengan id yang diteruskan
-                document.getElementById("editAkunKalabForm").setAttribute("action", `/admin/edit-akun-kalab/${id}`);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                // Jika terjadi kesalahan dalam mengambil data akun kalab, tutup modal edit
-                closeModalEdit();
-            }
+    try {
+        // Mengambil data akun kalab dari server berdasarkan ID
+        const response = await fetch(`/admin/edit-akun-kalab/${id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch akun kalab data');
         }
+        const userData = await response.json();
+
+        // Debug: Periksa data yang diterima dari server
+        console.log('User data:', userData);
+
+        // Mengisi nilai-nilai form edit dengan data akun kalab yang diterima
+        document.getElementById("editNama").value = userData.nama;
+        document.getElementById("editNIP").value = userData.nip;
+        document.getElementById("editJenisKelamin").value = userData.jenis_kelamin;
+        document.getElementById("editTanggalLahir").value = userData.tanggal_lahir;
+        document.getElementById("editNoHP").value = userData.no_hp;
+        document.getElementById("editAlamat").value = userData.alamat;
+        document.getElementById("editEmail").value = userData.email;
+
+        // Lakukan pengaturan form edit akun kalab sesuai dengan id yang diteruskan
+        document.getElementById("editAkunKalabForm").setAttribute("action", `/admin/edit-akun-kalab/${id}`);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        // Jika terjadi kesalahan dalam mengambil data akun kalab, tutup modal edit
+        closeModalEdit();
+    }
+}
+
 
         // Fungsi untuk menutup modal edit akun kalab
         function closeModalEdit() {

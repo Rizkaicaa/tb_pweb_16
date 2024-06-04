@@ -52,14 +52,19 @@
             <form id="tambahLabForm" action="/admin/tambah-lab" method="post">
                 <!-- Form tambah lab -->
                 <div class="form-group">
-                    <label for="namaLab">Nama Lab:</label>
-                    <input type="text" id="namaLab" name="namaLab" required oninput="validateTextInput(this)">
+                    <label for="kepalaLab">Kepala Lab:</label>
+                        <select id="kepalaLab" name="kepalaLab" required>
+                            <!-- Opsi untuk jenis lab dari data lab -->
+                            <% users.forEach((user, index) => { %>
+                                <option value="<%= user.nama %>">
+                                    <%= user.nama %>
+                                </option>
+                            <% }); %>
+                        </select> 
                 </div>
                 
-                <div class="form-group">
-                    <label for="kepalaLab">Kepala Lab:</label>
-                    <input type="text" id="kepalaLab" name="kepalaLab" required oninput="validateTextInput(this)">
-                </div>
+                <label for="namaLab">Nama Lab:</label>
+                <input type="text" id="namaLab" name="namaLab" required oninput="validateTextInput(this)">
                 
                 <div class="form-group">
                     <label for="namaKordas">Nama Kordas:</label>
@@ -83,11 +88,19 @@
             <h3 class="center-text">Edit Data Lab</h3>
             <form id="editLabForm" action="/admin/edit-lab" method="post">
                 <!-- Form edit lab -->
+                <label for="editKepalaLab">Kepala Lab:</label>
+                <select id="editKepalaLab" name="kepalaLab" required>
+                    <!-- Opsi untuk nama kepala dari data lab -->
+                    <% users.forEach((user, index) => { %>
+                        <option value="<%= user.nama %>">
+                            <%= user.nama %>
+                        </option>
+                    <% }); %>
+                </select>
+
                 <label for="editNamaLab">Nama Lab:</label>
                 <input type="text" id="editNamaLab" name="namaLab" required oninput="validateTextInput(this)">
                 
-                <label for="editKepalaLab">Kepala Lab:</label>
-                <input type="text" id="editKepalaLab" name="kepalaLab" required oninput="validateTextInput(this)">
                 
                 <label for="editNamaKordas">Nama Kordas:</label>
                 <input type="text" id="editNamaKordas" name="namaKordas" required oninput="validateTextInput(this)">
