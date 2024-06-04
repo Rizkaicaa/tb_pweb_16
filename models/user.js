@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.Lab, {
+        foreignKey: 'id_user',
+        as: 'lab'
+      });
     }
   }
   User.init({
@@ -25,8 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     tanggal_lahir: DataTypes.DATE,
     jenis_kelamin: DataTypes.STRING,
     no_hp: DataTypes.STRING,
-    alamat: DataTypes.STRING,
-    jenis_lab: DataTypes.STRING
+    alamat: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

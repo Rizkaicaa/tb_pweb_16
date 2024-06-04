@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   class Lab extends Model {
     static associate(models) {
       // define association here if needed
+      Lab.belongsTo(models.User, {
+        foreignKey: 'id_user',
+        as: 'user'
+      });
     }
   }
 
@@ -12,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.STRING,
       primaryKey: true
+    },
+    id_user: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     nama_lab: {
       type: DataTypes.STRING,

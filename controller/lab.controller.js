@@ -1,4 +1,4 @@
-const { Lab } = require('../models');
+const { Lab, User } = require('../models');
 const { Op } = require('sequelize');
 
 
@@ -6,8 +6,10 @@ exports.getAllLabs = async (req, res, next) => {
   try {
     console.log('Fetching all labs');
     const labs = await Lab.findAll();
-    console.log('Labs fetched:', labs);
-    res.render('admin/lab', { title: 'Data Laboratorium', labs });
+    const users = await User.findAll({
+      where: { role: 'Kepala Lab' }
+    }); 
+    res.render('admin/lab', { title: 'Data Laboratorium', labs, users });
   } catch (error) {
     console.error('Error in getAllLabs:', error);
     next(error);
@@ -32,6 +34,10 @@ exports.addLab = async (req, res) => {
 
     // Cek apakah sudah ada lab dengan nama_lab yang sama
     const existingLab = await Lab.findOne({ where: { nama_lab: namaLab } });
+
+    const kepalaLabUser = await User.findOne({ where: { nama: kepalaLab } });
+    const id_user = kepalaLabUser.id;
+
     if (existingLab) {
       return res.redirect('/admin/lab?error=Gagal, nama lab sudah ada');
     }
@@ -53,7 +59,8 @@ exports.addLab = async (req, res) => {
       nama_lab: namaLab,
       nama_kepala: kepalaLab,
       nama_kordas: namaKordas,
-      jumlah_aslab: jumlahAsisten
+      jumlah_aslab: jumlahAsisten,
+      id_user: id_user
     });
 
     res.redirect('/admin/lab'); // Pengalihan ke halaman admin/lab setelah berhasil
@@ -84,6 +91,13 @@ exports.editLab = async (req, res, next) => {
     const { namaLab, kepalaLab, namaKordas, jumlahAsisten } = req.body;
     const labId = req.params.id;
 
+    // Fetch the ID of the selected kepalaLab
+    const kepalaLabUser = await User.findOne({ where: { nama: kepalaLab } });
+    if (!kepalaLabUser) {
+      return res.redirect(`/admin/lab?error=Kepala lab not found`);
+    }
+    const id_user = kepalaLabUser.id;
+
     // Lakukan validasi data yang diterima dari formulir edit
     const existingLab = await Lab.findOne({ where: { [Op.and]: [{ id: { [Op.ne]: labId } }, { nama_lab: namaLab }] } });
     if (existingLab) {
@@ -106,8 +120,10 @@ exports.editLab = async (req, res, next) => {
       return res.status(404).send('Lab not found');
     }
 
+    // Update the lab details including id_user
     lab.nama_lab = namaLab;
     lab.nama_kepala = kepalaLab;
+    lab.id_user = id_user; // Update the id_user column
     lab.nama_kordas = namaKordas;
     lab.jumlah_aslab = jumlahAsisten;
 
@@ -120,6 +136,8 @@ exports.editLab = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 
 // Menghapus laboratorium

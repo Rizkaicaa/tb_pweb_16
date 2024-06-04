@@ -39,7 +39,7 @@ white-space: nowrap;
 .navbar-items {
 display: flex;
 gap: 10px; /* Add spacing between icon and button */
-  }
+}
 
 
 .navbar-items {
