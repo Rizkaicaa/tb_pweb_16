@@ -30,7 +30,7 @@ app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/kalab', kalabRouter);
 app.use('/kadep', kadepRouter);
-
+app.use('/uploads', express.static('uploads'));
 
 // error handler
 app.use(function(err, req, res, next) {
