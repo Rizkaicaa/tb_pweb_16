@@ -22,7 +22,6 @@
     border-radius: 10px;
 }
 
-
 .close {
     color: #aaa;
     float: right;
@@ -61,7 +60,7 @@ input[type="number"] {
     box-sizing: border-box;
 }
 
-button[type="submitlab"] {
+button[type="submit"] {
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
