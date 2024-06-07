@@ -76,16 +76,14 @@ gap: 10px; /* Add spacing between icon and button */
     background-color: #322C29; 
 }
 
-.hs-accordion-toggle:hover {
-    background-color: #E65F2B; 
-    cursor: pointer;
-}
-
 .menu:hover, .sub-menu:hover {
     background-color: #E65F2B;
     cursor: pointer;
 }
 
+.bg-orange {
+    background-color: #E65F2B;
+}
 .footer {
     position: fixed;
     bottom: 0;
@@ -113,88 +111,4 @@ footer p {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.header-content {
-    display: flex;
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 10px; 
-}
-
-.header-content h3 {
-    font-weight: 500;
-    font-size: 20px;
-    
-}
-
-.button-tambah {
-    background-color: #E65F2B;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 16px;
-    cursor: pointer; 
-    transition: background-color 0.3s ease;
-}
-
-.button-tambah:hover {
-    background-color: #d84500;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-thead {
-    background-color: #f7f7f7;
-}
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    font-weight: 600;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.button-edit, .button-hapus {
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.button-edit {
-    background-color: #4CAF50;
-}
-
-.button-edit:hover {
-    background-color: #45a049;
-}
-
-.button-hapus {
-    background-color: #f44336;
-}
-
-.button-hapus:hover {
-    background-color: #e53935;
-}
-
-
-
-
 

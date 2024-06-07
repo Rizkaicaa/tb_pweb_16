@@ -60,14 +60,14 @@
             <form id="tambahAkunKalabForm" action="/admin/tambah-akun-kalab" method="post">
                 <!-- Form tambah akun Kalab -->
                 <div class="form-row">
-                    <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                    <div class="form-group form-group-half" >
                     <label for="nama">Nama:</label>
                     <input type="text" id="nama" name="nama" required oninput="validateTextInput(this)">
                     </div>
 
                     <div class="form-group form-group-half">
                         <label for="email">Email:</label>
-                        <input type="text" id="email" name="email" required oninput="validateEmailInput(this)">
+                        <input type="email" id="email" name="email" required oninput="validateEmailInput(this)">
                     </div>                       
                 </div>
                 
@@ -86,31 +86,18 @@
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                    <div class="form-group form-group-half">
                         <label for="jenis_kelamin">Jenis Kelamin:</label>
                         <select id="jenis_kelamin" name="jenis_kelamin" required>
+                            <option value="" disabled selected>Jenis kelamin</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
                     </div>
-                    
                     <div class="form-group form-group-half">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div> 
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
                         <label for="tanggal_lahir">Tanggal Lahir:</label>
                         <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
                     </div>
-
-                    <div class="form-group form-group-half">
-                        <label for="confirm_password">Konfirmasi Password:</label>
-                        <input type="password" id="confirm_password" name="confirm_password" required>
-                    </div>  
-                    
                 </div>
 
                 <div class="form-row">
@@ -118,10 +105,19 @@
                         <label for="alamat">Alamat:</label>
                         <input type="text" id="alamat" name="alamat" required>
                     </div>
-
                 </div>
-                
-                <button type="submitakun">Tambah</button>
+
+                <div class="form-row">
+                    <div class="form-group form-group-half">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div> 
+                    <div class="form-group form-group-half">
+                        <label for="confirm_password">Konfirmasi Password:</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>  
+                </div>
+                <button type="submit">Tambah</button>
             </form>
         </div>
     </div>
@@ -213,16 +209,6 @@
             input.value = input.value.replace(/[^0-9]/g, '');
         }
 
-        function validateEmailInput(input) {
-            const value = input.value;
-            const validEmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-            if (!validEmailPattern.test(value)) {
-                input.setCustomValidity("Email harus berakhir dengan @gmail.com");
-            } else {
-                input.setCustomValidity("");
-            }
-        }
-
         function openModalTambah() {
             // Menampilkan modal tambah akun Kalab
             document.getElementById("tambahModal").style.display = "block";
@@ -275,7 +261,6 @@
         closeModalEdit();
     }
 }
-
 
         // Fungsi untuk menutup modal edit akun kalab
         function closeModalEdit() {
