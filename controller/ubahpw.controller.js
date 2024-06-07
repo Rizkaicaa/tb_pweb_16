@@ -38,9 +38,6 @@ const changePassword = async (req, res) => {
           case 'Kepala Departemen':
               redirectUrl = '/kadep/dashboard';
               break;
-          default:
-              redirectUrl = '/dashboard'; // Default redirect jika peran tidak dikenal
-              break;
       }
 
       // Redirect pengguna ke URL yang sesuai
