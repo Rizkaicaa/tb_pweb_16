@@ -105,7 +105,7 @@ router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 router.post('/tambah', pengajuanasetController.addPengajuan);
 
 
-router.post('/pengajuan/delete/:id_pembelianaset', async (req, res, next) => {
+router.post('/pengajuan/delete/:id', async (req, res, next) => {
   try {
     await pengajuanasetController.deletePengajuan(req, res, next);
   } catch (error) {

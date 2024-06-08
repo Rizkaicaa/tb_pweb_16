@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Pengajuan.init({
-    id_pembelianaset: {
+    id_pengajuan: {
       type: DataTypes.STRING,
       primaryKey: true
     },
@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     harga: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    total_harga: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     tujuan: {
