@@ -5,7 +5,7 @@
 <main class="content">
     <div class="header-content">
         <h3>Daftar Pengajuan Pembelian Aset</h3>
-        <button class="button-tambah" onclick="openModalTambah()">Tambah Pengajuan</button>
+        <a href="/kalab/addpengajuan"><button class="button-tambah" onclick="openModalTambah()">Tambah Pengajuan</button></a>
     </div>
 
     <div class="header-content">
@@ -36,7 +36,6 @@
                 <td><%= pengajuan.status %></td>
                 <td>
                     <div style="display: inline-block;">
-                        <button class="button-edit">Edit</button>
                         <form id="deleteAsetForm-<%= pengajuan.id %>" action="/kalab/pengajuan/delete/<%= pengajuan.id %>" method="post" style="display: inline-block; margin-left: -5px;">
                             <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?')">Hapus</button>
                         </form>
@@ -47,40 +46,4 @@
         </tbody>
     </table>
         
-    <!-- The Modal untuk Tambah Aset -->
-    <div id="tambahModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeModalTambah()">&times;</span>
-            <h3 class="center-text">Tambah Data Pembelian</h3>
-            <form id="tambahAsetForm" action="/kalab/pengajuan/tambah" method="post">
-                <!-- Form tambah aset -->
-                <div class="form-group">
-                    <label for="namaAset">Nama Aset:</label>
-                    <input type="text" id="namaAset" name="nama_aset" required>                   
-                </div>
-                <div class="form-group">
-                    <label for="jumlah">Jumlah:</label>
-                    <input type="number" id="jumlah" name="jumlah" required>
-                </div>
-                <div class="form-group">
-                    <label for="harga">Harga:</label>
-                    <input type="number" id="harga" name="harga" required>
-                </div>
-                <div class="form-group">
-                    <label for="totalHarga">Total Harga:</label>
-                    <input type="number" id="totalHarga" name="total_harga" required>
-                </div>
-                <div class="form-group">
-                    <label for="tujuan">Tujuan:</label>
-                    <input type="text" id="tujuan" name="tujuan" required>
-                </div>
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <input type="text" id="status" name="status" required>
-                </div>
-                <button type="submit">Tambah</button>
-            </form>
-        </div>
-    </div>
-</script>
 <%- include("../layouts/footer.ejs") %>

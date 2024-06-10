@@ -1,3 +1,7 @@
+.content {
+    background-color: white;
+}
+
 .header-content {
     display: flex;
     align-items: center; 
@@ -110,8 +114,26 @@ tbody tr:hover {
     cursor: pointer;
 }
 
+
 .form-group {
     margin-bottom: 20px;
+}
+
+.form-groupadd {
+    margin-bottom: 20px;
+}
+
+.form-groupadd label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-groupadd input, .form-groupadd textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .form-row {
@@ -215,3 +237,39 @@ button[type="submitedit"] {
     background-color: darkred; 
 }
 
+
+.button.green {
+    padding: 10px 10px;
+    width: 100px;
+    border-radius: 25px;
+    background-color: #4CAF50; 
+    color: #fff;
+  }
+  
+.button.red {
+    padding: 10px 10px;
+    width: 100px;
+    border-radius: 25px;
+    background-color: #dc3545; 
+    color: #fff;
+  }
+  
+.button.blue {
+    padding: 10px 10px;
+    width: 100px;
+    border-radius: 25px;
+    background-color: #007bff; 
+    color: #fff;
+}
+  
+.button.green:hover{
+    opacity: 0.8;
+}
+
+.button.red:hover{
+    opacity: 0.8;
+}
+
+.button.blue:hover{
+    opacity: 0.8;
+}
