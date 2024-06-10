@@ -40,7 +40,16 @@ router.post('/edit-profil', cek('Kepala Departemen'), async (req, res,next)=> {
 // Rute untuk menampilkan daftar laboratorium
 router.get('/lab', async (req, res, next) => {
   try {
-    await labController.getAllLabsAdmin(req, res, next);
+    await labController.getAllLabsKadep(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+router.get('/dataaset', async (req, res, next) => {
+  try {
+    await labController.getAllLabsAsetKadep(req, res, next);
   } catch (error) {
     console.error('Error occurred:', error);
     next(error);

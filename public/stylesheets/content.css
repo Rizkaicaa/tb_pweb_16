@@ -188,7 +188,7 @@ button[type="submitedit"] {
     width: 100%;
 }
 
-.button-edit {
+.button-edit, .button-lihat{
     background-color: #4CAF50; 
     color: white; 
     border: none; 

@@ -16,12 +16,24 @@ exports.getAllLabs = async (req, res, next) => {
   }
 };
 
-exports.getAllLabsAdmin = async (req, res, next) => {
+exports.getAllLabsKadep = async (req, res, next) => {
   try {
     console.log('Fetching all labs');
     const labs = await Lab.findAll();
     console.log('Labs fetched:', labs);
     res.render('kadep/lab', { title: 'Data Laboratorium', labs });
+  } catch (error) {
+    console.error('Error in getAllLabs:', error);
+    next(error);
+  }
+};
+
+exports.getAllLabsAsetKadep = async (req, res, next) => {
+  try {
+    console.log('Fetching all labs');
+    const labs = await Lab.findAll();
+    console.log('Labs fetched:', labs);
+    res.render('kadep/dataaset', { title: 'Aset Laboratorium', labs });
   } catch (error) {
     console.error('Error in getAllLabs:', error);
     next(error);
