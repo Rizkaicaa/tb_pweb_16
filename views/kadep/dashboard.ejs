@@ -5,8 +5,19 @@
 <!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
-        <h3>Selamat Datang, Kepala Departemen</h3>
         
+        <% if (user && user.role) { %>
+            <span><h3>Selamat Datang,</h3> <%= user.role %></span>
+            <div class="avatar">
+                <% if (user.role === 'Admin') { %>
+                    <img src="/images/profile-admin.png" alt="Admin Avatar" />
+                <% } else if (user.role === 'Kepala Departemen') { %>
+                    <img src="/images/profile-kadep.png" alt="Kadep Avatar" />
+                <% } else { %>
+                    <img src="/images/cadangan.png" alt="Admin Avatar" />
+                <% } %>
+            </div>
+        <% } %>
     </div>
     
 

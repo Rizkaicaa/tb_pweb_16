@@ -4,7 +4,7 @@ exports.getAllPengajuan = async (req, res, next) => {
     console.log('Fetching all pengajuans');
     const pengajuans = await Pengajuan.findAll();
     console.log('Labs fetched:', pengajuans);
-    res.render('kalab/pengajuan', { title: 'Data Pengajuan Aset', pengajuans });
+    res.render('kalab/pengajuan', { title: 'Pengajuan Pembelian', pengajuans });
 };
 
 exports.getAllAddPengajuan = async (req, res, next) => {
