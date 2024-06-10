@@ -102,7 +102,9 @@ router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 
-router.post('/tambah', pengajuanasetController.addPengajuan);
+router.get('/addpengajuan', pengajuanasetController.getAllAddPengajuan);
+
+router.post('/tambah', authenticateUser, pengajuanasetController.addPengajuan);
 
 
 router.post('/pengajuan/delete/:id', async (req, res, next) => {

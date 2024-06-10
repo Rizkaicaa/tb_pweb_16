@@ -7,6 +7,10 @@ exports.getAllPengajuan = async (req, res, next) => {
     res.render('kalab/pengajuan', { title: 'Data Pengajuan Aset', pengajuans });
 };
 
+exports.getAllAddPengajuan = async (req, res, next) => {
+    res.render('kalab/addpengajuan', {title: 'Tambah Data Pengajuan Aset'});
+};
+
 exports.addPengajuan = async (req, res) => {
     try {
         const { namaAset, jumlah, harga,totalHarga, tujuan, status } = req.body;
@@ -17,12 +21,12 @@ exports.addPengajuan = async (req, res) => {
             harga: harga,
             total_harga: totalHarga,
             tujuan: tujuan,
-            status: status
+            status: status || 'Pending'
         });
-        res.redirect('kalab/pengajuan');
+        res.redirect('/kalab/pengajuan');
     } catch (error) {
         console.error('Error adding submissions:', error);
-        res.redirect('kalab/pengajuan?error=Failed to add submissions');
+        res.redirect('/kalab/pengajuan?error=Failed to add submissions');
     }
 };
 
