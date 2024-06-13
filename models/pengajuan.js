@@ -1,15 +1,31 @@
 'use strict';
-const {Model} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Pengajuan extends Model {
     static associate(models) {
-      // define association here
+      Pengajuan.belongsTo(models.Lab, {
+        foreignKey: 'id_lab',
+        as: 'lab'
+      });
+      Pengajuan.hasOne(models.Pengadaan, {
+        foreignKey: 'id_pengajuan',
+        as: 'pengadaan'
+      });
     }
   }
   Pengajuan.init({
     id_pengajuan: {
-      type: DataTypes.STRING,
-      primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      unique: true  // Ensure unique constraint
+    },
+    id_lab: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Labs',
+        key: 'id'
+      }
     },
     nama_aset: {
       type: DataTypes.STRING,
@@ -38,6 +54,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Pengajuan',
-  });
+    timestamps: true
+    }
+  );
   return Pengajuan;
 };

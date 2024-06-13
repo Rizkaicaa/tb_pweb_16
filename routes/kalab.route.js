@@ -3,9 +3,10 @@ var router = express.Router();
 const cek = require('../middleware/checktokenandrole');
 const { getUser, editProfil } = require('../controller/auth.controller');
 const dataasetController = require('../controller/dataaset.controller');
+const pengadaanController = require('../controller/pengadaan.controller');
 const multer = require('multer');
 const pengajuanasetController = require('../controller/pengajuan.controller');
-const db = require('../models/lab')
+
 
 
 // Middleware otentikasi untuk memastikan pengguna adalah "Kepala Lab"
@@ -88,7 +89,6 @@ router.get('/dataaset', authenticateUser, async (req, res, next) => {
   }
 });
 
-
 // Rute untuk menambah aset baru
 router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (req, res, next) => {
   try {
@@ -98,7 +98,9 @@ router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (
     res.redirect('/kalab/dataaset?error=Failed to add dataaset');
   }
 });
-
+router.get('/pengadaan', authenticateUser, pengadaanController.getAllPengadaanKalab);
+router.post('/tambah-pengadaan', authenticateUser, upload.single('bukti'), pengadaanController.addPengadaan);
+router.post('/hapus-pengadaan/:id', authenticateUser, pengadaanController.deletePengadaan);
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 
