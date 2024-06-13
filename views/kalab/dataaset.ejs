@@ -107,6 +107,11 @@
             notification.style.borderRadius = '5px';
         }
 
+        // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 5000);
+        
         // Cek parameter query untuk pesan kesalahan
         const urlParams = new URLSearchParams(window.location.search);
         const errorMessage = urlParams.get('error');

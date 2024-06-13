@@ -1,0 +1,127 @@
+<%- include("../layouts/header.ejs", { title: title }) %>
+<%- include("../layouts/sidebarKalab.ejs") %>
+
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        <h3>Data Pengadaan Aset <%= nama_lab %></h3>
+        <button class="button-tambah" onclick="openModalTambah()">Tambah Aset</button>
+    </div>
+
+    <!-- Notifikasi -->
+    <div id="notification" style="display: none;"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Aset yang dibeli</th>
+                <th>Jumlah</th>
+                <th>Harga Beli (satuan)</th>
+                <th>Total Harga</th>
+                <th>Bukti</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% pengadaans.forEach((pengadaan, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= pengadaan.nama_aset %></td>
+                <td><%= pengadaan.jumlah %></td>
+                <td><%= pengadaan.harga_beli %></td>
+                <td><%= pengadaan.total %></td>
+                <td><a href="/uploads/<%= pengadaan.bukti %>" target="_blank" style="color: blue;"><%= pengadaan.nama_aset %></a></td>
+                <td>
+                    <div style="display: inline-block;">
+                        <form action="/kalab/hapus-pengadaan/<%= pengadaan.id %>" method="post" >
+                            <button class="button-hapus">Hapus</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <!-- The Modal untuk Tambah Data Aset -->
+    <div id="tambahModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModalTambah()">&times;</span>
+            <h3 class="center-text">Tambah Data Pengadaan Aset</h3>
+            <form id="tambahpengadaanForm" action="/kalab/tambah-pengadaan" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="id_pengajuan">Pengadaan:</label>
+                    <select id="id_pengajuan" name="id_pengajuan" required>
+                        <% pengajuans.forEach((pengajuan) => { %>
+                            <option value="<%= pengajuan.id_pengajuan %>" data-jumlah="<%= pengajuan.jumlah %>">
+                                <%= pengajuan.nama_aset %> (Jumlah: <%= pengajuan.jumlah %>)
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="harga_beli">Harga Beli (satuan):</label>
+                    <input type="number" id="harga_beli" name="harga_beli" min="1" step="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="total">Total Harga:</label>
+                    <input type="number" id="total" name="total" min="1" step="1" readonly>
+                </div>
+            
+                <div class="form-group">
+                    <label for="bukti">Bukti:</label>
+                    <input type="file" id="bukti" name="bukti" required>
+                </div>
+                
+                <button type="submit">Tambah</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<%- include("../layouts/footer.ejs") %>
+
+<script>
+    document.getElementById('harga_beli').addEventListener('input', updateTotalHarga);
+    document.getElementById('id_pengajuan').addEventListener('change', updateTotalHarga);  // Tambahkan event listener untuk change event pada dropdown
+
+    function updateTotalHarga() {
+        const hargaBeli = parseFloat(document.getElementById('harga_beli').value) || 0;
+        const jumlah = parseFloat(document.querySelector('#id_pengajuan option:checked').dataset.jumlah) || 0;
+        const totalHarga = hargaBeli * jumlah;
+        document.getElementById('total').value = totalHarga;
+    }
+
+    function openModalTambah() {
+        document.getElementById("tambahModal").style.display = "block";
+    }
+
+    function closeModalTambah() {
+        document.getElementById("tambahModal").style.display = "none";
+    }
+
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.innerText = message;
+        notification.style.display = 'block';
+        notification.style.backgroundColor = '#f8d7da';
+        notification.style.color = '#721c24';
+        notification.style.padding = '10px';
+        notification.style.margin = '10px 0';
+        notification.style.borderRadius = '5px';
+    }
+
+    // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
+    setTimeout(() => {
+            notification.style.display = 'none';
+        }, 5000);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    if (errorMessage) {
+        showNotification(errorMessage);
+    }
+</script>
