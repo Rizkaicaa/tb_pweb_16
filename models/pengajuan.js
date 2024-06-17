@@ -3,7 +3,10 @@ const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Pengajuan extends Model {
     static associate(models) {
-      // define association here
+      Pengajuan.belongsTo(models.Lab, {
+        foreignKey: "id_lab",
+        as: "lab",
+      });
     }
   }
   Pengajuan.init({
@@ -34,6 +37,16 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    id_lab: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Labs",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE"
     }
   }, {
     sequelize,

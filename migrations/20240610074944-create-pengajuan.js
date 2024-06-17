@@ -18,6 +18,9 @@ module.exports = {
       harga: {
         type: Sequelize.FLOAT,
       },
+      total_harga: {
+        type: Sequelize.FLOAT,
+      },
       tujuan: {
         type: Sequelize.STRING,
       },
@@ -27,8 +30,8 @@ module.exports = {
       id_lab: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Labs', // Sesuaikan dengan nama tabel yang akan direferensi
-          key: 'id'  // Sesuaikan dengan nama kolom primary key di tabel Labs
+          model: 'Labs',
+          key: 'id' 
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'

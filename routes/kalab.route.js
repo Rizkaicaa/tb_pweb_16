@@ -8,24 +8,20 @@ const pengajuanasetController = require('../controller/pengajuan.controller');
 const db = require('../models/lab')
 
 
-// Middleware otentikasi untuk memastikan pengguna adalah "Kepala Lab"
 const authenticateUser = async (req, res, next) => {
   try {
-    const user = await getUser(req); // Dapatkan pengguna dari sistem otentikasi Anda
+    const user = await getUser(req);
 
     if (!user || user.role !== 'Kepala Lab') {
-      // Jika pengguna tidak ditemukan atau bukan "Kepala Lab", kembalikan respons yang sesuai
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Set pengguna di req.user jika valid
     req.user = user;
     next();
   } catch (error) {
     next(error);
   }
 };
-
 // Konfigurasi storage untuk menyimpan file foto
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -102,16 +98,10 @@ router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 
-router.post('/tambah', pengajuanasetController.addPengajuan);
+router.get('/addpengajuan', pengajuanasetController.getAllAddPengajuan);
 
+router.post('/tambah', authenticateUser, pengajuanasetController.addPengajuan);
 
-router.post('/pengajuan/delete/:id', async (req, res, next) => {
-  try {
-    await pengajuanasetController.deletePengajuan(req, res, next);
-  } catch (error) {
-    console.error('Error occurred:', error);
-    next(error);
-  }
-});
+router.post('/pengajuan/delete/:id_pengajuan', authenticateUser, pengajuanasetController.deletePengajuan);
 
 module.exports = router;
