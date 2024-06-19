@@ -5,6 +5,7 @@ const { getUser, editProfil } = require('../controller/auth.controller');
 const dataasetController = require('../controller/dataaset.controller');
 const pengadaanController = require('../controller/pengadaan.controller');
 const multer = require('multer');
+const { format } = require('date-fns');
 const pengajuanasetController = require('../controller/pengajuan.controller');
 
 
@@ -33,7 +34,10 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // Folder tempat menyimpan file
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Penamaan file: timestamp + nama asli file
+    const now = new Date();
+    const timestamp = format(now, 'yyyy-MM-dd-HHmmss');
+    const uniqueSuffix = `${timestamp}-${file.originalname}`;
+    cb(null, uniqueSuffix);
   }
 });
 
@@ -47,7 +51,10 @@ const fileFilter = (req, file, cb) => {
 };
 
 // Inisialisasi multer dengan konfigurasi storage dan validasi tipe file
-const upload = multer({ storage, fileFilter });
+const upload = multer({ 
+  storage: storage, 
+  fileFilter: fileFilter 
+});
 
 router.get('/dashboard', cek('Kepala Lab'), async function (req, res, next) {
   try {
