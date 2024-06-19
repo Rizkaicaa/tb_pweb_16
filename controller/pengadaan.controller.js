@@ -11,7 +11,7 @@ exports.addPengadaan = async (req, res, next) => {
         });
 
         if (!pengajuan) {
-            return res.redirect('/kalab/pengadaan?error=Pengajuan tidak ditemukan atau belum disetujui');
+            return res.redirect('/kalab/pengadaan?error=Pengajuan tidak ditemukan atau mungkin belum disetujui');
         }
 
         // Periksa apakah sudah ada pengadaan dengan id_pengajuan yang sama

@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "id_lab",
         as: "lab",
       });
+      
     }
   }
   Dataaset.init(
