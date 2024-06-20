@@ -1,0 +1,188 @@
+<%- include("../layouts/header.ejs") %>
+    <%- include("../layouts/sidebarKalab.ejs") %>
+
+        <!-- ========== MAIN ========== -->
+        <main class="content">
+            <div class="header-content">
+                <h3>Data Aset</h3>
+                <form action="" id="filterForm">
+                    <div class="flex flex-row w-full  justify-end">
+                        <div class="form-group form-group-half w-96 me-5 mt-5">
+                            <select id="lab" name="nama_aset" required>
+                                <option value="" disabled selected>Masukkan Lab</option>
+                                <% datalab.forEach((aset, index)=> { %>
+                                    <option value="<%= aset.id %>">
+                                        <%= aset.nama_lab %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group form-group-half w-96 me-5 mt-5">
+                            <select id="aset" name="nama_aset" required>
+                                <option value="" disabled selected>Masukkan aset</option>
+                                <% dataasetsearch.forEach((aset, index)=> { %>
+                                    <option value="<%= aset.id %>">
+                                        <%= aset.nama_aset %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                        <div class="">
+                            <button class="mb-5" type="submit">Cari</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- Notifikasi -->
+            <div id="notification" style="display: none;"></div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Aset</th>
+                        <th>Kategori</th>
+                        <th>Jumlah</th>
+                        <th>Spesifikasi</th>
+                        <th>Gambar</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% dataasets.forEach((dataaset, index)=> { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= dataaset.nama_aset %>
+                            </td>
+                            <td>
+                                <%= dataaset.jenis_aset %>
+                            </td>
+                            <td>
+                                <%= dataaset.jumlah %>
+                            </td>
+                            <td>
+                                <%= dataaset.spesifikasi %>
+                            </td>
+                            <td><a href="/uploads/<%= dataaset.foto %>" target="_blank" style="color: blue;">
+                                    <%= dataaset.nama_aset %>
+                                </a></td>
+                            <td>
+                                <div style="display: inline-block;">
+                                    <button class="button-edit">Edit</button>
+                                    <button class="button-hapus">Hapus</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+
+            <!-- The Modal untuk Tambah Data Aset -->
+            <div id="tambahModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModalTambah()">&times;</span>
+                    <h3 class="center-text">Tambah Data Aset Baru</h3>
+                    <form id="tambahDataasetForm" action="/kalab/tambah-dataaset" method="post"
+                        enctype="multipart/form-data">
+                        <!-- Form tambah data aset -->
+                        <div class="form-group">
+                            <label for="namaAset">Nama Aset:</label>
+                            <input type="text" id="namaAset" name="namaAset" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kategoriAset">Kategori:</label>
+                            <input type="text" id="kategoriAset" name="kategoriAset" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jumlahAset">Jumlah:</label>
+                            <input type="number" id="jumlahAset" name="jumlahAset" min="1" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="spesifikasiAset">Spesifikasi:</label>
+                            <input type="text" id="spesifikasiAset" name="spesifikasiAset" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foto">Gambar:</label>
+                            <input type="file" id="foto" name="foto" required>
+                        </div>
+
+                        <button type="submit">Tambah</button>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+
+        <%- include("../layouts/footer.ejs") %>
+
+            <script>
+                // Fungsi untuk membuka modal tambah data aset
+                function openModalTambah() {
+                    document.getElementById("tambahModal").style.display = "block";
+                }
+
+                // Fungsi untuk menutup modal tambah data aset
+                function closeModalTambah() {
+                    document.getElementById("tambahModal").style.display = "none";
+                }
+
+                // Fungsi untuk menampilkan notifikasi
+                function showNotification(message) {
+                    const notification = document.getElementById('notification');
+                    notification.innerText = message;
+                    notification.style.display = 'block';
+                    notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
+                    notification.style.color = '#721c24'; // Warna teks merah gelap
+                    notification.style.padding = '10px';
+                    notification.style.margin = '10px 0';
+                    notification.style.borderRadius = '5px';
+                }
+
+                // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
+
+                // Cek parameter query untuk pesan kesalahan
+                const urlParams = new URLSearchParams(window.location.search);
+                const errorMessage = urlParams.get('error');
+                if (errorMessage) {
+                    showNotification(errorMessage);
+                }
+
+
+                document.getElementById('filterForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    var lab = document.getElementById('lab').value;
+                    var aset = document.getElementById('aset').value;
+
+                    // Membuat URL dengan parameter berdasarkan bulan dan tahun yang dipilih
+                    var url = '/kalab/cari-aset';
+                    
+                    if (lab !== '') {
+                        url += '?id_lab=' + encodeURIComponent(lab);
+                    }
+
+                    if (aset !== '') {
+                        if (url.includes('?')) {
+                            url += '&id_aset=' + encodeURIComponent(aset);
+                        } else {
+                            url += '?id_aset=' + encodeURIComponent(aset);
+                        }
+                    }
+
+                    // Redirect ke URL yang baru dibuat
+                    window.location.href = url;
+                });
+            </script>

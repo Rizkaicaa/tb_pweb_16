@@ -4,6 +4,7 @@ const cek = require('../middleware/checktokenandrole');
 const {getUser} = require('../controller/auth.controller');
 const {editProfil} = require('../controller/auth.controller');
 const labController = require('../controller/lab.controller');
+const pengajuanasetController = require('../controller/pengajuan.controller');
 
 router.get('/dashboard', cek('Kepala Departemen'), async function (req, res, next) {
   try {
@@ -55,5 +56,9 @@ router.get('/dataaset', async (req, res, next) => {
     next(error);
   }
 });
+
+router.get('/pengajuan', pengajuanasetController.getAllPengajuanKadep);
+router.post('/pengajuan/update', pengajuanasetController.putPengajuan);
+router.get('/pengajuan/edit/:id', pengajuanasetController.getEditPengajuan);
 
 module.exports = router;
