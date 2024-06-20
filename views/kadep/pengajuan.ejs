@@ -1,0 +1,139 @@
+<%- include("../layouts/header.ejs" )%>
+    <%- include("../layouts/sidebarKalab.ejs") %>
+
+        <!-- ========== MAIN ========== -->
+        <main class="content">
+            <div class="header-content">
+                <h3>Daftar Pengajuan Pembelian Aset</h3>
+            </div>
+
+            <div class="header-content">
+                <p>Ket: Harga yang digunakan masih bersifat perkiraan, belum harga tetap.</p>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Aset</th>
+                        <th>Jumlah</th>
+                        <th>Harga</th>
+                        <th>Total Harga</th>
+                        <th>Tujuan</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% pengajuans.forEach((pengajuan, index)=> { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= pengajuan.nama_aset %>
+                            </td>
+                            <td>
+                                <%= pengajuan.jumlah %>
+                            </td>
+                            <td>
+                                <%= pengajuan.harga %>
+                            </td>
+                            <td>
+                                <%= pengajuan.total_harga %>
+                            </td>
+                            <td>
+                                <%= pengajuan.tujuan %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+
+                                <% if (pengajuan.status==0) { %>
+                                    <span
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white"
+                                        style="background-color:rgb(245, 178, 9);">
+                                        Menunggu</span>
+                                    <% } else if (pengajuan.status==1) { %>
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium  text-white"
+                                            style="background-color:rgb(16, 212, 56);">
+                                            Diterima</span>
+                                        <% } else if (pengajuan.status==2) { %>
+                                            <span
+                                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white"
+                                                style="background-color:rgb(255, 52, 34);">
+                                                Ditolak</span>
+                                            <% } %>
+
+                            </td>
+                            <td>
+                                <div style="display: inline-block;">
+                                    <button class="button-edit"
+                                        onclick="openModalEdit('<%= pengajuan.id_pengajuan %>')">Edit</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModalEdit()">&times;</span>
+                    <h3 class="center-text">Edit Akun Kalab</h3>
+                    <form id="editAkunKalabForm" action="/kadep/pengajuan/update" method="post">
+                        <!-- Form edit akun Kalab -->
+                        <div class="form-col">
+                            <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
+                                <input type="text" id="id" name="id" style="display: none;" />
+                                <label for="editJenisKelamin">Status:</label>
+                                <select id="editJenisKelamin" name="status" required>
+                                    <option value="" disabled selected>...</option>
+                                    <option value="1">disetujui</option>
+                                    <option value="2">ditolak</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <button type="submit">Simpan</button>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+
+
+
+                async function openModalEdit(id) {
+                    // // Menampilkan modal edit
+                    document.getElementById("editModal").style.display = "block";
+
+                    try {
+                        // Mengambil data akun kalab dari server berdasarkan ID
+                        const response = await fetch(`/kadep/pengajuan/edit/${id}`);
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch akun kalab data');
+                        }
+                        const userData = await response.json();
+
+                        // Debug: Periksa data yang diterima dari server
+                        console.log('User data:', userData);
+
+                        // Mengisi nilai-nilai form edit dengan data akun kalab yang diterima
+                        document.getElementById("editJenisKelamin").value = userData.status;
+                        document.getElementById("id").value = userData.id_pengajuan;
+
+                    } catch (error) {
+                        console.error('Error fetching user data:', error);
+                        // Jika terjadi kesalahan dalam mengambil data akun kalab, tutup modal edit
+                        //closeModalEdit();
+                    }
+                }
+
+                // Fungsi untuk menutup modal edit akun kalab
+                function closeModalEdit() {
+                    document.getElementById("editModal").style.display = "none";
+                }
+
+            </script>
+            <%- include("../layouts/footer.ejs") %>

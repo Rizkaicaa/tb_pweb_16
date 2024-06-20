@@ -4,6 +4,7 @@ const cek = require('../middleware/checktokenandrole');
 const { getUser } = require('../controller/auth.controller');
 const labController = require('../controller/lab.controller');
 const akunKalabController = require('../controller/akunKalab.controller');
+const dataasetController = require('../controller/dataaset.controller');
 
 // Routes untuk dashboard, profil, dan edit profil
 router.get('/dashboard', cek('Admin'), async (req, res, next) => {
@@ -125,5 +126,7 @@ router.post('/akunKalab/delete/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+router.get('/cari-aset', dataasetController.getAllDataasetsSearch);
 
 module.exports = router;

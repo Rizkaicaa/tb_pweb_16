@@ -111,18 +111,13 @@ router.post('/hapus-pengadaan/:id', authenticateUser, pengadaanController.delete
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 
+router.get('/perbaikan', pengajuanasetController.getAllPerbaikan);
+router.post('/tambah-perbaikan', pengajuanasetController.postPerbaikan);
+
 router.get('/addpengajuan', pengajuanasetController.getAllAddPengajuan);
+router.get('/cari-aset', dataasetController.getAllDataasetsSearch);
 
 router.post('/tambah', authenticateUser, pengajuanasetController.addPengajuan);
-
-
-router.post('/pengajuan/delete/:id', async (req, res, next) => {
-  try {
-    await pengajuanasetController.deletePengajuan(req, res, next);
-  } catch (error) {
-    console.error('Error occurred:', error);
-    next(error);
-  }
-});
+router.post('/hapus-pengajuan/:id', authenticateUser, pengajuanasetController.deletePengajuan);
 
 module.exports = router;

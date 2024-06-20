@@ -36,7 +36,7 @@
                 <td><%= pengajuan.status %></td>
                 <td>
                     <div style="display: inline-block;">
-                        <form id="deleteAsetForm-<%= pengajuan.id %>" action="/kalab/pengajuan/delete/<%= pengajuan.id %>" method="post" style="display: inline-block; margin-left: -5px;">
+                        <form action="/kalab/hapus-pengajuan/<%= pengajuan.id %>" method="post" style="display: inline-block; margin-left: -5px;">
                             <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?')">Hapus</button>
                         </form>
                     </div>
