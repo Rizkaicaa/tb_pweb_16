@@ -44,7 +44,7 @@ exports.postPerbaikan = async (req, res) => {
             jadwal: jadwal
         });
 
-        res.redirect('/kalab/perbaikan'); // Pengalihan ke halaman admin/lab setelah berhasil
+        res.redirect('/kalab/perbaikan'); 
     } catch (error) {
         console.error('Error adding perbaikan:', error);
         res.redirect('/kalab/perbaikan?error=Failed to add perbaikan');
@@ -113,6 +113,17 @@ exports.deletePengajuan = async (req, res, next) => {
         const id = req.params.id_pengajuan;
         await Pengajuan.destroy({ where: { id } });
         res.redirect('/kalab/pengajuan');
+    } catch (error) {
+        console.error('Error occurred:', error);
+        next(error);
+    }
+};
+
+exports.deletePerbaikan = async (req, res, next) => {
+    try {
+        const id = req.params.id_perbaikan;
+        await Perbaikan.destroy({ where: { id } });
+        res.redirect('/kalab/perbaikan');
     } catch (error) {
         console.error('Error occurred:', error);
         next(error);

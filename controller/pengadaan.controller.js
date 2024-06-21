@@ -7,7 +7,7 @@ exports.addPengadaan = async (req, res, next) => {
 
         // Periksa apakah pengajuan dengan id_pengajuan dan status 'disetujui' ada
         const pengajuan = await Pengajuan.findOne({
-            where: { id_pengajuan, status: 'disetujui' }
+            where: { id_pengajuan, status: '1' }
         });
 
         if (!pengajuan) {
