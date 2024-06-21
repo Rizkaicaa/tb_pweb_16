@@ -113,11 +113,12 @@ router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 
 router.get('/perbaikan', pengajuanasetController.getAllPerbaikan);
 router.post('/tambah-perbaikan', pengajuanasetController.postPerbaikan);
+router.post('/hapus-perbaikan/:id_perbaikan', authenticateUser, pengajuanasetController.deletePerbaikan)
 
 router.get('/addpengajuan', pengajuanasetController.getAllAddPengajuan);
 router.get('/cari-aset', dataasetController.getAllDataasetsSearch);
 
 router.post('/tambah', authenticateUser, pengajuanasetController.addPengajuan);
-router.post('/hapus-pengajuan/:id', authenticateUser, pengajuanasetController.deletePengajuan);
+router.post('/hapus-pengajuan/:id_pengajuan', authenticateUser, pengajuanasetController.deletePengajuan);
 
 module.exports = router;

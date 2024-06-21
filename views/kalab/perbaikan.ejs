@@ -19,7 +19,7 @@
                         <th>Deskripsi Kerusakan</th>
                         <th>Jadwal Perbaikan</th>
                         <th>Status</th>
-                        <!-- <th>Aksi</th> -->
+                        <th>Aksi</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -54,18 +54,14 @@
                                             <% } %>
 
                             </td>
-                            <!-- <td>
+                            <td>
                                 <div style="display: flex;">
-                                    <button class="button-edit"
-                                        onclick="openModalEdit('<%= perbaikan.id %>')">Edit</button>
-                                    <form id="deleteKalabForm-<%= perbaikan.id %>"
-                                        action="/admin/akunKalab/delete/<%= perbaikan.id %>" method="post"
-                                        style="margin-left: 5px;">
+                                    <form action="/kalab/hapus-perbaikan/<%= perbaikan.id %>" method="post" style="margin-left: 5px;">
                                         <button class="button-hapus"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus akun Kalab ini?')">Hapus</button>
                                     </form>
                                 </div>
-                            </td> -->
+                            </td>
 
                         </tr>
                         <% }); %>
@@ -73,17 +69,15 @@
             </table>
 
 
-            <!-- The Modal untuk Tambah Akun Kalab -->
             <div id="tambahModal" class="modal" style="display: none;">
                 <div class="modal-content">
                     <span class="close" onclick="closeModalTambah()">&times;</span>
                     <h3 class="center-text">Tambah Perbaikan Aset</h3>
-                    <form id="tambahAkunKalabForm" action="/kalab/tambah-perbaikan" method="post">
-                        <!-- Form tambah akun Kalab -->
+                    <form id="tambahPerbaikanForm" action="/kalab/tambah-perbaikan" method="post">
                         <div class="form-col">
                             <div class="form-group form-group-half">
-                                <label for="jenis_kelamin">Nama Aset:</label>
-                                <select id="jenis_kelamin" name="nama_aset" required>
+                                <label for="nama_aset">Nama Aset:</label>
+                                <select id="nama_aset" name="nama_aset" required>
                                     <option value="" disabled selected>...</option>
                                     <% dataaset.forEach((aset, index)=> { %>
                                         <option value="<%= aset.nama_aset %>">
@@ -93,13 +87,13 @@
                                 </select>
                             </div>
                             <div class="form-group w-full">
-                                <label for="nama">Deskripsi Kerusakan:</label>
-                                <textarea name="deskripsi" id="nama" class="w-full border border-gray-400" required
+                                <label for="deskripsi">Deskripsi Kerusakan:</label>
+                                <textarea name="deskripsi" id="deskripsi" class="w-full border border-gray-400" required
                                     rows="4"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="nama">Jadwal Perbaikan:</label>
-                                <input type="date" id="nama" name="jadwal" required>
+                                <label for="jadwal">Jadwal Perbaikan:</label>
+                                <input type="date" id="jadwal" name="jadwal" required>
                             </div>
 
                         </div>
@@ -124,80 +118,17 @@
                 input.value = input.value.replace(/[^0-9]/g, '');
             }
 
-            function validateEmailInput(input) {
-                const value = input.value;
-                const validEmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Pattern to check if input is a valid email format
-                if (!emailPattern.test(value)) {
-                    input.setCustomValidity("Masukkan alamat email yang valid.");
-                } else if (!validEmailPattern.test(value)) {
-                    input.setCustomValidity("Email harus berakhir dengan @gmail.com");
-                } else {
-                    input.setCustomValidity("");
-                }
-            }
-            function validateNumberInput(input) {
-                input.value = input.value.replace(/[^0-9]/g, '');
-            }
 
             function openModalTambah() {
-                // Menampilkan modal tambah akun Kalab
                 document.getElementById("tambahModal").style.display = "block";
             }
 
-            // Fungsi untuk menutup modal tambah lab
             function closeModalTambah() {
                 document.getElementById("tambahModal").style.display = "none";
             }
 
-            document.getElementById("tambahAkunKalabForm").addEventListener("submit", function (event) {
-                const password = document.getElementById("password").value;
-                const confirmPassword = document.getElementById("confirm_password").value;
 
-                if (password !== confirmPassword) {
-                    alert("Password dan Konfirmasi Password tidak sesuai.");
-                    event.preventDefault();
-                }
-            });
-
-            async function openModalEdit(id) {
-                // Menampilkan modal edit
-                document.getElementById("editModal").style.display = "block";
-
-                try {
-                    // Mengambil data akun kalab dari server berdasarkan ID
-                    const response = await fetch(`/admin/edit-akun-kalab/${id}`);
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch akun kalab data');
-                    }
-                    const userData = await response.json();
-
-                    // Debug: Periksa data yang diterima dari server
-                    console.log('User data:', userData);
-
-                    // Mengisi nilai-nilai form edit dengan data akun kalab yang diterima
-                    document.getElementById("editNama").value = userData.nama;
-                    document.getElementById("editNIP").value = userData.nip;
-                    document.getElementById("editJenisKelamin").value = userData.jenis_kelamin;
-                    document.getElementById("editTanggalLahir").value = userData.tanggal_lahir;
-                    document.getElementById("editNoHP").value = userData.no_hp;
-                    document.getElementById("editAlamat").value = userData.alamat;
-                    document.getElementById("editEmail").value = userData.email;
-
-                    // Lakukan pengaturan form edit akun kalab sesuai dengan id yang diteruskan
-                    document.getElementById("editAkunKalabForm").setAttribute("action", `/admin/edit-akun-kalab/${id}`);
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                    // Jika terjadi kesalahan dalam mengambil data akun kalab, tutup modal edit
-                    closeModalEdit();
-                }
-            }
-
-            // Fungsi untuk menutup modal edit akun kalab
-            function closeModalEdit() {
-                document.getElementById("editModal").style.display = "none";
-            }
-
+  
             // Fungsi untuk menampilkan notifikasi
             function showNotification(message) {
                 const notification = document.getElementById('notification');
