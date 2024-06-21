@@ -7,21 +7,14 @@ module.exports = (sequelize, DataTypes) => {
       Riwayat.belongsTo(models.Dataaset, {
         foreignKey: 'id_aset',
         as: 'aset',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
       });
     }
   }
 
   Riwayat.init({
-    id_riwayat: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
     id_aset: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Dataasets',
         key: 'id',
