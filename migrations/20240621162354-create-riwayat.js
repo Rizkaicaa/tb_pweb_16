@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Riwayats', {
-      id_riwayat: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,

@@ -27,7 +27,7 @@ exports.postRiwayat = async (req, res) => {
 
 exports.deleteRiwayat = async (req, res, next) => {
     try {
-        const id = req.params.id_riwayat;
+        const id = req.params.id;
         await Riwayat.destroy({ where: { id } });
         res.redirect('/kalab/riwayat');
     } catch (error) {

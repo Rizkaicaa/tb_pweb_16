@@ -124,6 +124,6 @@ router.post('/hapus-pengajuan/:id', authenticateUser, pengajuanasetController.de
 
 router.get('/riwayat', riwayatasetController.getAllRiwayat);
 router.post('/tambah-riwayat', riwayatasetController.postRiwayat);
-router.post('/hapus-riwayat/:id_riwayat', authenticateUser, riwayatasetController.deleteRiwayat);
+router.post('/hapus-riwayat/:id', authenticateUser, riwayatasetController.deleteRiwayat);
 
 module.exports = router;
