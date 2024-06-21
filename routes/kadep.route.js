@@ -59,6 +59,5 @@ router.get('/dataaset', async (req, res, next) => {
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuanKadep);
 router.post('/pengajuan/update', pengajuanasetController.putPengajuan);
-router.get('/pengajuan/edit/:id', pengajuanasetController.getEditPengajuan);
 
 module.exports = router;

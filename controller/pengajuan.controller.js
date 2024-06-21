@@ -72,18 +72,6 @@ exports.putPengajuan = async (req, res) => {
     }
 };
 
-exports.getEditPengajuan = async (req, res, next) => {
-    try {
-        const pengajuan = await Pengajuan.findByPk(req.params.id);
-        if (!pengajuan) {
-            return res.status(404).json({ error: 'Lab not found' });
-        }
-        res.json(pengajuan); // Mengirim data laboratorium dalam format JSON
-    } catch (error) {
-        console.error('Error fetching lab data:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
 
 exports.getAllAddPengajuan = async (req, res, next) => {
     res.render('kalab/addpengajuan', {title: 'Tambah Data Pengajuan Aset'});
@@ -110,8 +98,8 @@ exports.addPengajuan = async (req, res) => {
 
 exports.deletePengajuan = async (req, res, next) => {
     try {
-        const id = req.params.id_pengajuan;
-        await Pengajuan.destroy({ where: { id } });
+        const id = req.params.id;
+        await Pengajuan.destroy({ where: { id_pengajuan:id } });
         res.redirect('/kalab/pengajuan');
     } catch (error) {
         console.error('Error occurred:', error);
