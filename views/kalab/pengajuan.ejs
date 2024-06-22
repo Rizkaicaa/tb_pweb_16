@@ -1,10 +1,11 @@
-<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/header.ejs" )%>
 <%- include("../layouts/sidebarKalab.ejs") %>
 
 <!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
         <h3>Daftar Pengajuan Pembelian Aset</h3>
+        <a href="/kalab/addpengajuan"><button class="button-tambah" onclick="openModalTambah()">Tambah Pengajuan</button></a>
     </div>
 
     <div class="header-content">
@@ -25,75 +26,24 @@
         </thead>
         <tbody>
             <% pengajuans.forEach((pengajuan, index) => { %>
-                <tr>
-                    <td><%= index + 1 %></td>
-                    <td><%= pengajuan.nama_aset %></td>
-                    <td><%= pengajuan.jumlah %></td>
-                    <td><%= pengajuan.harga %></td>
-                    <td><%= pengajuan.total_harga %></td>
-                    <td><%= pengajuan.tujuan %></td>
-                    <td><%= pengajuan.status %></td>
-                    <td>
-                        <div style="display: inline-block;">
-                            <button class="button-edit" onclick="openModalEditPengajuan('<%= pengajuan.id_pengajuan %>')">Edit</button>
-                        </div>
-                    </td>
-                </tr>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= pengajuan.nama_aset %></td>
+                <td><%= pengajuan.jumlah %></td>
+                <td><%= pengajuan.harga %></td>
+                <td><%= pengajuan.total_harga %></td>
+                <td><%= pengajuan.tujuan %></td>
+                <td><%= pengajuan.status %></td>
+                <td>
+                    <div style="display: inline-block;">
+                        <form id="deleteAsetForm-<%= pengajuan.id %>" action="/kalab/hapus-pengajuan/<%= pengajuan.id_pengajuan %>" method="post" style="display: inline-block; margin-left: -5px;">
+                            <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?')">Hapus</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
             <% }); %>
         </tbody>
     </table>
-
-    <div id="editModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <!-- Form Edit -->
-            <form id="editPengajuanForm" action="/kadep/pengajuan/update" method="post">
-                <!-- Field Status -->
-                <label for="status">Status:</label>
-                <select id="status" name="status" required>
-                    <option value="" disabled selected>...</option>
-                    <option value="disetujui">Disetujui</option>
-                    <option value="ditolak">Ditolak</option>
-                </select>
-                <!-- Field ID (hidden) -->
-                <input type="hidden" id="id_pengajuan" name="id_pengajuan">
-                <!-- Tombol Simpan -->
-                <button type="submit">Simpan</button>
-            </form>
-        </div>
-    </div>
-</main>
-
-<script>
-    // Fungsi untuk membuka modal edit pengajuan
-    async function openModalEditPengajuan(id) {
-        try {
-            // Ambil data pengajuan dari server berdasarkan ID
-            const response = await fetch(/kadep/edit-pengajuan/$,{id});
-            if (!response.ok) {
-                throw new Error('Failed to fetch pengajuan data');
-            }
-            const pengajuanData = await response.json();
-
-            // Debug: Cetak data pengajuan yang diterima dari server
-            console.log('Pengajuan data:', pengajuanData);
-
-            // Isi nilai form edit dengan data pengajuan yang diterima
-            document.getElementById("status").value = pengajuanData.status;
-            document.getElementById("id_pengajuan").value = pengajuanData.id_pengajuan;
-            
-            // Tampilkan modal edit
-            document.getElementById("editPengajuanForm").style.display = "block";
-        } catch (error) {
-            console.error('Error fetching pengajuan data:', error);
-            // Tutup modal edit jika terjadi kesalahan
-            closeModalEditPengajuan();
-        }
-    }
-
-    // Fungsi untuk menutup modal edit pengajuan
-    function closeModalEditPengajuan() {
-        document.getElementById("editPengajuanForm").style.display = "none";
-    }
-</script>
-
+        
 <%- include("../layouts/footer.ejs") %>
