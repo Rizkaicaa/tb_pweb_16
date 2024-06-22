@@ -66,7 +66,28 @@ router.get('/lihataset/:labId',cek('Kepala Departemen'), async (req, res, next) 
     next(error);
   }
 });
+
 router.get('/pengajuan', pengajuanasetController.getAllPengajuanKadep);
-router.post('/pengajuan/update', pengajuanasetController.putPengajuan);
+
+
+// Rute untuk mendapatkan data aset berdasarkan ID (untuk form edit)
+router.get('/edit-pengajuan/:id', cek('Kepala Departemen'), async (req, res, next) => {
+  try {
+    await pengajuanasetController.getEditPengajuan(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+// Rute untuk submit edit aset
+router.post('/pengajuan/update', cek('Kepala Departemen'),  async (req, res, next) => {
+  try {
+    await pengajuanasetController.putPengajuan(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 
 module.exports = router;
