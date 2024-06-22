@@ -7,6 +7,7 @@ const pengadaanController = require('../controller/pengadaan.controller');
 const multer = require('multer');
 const { format } = require('date-fns');
 const pengajuanasetController = require('../controller/pengajuan.controller');
+const riwayatasetController = require('../controller/riwayat.controller');
 
 
 
@@ -142,18 +143,18 @@ router.post('/hapus-pengadaan/:id', authenticateUser, pengadaanController.delete
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuan);
 
+router.get('/perbaikan', pengajuanasetController.getAllPerbaikan);
+router.post('/tambah-perbaikan', pengajuanasetController.postPerbaikan);
+router.post('/hapus-perbaikan/:id_perbaikan', authenticateUser, pengajuanasetController.deletePerbaikan);
+
 router.get('/addpengajuan', pengajuanasetController.getAllAddPengajuan);
+router.get('/cari-aset', dataasetController.getAllDataasetsSearch);
 
 router.post('/tambah', authenticateUser, pengajuanasetController.addPengajuan);
+router.post('/hapus-pengajuan/:id', authenticateUser, pengajuanasetController.deletePengajuan);
 
-
-router.post('/pengajuan/delete/:id', async (req, res, next) => {
-  try {
-    await pengajuanasetController.deletePengajuan(req, res, next);
-  } catch (error) {
-    console.error('Error occurred:', error);
-    next(error);
-  }
-});
+router.get('/riwayat', riwayatasetController.getAllRiwayat);
+router.post('/tambah-riwayat', riwayatasetController.postRiwayat);
+router.post('/hapus-riwayat/:id', authenticateUser, riwayatasetController.deleteRiwayat);
 
 module.exports = router;

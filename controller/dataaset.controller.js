@@ -30,6 +30,27 @@ exports.getAllDataasets = async (req, res, next) => {
     }
 };
 
+exports.getAllDataasetsSearch = async (req, res, next) => {
+    try {
+        let dataasets = ''
+        if (req.query.id_lab != undefined) {
+            dataasets = await Dataaset.findAll({
+                where: { id_lab: req.query.id_lab, id: req.query.id_aset },
+            });
+        } else {
+            dataasets = await Dataaset.findAll();
+        }
+
+        const datalab = await Lab.findAll();
+        const dataasetsearch = await Dataaset.findAll();
+
+        res.render('kalab/dataaset-cari', { title: 'Cari Aset', dataasets, datalab, dataasetsearch });
+    } catch (error) {
+        console.error('Error fetching dataasets:', error);
+        next(error);
+    }
+};
+
 
 
 // Menambah dataaset baru melalui modal

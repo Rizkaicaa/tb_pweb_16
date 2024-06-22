@@ -1,0 +1,157 @@
+<%- include("../layouts/header.ejs") %>
+    <%- include("../layouts/sidebarKalab.ejs") %>
+
+        <!-- ========== MAIN ========== -->
+        <main class="content">
+            <div class="header-content">
+                <h3>Data Perbaikan Aset</h3>
+                <button class="button-tambah" onclick="openModalTambah()">Tambah Perbaikan</button>
+            </div>
+
+            <!-- Notifikasi -->
+            <div id="notification" style="display: none;"></div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Aset</th>
+                        <th>Deskripsi Kerusakan</th>
+                        <th>Jadwal Perbaikan</th>
+                        <th>Status</th>
+                        <th>Aksi</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <% perbaikans.forEach((perbaikan, index)=> { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= perbaikan.nama_aset %>
+                            </td>
+                            <td>
+                                <%= perbaikan.deskripsi %>
+                            </td>
+                            <td>
+                                <%= perbaikan.jadwal %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+
+                                <% if (perbaikan.status==0) { %>
+                                    <span
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white" style="background-color:rgb(245, 178, 9);">
+                                        Menunggu</span>
+                                    <% } else if (perbaikan.status==1) { %>
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium  text-white" style="background-color:rgb(16, 212, 56);">
+                                            Diterima</span>
+                                        <% } else if (perbaikan.status==2) { %>
+                                            <span
+                                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white" style="background-color:rgb(255, 52, 34);">
+                                                Ditolak</span>
+                                            <% } %>
+
+                            </td>
+                            <td>
+                                <div style="display: flex;">
+                                    <form action="/kalab/hapus-perbaikan/<%= perbaikan.id %>" method="post" style="margin-left: 5px;">
+                                        <button class="button-hapus"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus perbaikan ini?')">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+
+
+            <div id="tambahModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModalTambah()">&times;</span>
+                    <h3 class="center-text">Tambah Perbaikan Aset</h3>
+                    <form id="tambahPerbaikanForm" action="/kalab/tambah-perbaikan" method="post">
+                        <div class="form-col">
+                            <div class="form-group form-group-half">
+                                <label for="nama_aset">Nama Aset:</label>
+                                <select id="nama_aset" name="nama_aset" required>
+                                    <option value="" disabled selected>...</option>
+                                    <% dataaset.forEach((aset, index)=> { %>
+                                        <option value="<%= aset.nama_aset %>">
+                                            <%= aset.nama_aset %>
+                                        </option>
+                                        <% }); %>
+                                </select>
+                            </div>
+                            <div class="form-group w-full">
+                                <label for="deskripsi">Deskripsi Kerusakan:</label>
+                                <textarea name="deskripsi" id="deskripsi" class="w-full border border-gray-400" required
+                                    rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="jadwal">Jadwal Perbaikan:</label>
+                                <input type="date" id="jadwal" name="jadwal" required>
+                            </div>
+
+                        </div>
+
+
+                        <button type="submit">Tambah</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+        </main>
+
+        <script>
+
+            function validateTextInput(input) {
+                input.value = input.value.replace(/[^a-zA-Z\s.,]/g, '');
+            }
+
+            function validateNumberInput(input) {
+                input.value = input.value.replace(/[^0-9]/g, '');
+            }
+
+
+            function openModalTambah() {
+                document.getElementById("tambahModal").style.display = "block";
+            }
+
+            function closeModalTambah() {
+                document.getElementById("tambahModal").style.display = "none";
+            }
+
+
+  
+            // Fungsi untuk menampilkan notifikasi
+            function showNotification(message) {
+                const notification = document.getElementById('notification');
+                notification.innerText = message;
+                notification.style.display = 'block';
+                notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
+                notification.style.color = '#721c24'; // Warna teks merah gelap
+                notification.style.padding = '10px';
+                notification.style.margin = '10px 0';
+                notification.style.borderRadius = '5px';
+            }
+
+            // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+
+            // Cek parameter query untuk pesan kesalahan
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get('error');
+            if (errorMessage) {
+                showNotification(errorMessage);
+            }
+        </script>
+
+        <%- include("../layouts/footer.ejs") %>
