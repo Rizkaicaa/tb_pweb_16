@@ -1,0 +1,46 @@
+<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/sidebarKadep.ejs") %>
+
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        <h3>Data Aset <%= nama_lab %></h3>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Aset</th>
+                <th>Kategori</th>
+                <th>Jumlah</th>
+                <th>Spesifikasi</th>
+                <th>Gambar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (dataasets && dataasets.length > 0) { %>
+                <% dataasets.forEach((dataaset, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= dataaset.nama_aset %></td>
+                    <td><%= dataaset.jenis_aset %></td>
+                    <td><%= dataaset.jumlah %></td>
+                    <td><%= dataaset.spesifikasi %></td>
+                    <td><a href="/uploads/<%= dataaset.foto %>" target="_blank" style="color: blue;"><%= dataaset.nama_aset %></a></td>
+                </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6">Tidak ada data aset untuk lab ini</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 20px;">
+        <a href="/kadep/dataaset" class="button-lihat">Lihat Aset Lab Lain</a>
+    </div>
+</main>
+
+<%- include("../layouts/footer.ejs") %>

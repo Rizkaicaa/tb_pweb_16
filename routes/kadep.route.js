@@ -4,6 +4,7 @@ const cek = require('../middleware/checktokenandrole');
 const {getUser} = require('../controller/auth.controller');
 const {editProfil} = require('../controller/auth.controller');
 const labController = require('../controller/lab.controller');
+const pengadaanController = require('../controller/pengadaan.controller');
 
 router.get('/dashboard', cek('Kepala Departemen'), async function (req, res, next) {
   try {
@@ -38,7 +39,7 @@ router.post('/edit-profil', cek('Kepala Departemen'), async (req, res,next)=> {
 })
 
 // Rute untuk menampilkan daftar laboratorium
-router.get('/lab', async (req, res, next) => {
+router.get('/lab', cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await labController.getAllLabsKadep(req, res, next);
   } catch (error) {
@@ -47,9 +48,19 @@ router.get('/lab', async (req, res, next) => {
   }
 });
 
-router.get('/dataaset', async (req, res, next) => {
+router.get('/dataaset', cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await labController.getAllLabsAsetKadep(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+// Rute untuk menampilkan aset dari lab tertentu
+router.get('/lihataset/:labId',cek('Kepala Departemen'), async (req, res, next) => {
+  try {
+    await labController.getDataasetsByLabId(req, res, next);
   } catch (error) {
     console.error('Error occurred:', error);
     next(error);

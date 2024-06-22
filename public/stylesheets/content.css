@@ -210,8 +210,18 @@ button[type="submitedit"] {
     width: 100%;
 }
 
-.button-edit, .button-lihat{
+.button-edit{
     background-color: #4CAF50; 
+    color: white; 
+    border: none; 
+    padding: 8px 16px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    margin-right: 8px; 
+}
+
+.button-lihat{
+    background-color: #e6602b; 
     color: white; 
     border: none; 
     padding: 8px 16px; 

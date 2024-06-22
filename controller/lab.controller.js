@@ -1,4 +1,4 @@
-const { Lab, User } = require('../models');
+const { Lab, User, Dataaset } = require('../models');
 const { Op } = require('sequelize');
 
 
@@ -39,6 +39,36 @@ exports.getAllLabsAsetKadep = async (req, res, next) => {
     next(error);
   }
 };
+
+// Mendapatkan dataaset untuk lab tertentu
+exports.getDataasetsByLabId = async (req, res, next) => {
+  try {
+      const labId = req.params.labId; // Ambil ID lab dari parameter URL
+      console.log('Lab ID:', labId);
+
+      const lab = await Lab.findOne({ where: { id: labId } });
+
+      if (!lab) {
+          console.error('Lab not found');
+          return res.status(404).json({ error: 'Lab tidak ditemukan' });
+      }
+
+      const nama_lab = lab.nama_lab; // Ambil nama_lab dari lab yang ditemukan
+      console.log('Nama Lab:', nama_lab);
+
+      const dataasets = await Dataaset.findAll({
+          where: { id_lab: labId }, // Filter dataaset berdasarkan ID lab
+      });
+
+      console.log('Dataasets:', dataasets); // Log dataaset untuk memastikan data diambil
+
+      res.render('kadep/lihataset', { title: 'Aset Laboratorium', nama_lab: nama_lab, dataasets: dataasets });
+  } catch (error) {
+      console.error('Error fetching dataasets:', error);
+      next(error);
+  }
+};
+
 // Menambah laboratorium baru melalui modal
 exports.addLab = async (req, res) => {
   try {
@@ -129,7 +159,7 @@ exports.editLab = async (req, res, next) => {
     // Lakukan pengeditan laboratorium dengan menggunakan model Lab
     const lab = await Lab.findByPk(labId);
     if (!lab) {
-      return res.status(404).send('Lab not found');
+      return res.status(404).send('Lab tidak ditemukan');
     }
 
     // Update the lab details including id_user
@@ -148,9 +178,6 @@ exports.editLab = async (req, res, next) => {
     next(error);
   }
 };
-
-
-
 
 // Menghapus laboratorium
 exports.deleteLab = async (req, res, next) => {
