@@ -90,8 +90,8 @@ router.get('/edit-perbaikan/:id', cek('Kepala Departemen'), async (req, res, nex
 });
 
 
-// Rute untuk submit edit aset
-router.post('/pengajuan/update', cek('Kepala Departemen'),  async (req, res, next) => {
+
+router.post('/pengajuan', cek('Kepala Departemen'),  async (req, res, next) => {
   try {
     await pengajuanasetController.putPengajuan(req, res, next);
   } catch (error) {
