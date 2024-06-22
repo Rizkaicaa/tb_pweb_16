@@ -1,117 +1,99 @@
-<%- include("../layouts/header.ejs" )%>
-    <%- include("../layouts/sidebarKalab.ejs") %>
+<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/sidebarKadep.ejs") %>
 
-        <!-- ========== MAIN ========== -->
-        <main class="content">
-            <div class="header-content">
-                <h3>Daftar Pengajuan Pembelian Aset</h3>
-            </div>
+<!-- ========== MAIN ========== -->
+<main class="content">
+    <div class="header-content">
+        <h3>Daftar Pengajuan Pembelian Aset</h3>
+    </div>
 
-            <div class="header-content">
-                <p>Ket: Harga yang digunakan masih bersifat perkiraan, belum harga tetap.</p>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Aset</th>
-                        <th>Jumlah</th>
-                        <th>Harga</th>
-                        <th>Total Harga</th>
-                        <th>Tujuan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% pengajuans.forEach((pengajuan, index)=> { %>
-                        <tr>
-                            <td>
-                                <%= index + 1 %>
-                            </td>
-                            <td>
-                                <%= pengajuan.nama_aset %>
-                            </td>
-                            <td>
-                                <%= pengajuan.jumlah %>
-                            </td>
-                            <td>
-                                <%= pengajuan.harga %>
-                            </td>
-                            <td>
-                                <%= pengajuan.total_harga %>
-                            </td>
-                            <td>
-                                <%= pengajuan.tujuan %>
-                            </td>
-                            <td>
-                                <div style="display: inline-block;">
-                                    <button class="button-edit"
-                                        onclick="openModalEdit('<%= pengajuan.id_pengajuan %>')">Edit</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <% }); %>
-                </tbody>
-            </table>
-
-            <div id="editModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModalEdit()">&times;</span>
-                    <h3 class="center-text">Persetujuan pengajuan</h3>
-                    <form id="editPengajuanForm" action="/kadep/pengajuan/update" method="post">
-                       
-                        <div class="form-col">
-                            <div class="form-group form-group-half" style="display: flex; flex-direction: column;">
-                                <input type="text" id="id" name="id" style="display: none;" />
-                                <label for="status">Status:</label>
-                                <select id="status" name="status" required>
-                                    <option value="" disabled selected>...</option>
-                                    <option value="Diterima">disetujui</option>
-                                    <option value="Ditolak">ditolak</option>
-                                </select>
-                            </div>
+    <div class="header-content">
+        <p>Ket: Harga yang digunakan masih bersifat perkiraan, belum harga tetap.</p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Aset</th>
+                <th>Jumlah</th>
+                <th>Harga</th>
+                <th>Total Harga</th>
+                <th>Tujuan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% pengajuans.forEach((pengajuan, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= pengajuan.nama_aset %></td>
+                    <td><%= pengajuan.jumlah %></td>
+                    <td><%= pengajuan.harga %></td>
+                    <td><%= pengajuan.total_harga %></td>
+                    <td><%= pengajuan.tujuan %></td>
+                    <td><%= pengajuan.status %></td>
+                    <td>
+                        <div style="display: inline-block;">
+                            <button class="button-edit" onclick="openModalEditPengajuan('<%= pengajuan.id_pengajuan %>')">Edit</button>
                         </div>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <!-- Form Edit -->
+            <form id="editPengajuanForm" action="/kadep/pengajuan/update" method="post">
+                <!-- Field Status -->
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="" disabled selected>...</option>
+                    <option value="disetujui">Disetujui</option>
+                    <option value="ditolak">Ditolak</option>
+                </select>
+                <!-- Field ID (hidden) -->
+                <input type="hidden" id="id_pengajuan" name="id_pengajuan">
+                <!-- Tombol Simpan -->
+                <button type="submit">Simpan</button>
+            </form>
+        </div>
+    </div>
+</main>
 
+<script>
+    // Fungsi untuk membuka modal edit pengajuan
+    async function openModalEditPengajuan(id) {
+        try {
+            // Ambil data pengajuan dari server berdasarkan ID
+            const response = await fetch(`/kadep/edit-pengajuan/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch pengajuan data');
+            }
+            const pengajuanData = await response.json();
 
-                        <button type="submit">Simpan</button>
-                    </form>
-                </div>
-            </div>
+            // Debug: Cetak data pengajuan yang diterima dari server
+            console.log('Pengajuan data:', pengajuanData);
 
-            <script>
-
-
-
-                async function openModalEdit(id) {
-                    
-                    document.getElementById("editModal").style.display = "block";
-
-                    try {
-                        
-                        const response = await fetch(`/kadep/pengajuan/edit/${id}`);
-                        if (!response.ok) {
-                            throw new Error('Failed to fetch akun kalab data');
-                        }
-                        const userData = await response.json();
-
-                        
-                        console.log('User data:', userData);
-
-                       
-                        document.getElementById("editPengajuanForm").value = userData.status;
-                        document.getElementById("id").value = userData.id_pengajuan;
-
-                    } catch (error) {
-                        console.error('Error fetching user data:', error);
-                        
-                    }
-                }
-
+            // Isi nilai form edit dengan data pengajuan yang diterima
+            document.getElementById("status").value = pengajuanData.status;
+            document.getElementById("id_pengajuan").value = pengajuanData.id_pengajuan;
             
-                function closeModalEdit() {
-                    document.getElementById("editModal").style.display = "none";
-                }
+            // Tampilkan modal edit
+            document.getElementById("editModal").style.display = "block";
+        } catch (error) {
+            console.error('Error fetching pengajuan data:', error);
+            // Tutup modal edit jika terjadi kesalahan
+            closeModalEditPengajuan();
+        }
+    }
 
-            </script>
-            <%- include("../layouts/footer.ejs") %>
+    // Fungsi untuk menutup modal edit pengajuan
+    function closeModalEditPengajuan() {
+        document.getElementById("editModal").style.display = "none";
+    }
+</script>
+
+<%- include("../layouts/footer.ejs") %>
