@@ -80,6 +80,16 @@ router.get('/edit-pengajuan/:id', cek('Kepala Departemen'), async (req, res, nex
   }
 });
 
+router.get('/edit-perbaikan/:id', cek('Kepala Departemen'), async (req, res, next) => {
+  try {
+    await pengajuanasetController.getEditPerbaikan(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+
 // Rute untuk submit edit aset
 router.post('/pengajuan/update', cek('Kepala Departemen'),  async (req, res, next) => {
   try {
@@ -89,5 +99,16 @@ router.post('/pengajuan/update', cek('Kepala Departemen'),  async (req, res, nex
     next(error);
   }
 });
+
+router.post('/perbaikan/update', cek('Kepala Departemen'),  async (req, res, next) => {
+  try {
+    await pengajuanasetController.putPerbaikan(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+router.get('/perbaikan', pengajuanasetController.getAllPerbaikanKadep);
 
 module.exports = router;

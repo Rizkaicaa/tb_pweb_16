@@ -22,6 +22,14 @@ exports.getAllPengajuanKadep = async (req, res, next) => {
     res.render('kadep/pengajuan', { title: 'Pengajuan Pembelian', pengajuans });
 };
 
+exports.getAllPerbaikanKadep = async (req, res, next) => {
+    console.log('Fetching all perbaikans');
+    const perbaikans = await Perbaikan.findAll();
+    console.log('Labs fetched:', perbaikans);
+    res.render('kadep/perbaikan', { title: 'Pengajuan Perbaikan', perbaikans });
+};
+
+
 exports.getAllPerbaikan = async (req, res, next) => {
     //console.log('Fetching all pengajuans');
     let perbaikans = await Perbaikan.findAll();
@@ -68,6 +76,25 @@ exports.getEditPengajuan = async (req, res, next) => {
     }
 };
 
+exports.getEditPerbaikan = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const perbaikan = await Perbaikan.findByPk(id);
+
+        if (!perbaikan) {
+            return res.status(404).json({ error: 'Perbaikan not found' });
+        }
+
+        res.status(200).json(perbaikan);
+    } catch (error) {
+        console.error('Error fetching perbaikan data:', error);
+        res.status(500).json({ error: 'Failed to fetch perbaikan data' });
+    }
+};
+
+
+
+
 // Controller untuk memperbarui status pengajuan
 exports.putPengajuan = async (req, res, next) => {
     try {
@@ -93,7 +120,29 @@ exports.putPengajuan = async (req, res, next) => {
     }
 };
 
+exports.putPerbaikan = async (req, res, next) => {
+    try {
+        const { id_perbaikan, status } = req.body;
 
+        if (!id_perbaikan || !status) {
+            return res.status(400).json({ error: 'Missing ID or Status' });
+        }
+
+        const perbaikan = await Perbaikan.findByPk(id_perbaikan);
+
+        if (!perbaikan) {
+            return res.status(404).json({ error: 'Perbaikan not found' });
+        }
+
+        perbaikan.status = status;
+        await perbaikan.save();
+
+        res.redirect('/kadep/perbaikan'); // Redirect setelah berhasil menyimpan perubahan
+    } catch (error) {
+        console.error('Error updating perbaikan:', error);
+        res.status(500).json({ error: 'Failed to update perbaikan' });
+    }
+};
 
 exports.getAllAddPengajuan = async (req, res, next) => {
     res.render('kalab/addpengajuan', {title: 'Tambah Data Pengajuan Aset'});
