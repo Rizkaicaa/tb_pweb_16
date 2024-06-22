@@ -1,13 +1,15 @@
-<%- include("../layouts/header.ejs", { title: title }) %>
+<%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarKalab.ejs") %>
 
 <!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
-        <h3>Data Pengadaan Aset <%= nama_lab %></h3>
+        <h3>Data Pengadaan Aset </h3>
         <button class="button-tambah" onclick="openModalTambah()">Tambah Aset</button>
     </div>
-
+    <div class="header-content">
+        <p>Pengadaan Aset hanya dapat dilakukan apabila pengajuan pembelian telah disetujui oleh Kepala Departemen </p>
+    </div>
     <!-- Notifikasi -->
     <div id="notification" style="display: none;"></div>
 

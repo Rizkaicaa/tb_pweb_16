@@ -1,4 +1,4 @@
-const { Pengajuan, Pengadaan } = require('../models');
+const { Pengajuan, Pengadaan, Lab } = require('../models');
 
 exports.addPengadaan = async (req, res, next) => {
     try {

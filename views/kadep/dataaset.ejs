@@ -1,4 +1,3 @@
-
 <%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarKadep.ejs") %>
 
@@ -23,15 +22,13 @@
                 <td><%= lab.nama_lab %></td>
                 <td>
                     <div style="display: inline-block;">
-                        <button class="button-lihat" href="/kalab/dataaset"> Lihat Aset</button>
+                        <a class="button-lihat" href="/kadep/lihataset/<%= lab.id %>">Lihat Aset</a>
                     </div>
                 </td>
-                
             </tr>
             <% }); %>
         </tbody>
     </table>
-
 </main>
 
 <%- include("../layouts/footer.ejs") %>

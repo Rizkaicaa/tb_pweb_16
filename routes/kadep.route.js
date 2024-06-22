@@ -39,7 +39,7 @@ router.post('/edit-profil', cek('Kepala Departemen'), async (req, res,next)=> {
 })
 
 // Rute untuk menampilkan daftar laboratorium
-router.get('/lab', async (req, res, next) => {
+router.get('/lab', cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await labController.getAllLabsKadep(req, res, next);
   } catch (error) {
@@ -48,7 +48,7 @@ router.get('/lab', async (req, res, next) => {
   }
 });
 
-router.get('/dataaset', async (req, res, next) => {
+router.get('/dataaset', cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await labController.getAllLabsAsetKadep(req, res, next);
   } catch (error) {
@@ -57,6 +57,15 @@ router.get('/dataaset', async (req, res, next) => {
   }
 });
 
+// Rute untuk menampilkan aset dari lab tertentu
+router.get('/lihataset/:labId',cek('Kepala Departemen'), async (req, res, next) => {
+  try {
+    await labController.getDataasetsByLabId(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
 router.get('/pengajuan', pengajuanasetController.getAllPengajuanKadep);
 router.post('/pengajuan/update', pengajuanasetController.putPengajuan);
 

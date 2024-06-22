@@ -38,13 +38,13 @@ if (existingUser) {
 // Cek apakah NIP sudah ada di database
 existingUser = await User.findOne({ where: { nip } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=NIP sudah ada');
+    return res.redirect('/admin/akunKalab?error=NIP sudah terdaftar pada lab lain');
 }
 
 // Cek apakah nama sudah ada di database
 existingUser = await User.findOne({ where: { nama } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Nama Kepala Lab sama dengan lab lain');
+    return res.redirect('/admin/akunKalab?error=Gagal, Nama Kepala Lab sudah terdaftar di Lab lain');
 }
 
 // Cek apakah no_hp sudah ada di database

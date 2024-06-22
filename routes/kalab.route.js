@@ -106,6 +106,37 @@ router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (
     res.redirect('/kalab/dataaset?error=Failed to add dataaset');
   }
 });
+
+// Rute untuk mendapatkan data aset berdasarkan ID (untuk form edit)
+router.get('/edit-dataaset/:id', authenticateUser, async (req, res, next) => {
+  try {
+    await dataasetController.getEditDataaset(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+// Rute untuk submit edit aset
+router.post('/edit-dataaset/:id', authenticateUser, upload.single('fotoAset'), async (req, res, next) => {
+  try {
+    await dataasetController.editDataaset(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
+// Rute untuk menghapus aset
+router.post('/dataaset/delete/:id', authenticateUser, async (req, res, next) => {
+  try {
+    await dataasetController.deleteDataaset(req, res, next);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    next(error);
+  }
+});
+
 router.get('/pengadaan', authenticateUser, pengadaanController.getAllPengadaanKalab);
 router.post('/tambah-pengadaan', authenticateUser, upload.single('bukti'), pengadaanController.addPengadaan);
 router.post('/hapus-pengadaan/:id', authenticateUser, pengadaanController.deletePengadaan);
