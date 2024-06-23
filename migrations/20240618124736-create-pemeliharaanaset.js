@@ -13,8 +13,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Dataasets', // Nama tabel yang direferensikan
-          key: 'id'           // Kolom yang direferensikan dalam tabel tersebut
+          model: 'Dataasets', 
+          key: 'id'           
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'

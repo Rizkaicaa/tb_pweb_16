@@ -1,7 +1,6 @@
 <%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarKadep.ejs") %>
 
-<!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
         <h3>Daftar Perbaikan Aset</h3>
@@ -48,18 +47,14 @@
 
     <div id="editModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <!-- Form Edit -->
             <form id="editPerbaikanForm" action="/kadep/perbaikan/update" method="post">
-                <!-- Field Status -->
                 <label for="status">Status:</label>
                 <select id="status" name="status" required>
                     <option value="" disabled selected>...</option>
                     <option value="1">Disetujui</option>
                     <option value="2">Ditolak</option>
                 </select>
-                <!-- Field ID (hidden) -->
                 <input type="hidden" id="id_perbaikan" name="id_perbaikan">
-                <!-- Tombol Simpan -->
                 <button type="submit">Simpan</button>
             </form>
         </div>
@@ -67,33 +62,23 @@
 </main>
 
 <script>
-    // Fungsi untuk membuka modal edit perbaikan
     async function openModalEditPerbaikan(id) {
         try {
-            // Ambil data perbaikan dari server berdasarkan ID
             const response = await fetch(`/kadep/edit-perbaikan/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch perbaikan data');
             }
             const perbaikanData = await response.json();
-
-            // Debug: Cetak data perbaikan yang diterima dari server
             console.log('Perbaikan data:', perbaikanData);
-
-            // Isi nilai form edit dengan data perbaikan yang diterima
             document.getElementById("status").value = perbaikanData.status;
             document.getElementById("id_perbaikan").value = perbaikanData.id_perbaikan;
-            
-            // Tampilkan modal edit
             document.getElementById("editModal").style.display = "block";
         } catch (error) {
             console.error('Error fetching perbaikan data:', error);
-            // Tutup modal edit jika terjadi kesalahan
             closeModalEditPerbaikan();
         }
     }
 
-    // Fungsi untuk menutup modal edit perbaikan
     function closeModalEditPerbaikan() {
         document.getElementById("editModal").style.display = "none";
     }

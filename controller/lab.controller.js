@@ -40,10 +40,9 @@ exports.getAllLabsAsetKadep = async (req, res, next) => {
   }
 };
 
-// Mendapatkan dataaset untuk lab tertentu
 exports.getDataasetsByLabId = async (req, res, next) => {
   try {
-      const labId = req.params.labId; // Ambil ID lab dari parameter URL
+      const labId = req.params.labId; 
       console.log('Lab ID:', labId);
 
       const lab = await Lab.findOne({ where: { id: labId } });
@@ -53,15 +52,14 @@ exports.getDataasetsByLabId = async (req, res, next) => {
           return res.status(404).json({ error: 'Lab tidak ditemukan' });
       }
 
-      const nama_lab = lab.nama_lab; // Ambil nama_lab dari lab yang ditemukan
+      const nama_lab = lab.nama_lab; 
       console.log('Nama Lab:', nama_lab);
 
       const dataasets = await Dataaset.findAll({
-          where: { id_lab: labId }, // Filter dataaset berdasarkan ID lab
+          where: { id_lab: labId }, 
       });
 
-      console.log('Dataasets:', dataasets); // Log dataaset untuk memastikan data diambil
-
+      console.log('Dataasets:', dataasets); 
       res.render('kadep/lihataset', { title: 'Aset Laboratorium', nama_lab: nama_lab, dataasets: dataasets });
   } catch (error) {
       console.error('Error fetching dataasets:', error);
@@ -69,12 +67,10 @@ exports.getDataasetsByLabId = async (req, res, next) => {
   }
 };
 
-// Menambah laboratorium baru melalui modal
 exports.addLab = async (req, res) => {
   try {
     const { namaLab, kepalaLab, namaKordas, jumlahAsisten } = req.body;
 
-    // Cek apakah sudah ada lab dengan nama_lab yang sama
     const existingLab = await Lab.findOne({ where: { nama_lab: namaLab } });
 
     const kepalaLabUser = await User.findOne({ where: { nama: kepalaLab } });
@@ -84,19 +80,16 @@ exports.addLab = async (req, res) => {
       return res.redirect('/admin/lab?error=Gagal, nama lab sudah ada');
     }
 
-    // Cek apakah sudah ada lab dengan nama_kepala yang sama
     const existingKepalaLab = await Lab.findOne({ where: { nama_kepala: kepalaLab } });
     if (existingKepalaLab) {
       return res.redirect('/admin/lab?error=Nama kepala lab sudah ada');
     }
 
-    // Cek apakah sudah ada lab dengan nama_kordas yang sama
     const existingNamaKordas = await Lab.findOne({ where: { nama_kordas: namaKordas } });
     if (existingNamaKordas) {
       return res.redirect('/admin/lab?error=Nama kordas sudah ada');
     }
 
-    // Jika semua pengecekan lolos, buat lab baru
     await Lab.create({
       nama_lab: namaLab,
       nama_kepala: kepalaLab,
@@ -105,42 +98,37 @@ exports.addLab = async (req, res) => {
       id_user: id_user
     });
 
-    res.redirect('/admin/lab'); // Pengalihan ke halaman admin/lab setelah berhasil
+    res.redirect('/admin/lab'); 
   } catch (error) {
     console.error('Error adding lab:', error);
     res.redirect('/admin/lab?error=Failed to add lab');
   }
 };
 
-
-// Menampilkan form untuk mengedit laboratorium
 exports.getEditLab = async (req, res, next) => {
   try {
     const lab = await Lab.findByPk(req.params.id);
     if (!lab) {
       return res.status(404).json({ error: 'Lab not found' });
     }
-    res.json(lab); // Mengirim data laboratorium dalam format JSON
+    res.json(lab); 
   } catch (error) {
     console.error('Error fetching lab data:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-// Mengedit laboratorium
 exports.editLab = async (req, res, next) => {
   try {
     const { namaLab, kepalaLab, namaKordas, jumlahAsisten } = req.body;
     const labId = req.params.id;
 
-    // Fetch the ID of the selected kepalaLab
     const kepalaLabUser = await User.findOne({ where: { nama: kepalaLab } });
     if (!kepalaLabUser) {
       return res.redirect(`/admin/lab?error=Kepala lab not found`);
     }
     const id_user = kepalaLabUser.id;
 
-    // Lakukan validasi data yang diterima dari formulir edit
     const existingLab = await Lab.findOne({ where: { [Op.and]: [{ id: { [Op.ne]: labId } }, { nama_lab: namaLab }] } });
     if (existingLab) {
       return res.redirect(`/admin/lab?error=Nama lab sudah ada`);
@@ -156,22 +144,18 @@ exports.editLab = async (req, res, next) => {
       return res.redirect(`/admin/lab?error=Nama kordas sudah ada`);
     }
 
-    // Lakukan pengeditan laboratorium dengan menggunakan model Lab
     const lab = await Lab.findByPk(labId);
     if (!lab) {
       return res.status(404).send('Lab tidak ditemukan');
     }
 
-    // Update the lab details including id_user
     lab.nama_lab = namaLab;
     lab.nama_kepala = kepalaLab;
-    lab.id_user = id_user; // Update the id_user column
+    lab.id_user = id_user; 
     lab.nama_kordas = namaKordas;
     lab.jumlah_aslab = jumlahAsisten;
 
     await lab.save();
-    
-    // Redirect kembali ke halaman daftar laboratorium setelah berhasil mengedit
     res.redirect('/admin/lab');
   } catch (error) {
     console.error('Error editing lab:', error);
@@ -179,7 +163,6 @@ exports.editLab = async (req, res, next) => {
   }
 };
 
-// Menghapus laboratorium
 exports.deleteLab = async (req, res, next) => {
   try {
     const lab = await Lab.findByPk(req.params.id);
@@ -187,7 +170,7 @@ exports.deleteLab = async (req, res, next) => {
       return res.status(404).send('Lab not found');
     }
     await lab.destroy();
-    res.redirect('/admin/lab'); // Redirect kembali ke halaman daftar laboratorium setelah berhasil menghapus
+    res.redirect('/admin/lab'); 
   } catch (error) {
     next(error);
   }

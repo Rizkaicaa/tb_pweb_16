@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
-        unique: true,  // Ensure one-to-one relationship
+        unique: true,  
       },
       id: {
         type: DataTypes.INTEGER,

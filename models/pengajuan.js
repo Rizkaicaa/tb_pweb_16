@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     id_pengajuan: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      unique: true  // Ensure unique constraint
+      unique: true  
     },
     id_lab: {
       type: DataTypes.INTEGER,

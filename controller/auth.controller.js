@@ -111,25 +111,21 @@ const editProfil = async (req, res) => {
   const { newName, newEmail, newHp } = req.body;
 
   try {
-    // Pastikan req.userId sudah di-set dengan benar oleh middleware cek
     if (!req.userId) {
       return res.status(401).json({ message: "Pengguna tidak terotentikasi" });
     }
 
-    // Gunakan req.userId untuk mencari data pengguna yang akan di-edit
     const user = await User.findByPk(req.userId);
     if (!user) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
 
-    // Lakukan pembaruan data pengguna
     await user.update({
       nama: newName,
       email: newEmail,
       no_hp: newHp
     });
 
-    // Redirect ke halaman profil setelah berhasil melakukan pembaruan
     return res.redirect('/admin/profil');
   } catch (error) {
     console.error('Error during profile editing:', error);

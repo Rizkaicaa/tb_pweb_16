@@ -1,14 +1,12 @@
 <%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarKalab.ejs") %>
 
-    <!-- ========== MAIN ========== -->
     <main class="content">
         <div class="header-content">
             <h3>Data Aset <%= nama_lab %></h3>
             <button class="button-tambah" onclick="openModalTambah()">Tambah Aset</button>
         </div>
 
-        <!-- Notifikasi -->
         <div id="notification" style="display: none;"></div>
 
         <table>
@@ -45,13 +43,12 @@
             </tbody>
         </table>
 
-        <!-- The Modal untuk Tambah Data Aset -->
         <div id="tambahModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close" onclick="closeModalTambah()">&times;</span>
                 <h3 class="center-text">Tambah Data Aset Baru</h3>
                 <form id="tambahDataasetForm" action="/kalab/tambah-dataaset" method="post" enctype="multipart/form-data">
-                    <!-- Form tambah data aset -->
+
                     <div class="form-group">
                         <label for="namaAset">Nama Aset:</label>
                         <input type="text" id="namaAset" name="namaAset" required>
@@ -82,13 +79,12 @@
             </div>
         </div>
 
-        <!-- The Modal untuk Edit Data Aset -->
         <div id="editModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close" onclick="closeModalEdit()">&times;</span>
                 <h3 class="center-text">Edit Data Aset</h3>
                 <form id="editDataasetForm" action="/kalab/edit-dataaset" method="post" enctype="multipart/form-data">
-                    <!-- Form edit data aset -->
+
                     <div class="form-group">
                         <label for="editNamaAset">Nama Aset:</label>
                         <input type="text" id="editNamaAset" name="namaAset" required>
@@ -125,37 +121,24 @@
     <%- include("../layouts/footer.ejs") %>
 
     <script>
-        // Fungsi untuk membuka modal tambah data aset
         function openModalTambah() {
             document.getElementById("tambahModal").style.display = "block";
         }
-
-        // Fungsi untuk menutup modal tambah data aset
         function closeModalTambah() {
             document.getElementById("tambahModal").style.display = "none";
         }
-
-        // Fungsi untuk membuka modal edit data aset dengan menampilkan data yang sesuai
-        // Fungsi untuk membuka modal edit data aset dengan menampilkan data yang sesuai
         async function openModalEdit(id) {
         try {
-            // Fetch the dataaset data
             const response = await fetch(`/kalab/edit-dataaset/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch dataaset data');
             }
             const dataasetData = await response.json();
-
-            // Debug: Log the data received from the server
             console.log('Dataaset data:', dataasetData);
-
-            // Populate the form fields with the dataaset data
             document.getElementById("editNamaAset").value = dataasetData.nama_aset;
             document.getElementById("editKategori").value = dataasetData.jenis_aset;
             document.getElementById("editJumlah").value = dataasetData.jumlah;
             document.getElementById("editSpesifikasi").value = dataasetData.spesifikasi;
-            // Since "editFoto" is a file input, it should not be set this way. Handle file input separately if needed.
-            // Display the current photo filename as a link and set the hidden input
             const photoLink = document.createElement('a');
             photoLink.href = `/uploads/${dataasetData.foto}`;
             photoLink.target = '_blank';
@@ -163,17 +146,12 @@
             photoLink.style.color = 'blue';
             
             const editFotoFilenameSpan = document.getElementById("editFotoFilename");
-            editFotoFilenameSpan.innerHTML = ''; // Clear any previous content
+            editFotoFilenameSpan.innerHTML = '';
             editFotoFilenameSpan.appendChild(photoLink);
-
-            // Set the form action to the correct endpoint
             document.getElementById("editDataasetForm").setAttribute("action", `/kalab/edit-dataaset/${id}`);
-
-            // Show the modal
             document.getElementById("editModal").style.display = "block";
         } catch (error) {
             console.error('Error fetching dataaset data:', error);
-            // Show notification if there's an error
             showNotification('Error fetching dataaset data: ' + error.message);
             closeModalEdit();
         }
@@ -183,20 +161,17 @@
             document.getElementById("editModal").style.display = "none";
         }
 
-
-        // Fungsi untuk menampilkan notifikasi
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.innerText = message;
             notification.style.display = 'block';
-            notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
-            notification.style.color = '#721c24'; // Warna teks merah gelap
+            notification.style.backgroundColor = '#f8d7da'; 
+            notification.style.color = '#721c24'; 
             notification.style.padding = '10px';
             notification.style.margin = '10px 0';
             notification.style.borderRadius = '5px';
         }
 
-        // Cek parameter query untuk pesan kesalahan
         const urlParams = new URLSearchParams(window.location.search);
         const errorMessage = urlParams.get('error');
         if (errorMessage) {

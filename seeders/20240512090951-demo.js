@@ -23,7 +23,7 @@ module.exports = {
           jenis_kelamin: 'Laki-Laki',
           no_hp: '0812312353',
           alamat: 'Padang',
-          tanggal_lahir: '1988-10-20', // Sample date of birth
+          tanggal_lahir: '1988-10-20', 
           createdAt: new Date(),
           updatedAt: new Date()
         }

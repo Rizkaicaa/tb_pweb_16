@@ -14,7 +14,6 @@ router.get("/ubahPassword", function (req, res, next) {
 
 
 router.post('/changePassword', checktokenandrole(), async (req, res, next) => {
-    // Panggil fungsi changePassword dengan req, res, dan next
     await changePassword(req, res);
 });
 

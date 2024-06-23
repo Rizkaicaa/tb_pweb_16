@@ -11,7 +11,7 @@ function checktokenandrole(role) {
 
     jwt.verify(token, 'yangtautauaja', function(err, decoded) {
       if (err) {
-        return res.redirect('/auth/login'); // Redirect the user to the login page
+        return res.redirect('/auth/login'); 
       }
 
       req.userId = decoded.id;

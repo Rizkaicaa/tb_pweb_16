@@ -31,7 +31,6 @@ exports.getAllPerbaikanKadep = async (req, res, next) => {
 
 
 exports.getAllPerbaikan = async (req, res, next) => {
-    //console.log('Fetching all pengajuans');
     let perbaikans = await Perbaikan.findAll();
     perbaikans = perbaikans.map(t => ({
         ...t.toJSON(),
@@ -59,7 +58,6 @@ exports.postPerbaikan = async (req, res) => {
     }
 };
 
-// Controller untuk mendapatkan data pengajuan berdasarkan ID
 exports.getEditPengajuan = async (req, res, next) => {
     try {
         const { id } = req.params;

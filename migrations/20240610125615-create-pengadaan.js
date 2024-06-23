@@ -14,7 +14,7 @@ module.exports = {
         allowNull: false,
         unique: true, 
         references: {
-          model: 'Pengajuans', // Nama tabel yang dirujuk
+          model: 'Pengajuans', 
           key: 'id_pengajuan'
         },
         onUpdate: 'CASCADE',

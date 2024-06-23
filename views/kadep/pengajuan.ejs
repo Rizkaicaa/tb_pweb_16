@@ -1,7 +1,6 @@
 <%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarKadep.ejs") %>
 
-<!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
         <h3>Daftar Pengajuan Pembelian Aset</h3>
@@ -45,18 +44,14 @@
 
     <div id="editModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <!-- Form Edit -->
             <form id="editPengajuanForm" action="/kadep/pengajuan" method="post">
-                <!-- Field Status -->
                 <label for="status">Status:</label>
                 <select id="status" name="status" required>
                     <option value="" disabled selected>...</option>
                     <option value="disetujui">Disetujui</option>
                     <option value="ditolak">Ditolak</option>
                 </select>
-                <!-- Field ID (hidden) -->
                 <input type="hidden" id="id_pengajuan" name="id_pengajuan">
-                <!-- Tombol Simpan -->
                 <button type="submit">Simpan</button>
             </form>
         </div>
@@ -64,33 +59,22 @@
 </main>
 
 <script>
-    // Fungsi untuk membuka modal edit pengajuan
     async function openModalEditPengajuan(id) {
         try {
-            // Ambil data pengajuan dari server berdasarkan ID
             const response = await fetch(`/kadep/edit-pengajuan/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch pengajuan data');
             }
             const pengajuanData = await response.json();
-
-            // Debug: Cetak data pengajuan yang diterima dari server
             console.log('Pengajuan data:', pengajuanData);
-
-            // Isi nilai form edit dengan data pengajuan yang diterima
             document.getElementById("status").value = pengajuanData.status;
             document.getElementById("id_pengajuan").value = pengajuanData.id_pengajuan;
-            
-            // Tampilkan modal edit
             document.getElementById("editModal").style.display = "block";
         } catch (error) {
             console.error('Error fetching pengajuan data:', error);
-            // Tutup modal edit jika terjadi kesalahan
             closeModalEditPengajuan();
         }
     }
-
-    // Fungsi untuk menutup modal edit pengajuan
     function closeModalEditPengajuan() {
         document.getElementById("editModal").style.display = "none";
     }

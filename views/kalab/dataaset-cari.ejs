@@ -1,7 +1,6 @@
 <%- include("../layouts/header.ejs") %>
     <%- include("../layouts/sidebarKalab.ejs") %>
 
-        <!-- ========== MAIN ========== -->
         <main class="content">
             <div class="header-content">
                 <h3>Data Aset</h3>
@@ -36,7 +35,6 @@
 
             </div>
 
-            <!-- Notifikasi -->
             <div id="notification" style="display: none;"></div>
 
             <table>
@@ -83,14 +81,13 @@
                 </tbody>
             </table>
 
-            <!-- The Modal untuk Tambah Data Aset -->
             <div id="tambahModal" class="modal" style="display: none;">
                 <div class="modal-content">
                     <span class="close" onclick="closeModalTambah()">&times;</span>
                     <h3 class="center-text">Tambah Data Aset Baru</h3>
                     <form id="tambahDataasetForm" action="/kalab/tambah-dataaset" method="post"
                         enctype="multipart/form-data">
-                        <!-- Form tambah data aset -->
+
                         <div class="form-group">
                             <label for="namaAset">Nama Aset:</label>
                             <input type="text" id="namaAset" name="namaAset" required>
@@ -126,34 +123,27 @@
         <%- include("../layouts/footer.ejs") %>
 
             <script>
-                // Fungsi untuk membuka modal tambah data aset
                 function openModalTambah() {
                     document.getElementById("tambahModal").style.display = "block";
                 }
-
-                // Fungsi untuk menutup modal tambah data aset
                 function closeModalTambah() {
                     document.getElementById("tambahModal").style.display = "none";
                 }
-
-                // Fungsi untuk menampilkan notifikasi
                 function showNotification(message) {
                     const notification = document.getElementById('notification');
                     notification.innerText = message;
                     notification.style.display = 'block';
-                    notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
-                    notification.style.color = '#721c24'; // Warna teks merah gelap
+                    notification.style.backgroundColor = '#f8d7da'; 
+                    notification.style.color = '#721c24'; 
                     notification.style.padding = '10px';
                     notification.style.margin = '10px 0';
                     notification.style.borderRadius = '5px';
                 }
 
-                // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
                 setTimeout(() => {
                     notification.style.display = 'none';
                 }, 5000);
 
-                // Cek parameter query untuk pesan kesalahan
                 const urlParams = new URLSearchParams(window.location.search);
                 const errorMessage = urlParams.get('error');
                 if (errorMessage) {
@@ -182,7 +172,6 @@
                         }
                     }
 
-                    // Redirect ke URL yang baru dibuat
                     window.location.href = url;
                 });
             </script>

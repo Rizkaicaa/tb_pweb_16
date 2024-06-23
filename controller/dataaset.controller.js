@@ -1,28 +1,25 @@
 const { Dataaset, Lab } = require('../models');
 
-// Mendapatkan semua dataaset
 exports.getAllDataasets = async (req, res, next) => {
     try {
-        const userId = req.user.id; // Ambil ID user yang sedang login
+        const userId = req.user.id; 
         console.log('User ID:', userId);
 
-        // Temukan lab terkait dengan userId
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
             return res.status(404).json({ error: 'Lab tidak ditemukan' });
         }
 
-        const labId = lab.id; // Ambil ID lab dari lab yang ditemukan
-        const nama_lab = lab.nama_lab; // Ambil nama_lab dari lab yang ditemukan
+        const labId = lab.id; 
+        const nama_lab = lab.nama_lab; 
         console.log('Lab ID:', labId);
 
         const dataasets = await Dataaset.findAll({
-            where: { id_lab: labId }, // Filter dataaset berdasarkan ID lab
+            where: { id_lab: labId }, 
         });
 
-        console.log('Dataasets:', dataasets); // Log dataaset untuk memastikan data diambil
-
+        console.log('Dataasets:', dataasets); 
         res.render('kalab/dataaset', { title: 'Data Aset', nama_lab: nama_lab, dataasets: dataasets });
     } catch (error) {
         console.error('Error fetching dataasets:', error);
@@ -51,64 +48,56 @@ exports.getAllDataasetsSearch = async (req, res, next) => {
     }
 };
 
-
-
-// Menambah dataaset baru melalui modal
 exports.addDataaset = async (req, res, next) => {
     try {
-        console.log('Request Body:', req.body); // Log request body
-        console.log('File:', req.file); // Log file info
+        console.log('Request Body:', req.body); 
+        console.log('File:', req.file); 
         const { namaAset, kategoriAset, jumlahAset, spesifikasiAset } = req.body;
-        const userId = req.user.id; // Ambil user ID dari lab yang sedang login
+        const userId = req.user.id; 
 
-        // Temukan lab terkait dengan userId
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
             return res.status(404).json({ error: 'Lab tidak ditemukan' });
         }
 
-        // Jika semua pengecekan lolos, buat dataaset baru
         await Dataaset.create({
             id_lab: lab.id,
             nama_aset: namaAset,
             jenis_aset: kategoriAset,
             spesifikasi: spesifikasiAset,
             jumlah: jumlahAset,
-            foto: req.file ? req.file.filename : null // Periksa apakah file ada
+            foto: req.file ? req.file.filename : null 
         });
 
-        res.redirect('/kalab/dataaset'); // Pengalihan ke halaman daftar dataaset setelah berhasil
+        res.redirect('/kalab/dataaset'); 
     } catch (error) {
         console.error('Error adding dataaset:', error);
         res.redirect('/kalab/dataaset?error=Failed to add dataaset');
     }
 };
 
-// Menampilkan form untuk mengedit dataaset
 exports.getEditDataaset = async (req, res, next) => {
     try {
         const dataaset = await Dataaset.findByPk(req.params.id);
         if (!dataaset) {
             return res.status(404).json({ error: 'Data Aset tidak ditemukan' });
         }
-        res.json(dataaset); // Return JSON instead of rendering
+        res.json(dataaset); 
     } catch (error) {
         console.error('Error fetching dataaset data:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-// Mengedit dataaset
 exports.editDataaset = async (req, res, next) => {
     try {
-        console.log('Request Body:', req.body); // Log request body
-        console.log('File:', req.file); // Log file info
+        console.log('Request Body:', req.body); 
+        console.log('File:', req.file); 
         const { namaAset, kategoriAset, jumlahAset, spesifikasiAset } = req.body;
         const dataasetId = req.params.id;
-        const userId = req.user.id; // Ambil user ID dari pengguna yang sedang login
+        const userId = req.user.id; 
 
-        // Temukan lab terkait dengan userId
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
@@ -120,17 +109,15 @@ exports.editDataaset = async (req, res, next) => {
             return res.status(404).send('Dataaset tidak ditemukan');
         }
 
-        // Pastikan hanya lab yang sesuai dengan pengguna yang sedang login yang dapat mengedit dataaset tersebut
         if (dataaset.id_lab !== lab.id) {
             return res.status(403).send('Anda tidak memiliki izin untuk mengedit dataaset ini');
         }
 
         let fotoAset = dataaset.foto;
-        if (req.file) { // Gunakan req.file untuk mendapatkan file yang diunggah
+        if (req.file) { 
             fotoAset = req.file.filename;
         }
 
-        // Saat menyimpan foto baru, cukup gunakan req.file.filename
         await dataaset.update({
             nama_aset: namaAset,
             jenis_aset: kategoriAset,
@@ -149,9 +136,8 @@ exports.editDataaset = async (req, res, next) => {
 exports.deleteDataaset = async (req, res, next) => {
     try {
         const dataasetId = req.params.id;
-        const userId = req.user.id; // Ambil user ID dari pengguna yang sedang login
+        const userId = req.user.id; 
 
-        // Temukan lab terkait dengan userId
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
@@ -163,13 +149,12 @@ exports.deleteDataaset = async (req, res, next) => {
             return res.status(404).send('Dataaset tidak ditemukan');
         }
 
-        // Pastikan hanya lab yang sesuai dengan pengguna yang sedang login yang dapat menghapus dataaset tersebut
         if (dataaset.id_lab !== lab.id) {
             return res.status(403).send('Anda tidak memiliki izin untuk menghapus dataaset ini');
         }
 
         await dataaset.destroy();
-        res.redirect('/kalab/dataaset'); // Redirect kembali ke halaman daftar dataaset setelah berhasil menghapus
+        res.redirect('/kalab/dataaset'); 
     } catch (error) {
         console.error('Error deleting dataaset:', error);
         next(error);

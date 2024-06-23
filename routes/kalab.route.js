@@ -9,19 +9,14 @@ const { format } = require('date-fns');
 const pengajuanasetController = require('../controller/pengajuan.controller');
 const riwayatasetController = require('../controller/riwayat.controller');
 
-
-
-// Middleware otentikasi untuk memastikan pengguna adalah "Kepala Lab"
 const authenticateUser = async (req, res, next) => {
   try {
-    const user = await getUser(req); // Dapatkan pengguna dari sistem otentikasi Anda
+    const user = await getUser(req); 
 
     if (!user || user.role !== 'Kepala Lab') {
-      // Jika pengguna tidak ditemukan atau bukan "Kepala Lab", kembalikan respons yang sesuai
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Set pengguna di req.user jika valid
     req.user = user;
     next();
   } catch (error) {
@@ -29,10 +24,9 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
-// Konfigurasi storage untuk menyimpan file foto
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Folder tempat menyimpan file
+    cb(null, 'uploads/'); 
   },
   filename: (req, file, cb) => {
     const now = new Date();
@@ -42,7 +36,6 @@ const storage = multer.diskStorage({
   }
 });
 
-// Validasi tipe file
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
@@ -51,7 +44,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Inisialisasi multer dengan konfigurasi storage dan validasi tipe file
 const upload = multer({ 
   storage: storage, 
   fileFilter: fileFilter 
@@ -97,7 +89,6 @@ router.get('/dataaset', authenticateUser, async (req, res, next) => {
   }
 });
 
-// Rute untuk menambah aset baru
 router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (req, res, next) => {
   try {
     await dataasetController.addDataaset(req, res, next);
@@ -107,7 +98,6 @@ router.post('/tambah-dataaset', authenticateUser, upload.single('foto'), async (
   }
 });
 
-// Rute untuk mendapatkan data aset berdasarkan ID (untuk form edit)
 router.get('/edit-dataaset/:id', authenticateUser, async (req, res, next) => {
   try {
     await dataasetController.getEditDataaset(req, res, next);
@@ -117,7 +107,6 @@ router.get('/edit-dataaset/:id', authenticateUser, async (req, res, next) => {
   }
 });
 
-// Rute untuk submit edit aset
 router.post('/edit-dataaset/:id', authenticateUser, upload.single('fotoAset'), async (req, res, next) => {
   try {
     await dataasetController.editDataaset(req, res, next);
@@ -127,7 +116,6 @@ router.post('/edit-dataaset/:id', authenticateUser, upload.single('fotoAset'), a
   }
 });
 
-// Rute untuk menghapus aset
 router.post('/dataaset/delete/:id', authenticateUser, async (req, res, next) => {
   try {
     await dataasetController.deleteDataaset(req, res, next);

@@ -2,14 +2,12 @@
 <%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarAdmin.ejs") %>
 
-<!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
         <h3>Daftar Laboratorium</h3>
         <button class="button-tambah" onclick="openModalTambah()">Tambah Lab</button>
     </div>
 
-    <!-- Notifikasi -->
     <div id="notification" style="display: none;"></div>
 
     <table>
@@ -43,18 +41,15 @@
             <% }); %>
         </tbody>
     </table>
-        
-    <!-- The Modal untuk Tambah Lab -->
+
     <div id="tambahModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeModalTambah()">&times;</span>
             <h3 class="center-text">Tambah Lab Baru</h3>
             <form id="tambahLabForm" action="/admin/tambah-lab" method="post">
-                <!-- Form tambah lab -->
                 <div class="form-group">
                     <label for="kepalaLab">Kepala Lab:</label>
                         <select id="kepalaLab" name="kepalaLab" required>
-                            <!-- Opsi untuk jenis lab dari data lab -->
                             <% users.forEach((user, index) => { %>
                                 <option value="<%= user.nama %>">
                                     <%= user.nama %>
@@ -81,16 +76,13 @@
         </div>
     </div>
 
-    <!-- The Modal untuk Edit Lab -->
     <div id="editModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeModalEdit()">&times;</span>
             <h3 class="center-text">Edit Data Lab</h3>
             <form id="editLabForm" action="/admin/edit-lab" method="post">
-                <!-- Form edit lab -->
                 <label for="editKepalaLab">Kepala Lab:</label>
                 <select id="editKepalaLab" name="kepalaLab" required>
-                    <!-- Opsi untuk nama kepala dari data lab -->
                     <% users.forEach((user, index) => { %>
                         <option value="<%= user.nama %>">
                             <%= user.nama %>
@@ -119,71 +111,52 @@
         function validateTextInput(input) {
             input.value = input.value.replace(/[^a-zA-Z\s.,]/g, '');
         }
-        // Fungsi untuk membuka modal tambah lab
         function openModalTambah() {
             document.getElementById("tambahModal").style.display = "block";
         }
-
-        // Fungsi untuk menutup modal tambah lab
         function closeModalTambah() {
             document.getElementById("tambahModal").style.display = "none";
         }
-
-        // Fungsi untuk membuka modal edit lab dengan menampilkan data yang sesuai
         async function openModalEdit(id) {
-        // Menampilkan modal edit
         document.getElementById("editModal").style.display = "block";
 
         try {
-            // Mengambil data laboratorium dari server berdasarkan ID
             const response = await fetch(`/admin/edit-lab/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch lab data');
             }
             const labData = await response.json();
-
-            // Debug: Periksa data yang diterima dari server
             console.log('Lab data:', labData);
-
-            // Mengisi nilai-nilai form edit dengan data laboratorium yang diterima
             document.getElementById("editNamaLab").value = labData.nama_lab;
             document.getElementById("editKepalaLab").value = labData.nama_kepala;
             document.getElementById("editNamaKordas").value = labData.nama_kordas;
             document.getElementById("editJumlahAsisten").value = labData.jumlah_aslab;
-
-            // Lakukan pengaturan form edit lab sesuai dengan id yang diteruskan
             document.getElementById("editLabForm").setAttribute("action", `/admin/edit-lab/${id}`);
         } catch (error) {
             console.error('Error fetching lab data:', error);
-            // Jika terjadi kesalahan dalam mengambil data laboratorium, tutup modal edit
             closeModalEdit();
         }
     }
 
-        // Fungsi untuk menutup modal edit lab
         function closeModalEdit() {
             document.getElementById("editModal").style.display = "none";
         }
 
-        // Fungsi untuk menampilkan notifikasi
-        // Fungsi untuk menampilkan notifikasi
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.innerText = message;
             notification.style.display = 'block';
-            notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
-            notification.style.color = '#721c24'; // Warna teks merah gelap
+            notification.style.backgroundColor = '#f8d7da'; 
+            notification.style.color = '#721c24'; 
             notification.style.padding = '10px';
             notification.style.margin = '10px 0';
             notification.style.borderRadius = '5px';
         }
 
-        // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
         setTimeout(() => {
             notification.style.display = 'none';
         }, 5000);
 
-        // Cek parameter query untuk pesan kesalahan
         const urlParams = new URLSearchParams(window.location.search);
         const errorMessage = urlParams.get('error');
         if (errorMessage) {

@@ -42,25 +42,21 @@ exports.addPengadaan = async (req, res, next) => {
 
 exports.getAllPengadaanKalab = async (req, res, next) => {
     try {
-        // Fetch all pengadaan data
         const pengadaans = await Pengadaan.findAll({
             include: [{
                 model: Pengajuan,
                 as: 'pengajuan'
             }]
         });
-
-        // Fetch all 'disetujui' pengajuan data
         const pengajuans = await Pengajuan.findAll({
             where: { status: 'disetujui' }
         });
 
-        // Render the view with the pengadaan and pengajuan data
         res.render('kalab/pengadaan', { 
-            title: 'Data Pengadaan Aset', // Define the title variable
+            title: 'Data Pengadaan Aset', 
             pengadaans,
             pengajuans, 
-            nama_lab: 'Nama Lab' // Adjust 'Nama Lab' as necessary
+            nama_lab: 'Nama Lab' 
         });
     } catch (error) {
         console.error('Error occurred:', error);

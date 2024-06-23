@@ -7,7 +7,7 @@ const { Op } = require('sequelize');
 exports.getAllAkunKalab = async (req, res, next) => {
 try {
     const users = await User.findAll({ where: { role: 'Kepala Lab' } });
-    const labs = await Lab.findAll(); // Ambil data lab dari database
+    const labs = await Lab.findAll(); 
     res.render('admin/akunKalab', { title: 'Manajemen Akun', users, labs }); 
 } catch (error) {
     console.error('Error in getAllAkunKalab:', error);
@@ -19,44 +19,36 @@ exports.addAkunKalab = async (req, res) => {
 try {
 const { email, password, confirm_password, nama, nip, tanggal_lahir, jenis_kelamin, no_hp, alamat } = req.body;
 
-// Validasi data tidak boleh kosong
 if (!email || !password || !confirm_password || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !alamat ) {
     return res.redirect('/admin/akunKalab?error=Semua data harus diisi');
 }
 
-// Validasi password dan konfirmasi password
 if (password !== confirm_password) {
     return res.redirect('/admin/akunKalab?error=Password dan Konfirmasi Password tidak sesuai');
 }
 
-// Cek apakah email sudah ada di database
 let existingUser = await User.findOne({ where: { email } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=Email sudah ada');
 }
 
-// Cek apakah NIP sudah ada di database
 existingUser = await User.findOne({ where: { nip } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=NIP sudah terdaftar pada lab lain');
 }
 
-// Cek apakah nama sudah ada di database
 existingUser = await User.findOne({ where: { nama } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=Gagal, Nama Kepala Lab sudah terdaftar di Lab lain');
 }
 
-// Cek apakah no_hp sudah ada di database
 existingUser = await User.findOne({ where: { no_hp } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=No HP sudah ada');
 }
 
-// Hash password
 const hashedPassword = await bcrypt.hash(password, 10);
 
-// Buat akun baru
 await User.create({
     email,
     password: hashedPassword,
@@ -93,45 +85,36 @@ exports.editAkunKalab = async (req, res, next) => {
 try {
 const { email, nama, nip, tanggal_lahir, jenis_kelamin, no_hp, alamat, jenis_lab } = req.body;
 
-// Validasi data tidak boleh kosong
 if (!email || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !alamat ) {
     return res.redirect('/admin/akunKalab?error=Semua data harus diisi');
 }
 
-// Cari user berdasarkan ID
 const user = await User.findByPk(req.params.id);
 
-// Jika user tidak ditemukan, kirim respons dengan pesan error
 if (!user) {
     return res.status(404).send('Akun Kalab tidak ditemukan');
 }
 
-// Cek apakah email yang diinput sudah ada di database, kecuali jika email itu milik user yang sedang diedit
 let existingUser = await User.findOne({ where: { email, id: { [Op.ne]: user.id } } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=Email sudah ada');
 }
 
-// Cek apakah NIP yang diinput sudah ada di database, kecuali jika NIP itu milik user yang sedang diedit
 existingUser = await User.findOne({ where: { nip, id: { [Op.ne]: user.id } } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=NIP sudah ada');
 }
 
-// Cek apakah nama yang diinput sudah ada di database, kecuali jika nama itu milik user yang sedang diedit
 existingUser = await User.findOne({ where: { nama, id: { [Op.ne]: user.id } } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=Nama Kepala Lab sama dengan lab lain');
 }
 
-// Cek apakah no_hp yang diinput sudah ada di database, kecuali jika no_hp itu milik user yang sedang diedit
 existingUser = await User.findOne({ where: { no_hp, id: { [Op.ne]: user.id } } });
 if (existingUser) {
     return res.redirect('/admin/akunKalab?error=No HP sudah ada');
 }
 
-
-// Update data user
 user.email = email;
 user.nama = nama;
 user.nip = nip;
@@ -140,10 +123,8 @@ user.jenis_kelamin = jenis_kelamin;
 user.no_hp = no_hp;
 user.alamat = alamat;
 
-// Simpan perubahan data user
 await user.save();
 
-// Redirect ke halaman akunKalab setelah berhasil menyimpan perubahan
 res.redirect('/admin/akunKalab');
 } catch (error) {
 console.error('Error editing Akun Kalab:', error);

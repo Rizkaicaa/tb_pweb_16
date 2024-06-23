@@ -6,7 +6,6 @@ const labController = require('../controller/lab.controller');
 const akunKalabController = require('../controller/akunKalab.controller');
 const dataasetController = require('../controller/dataaset.controller');
 
-// Routes untuk dashboard, profil, dan edit profil
 router.get('/dashboard', cek('Admin'), async (req, res, next) => {
   try {
     const user = await getUser(req);
@@ -36,13 +35,12 @@ router.get('/edit-profil', cek(''), async (req, res, next) => {
 
 router.post('/edit-profil', cek('Admin'), async (req, res, next) => {
   try {
-    await editProfil(req, res, next); // Pastikan untuk mengimpor dan menggunakan fungsi editProfil yang sesuai
+    await editProfil(req, res, next); 
   } catch (error) {
     next(error);
   }
 });
 
-// Rute untuk menampilkan daftar laboratorium
 router.get('/lab', async (req, res, next) => {
   try {
     await labController.getAllLabs(req, res, next);
@@ -52,10 +50,8 @@ router.get('/lab', async (req, res, next) => {
   }
 });
 
-// Rute untuk menambah laboratorium baru melalui modal
 router.post('/tambah-lab', labController.addLab);
 
-// Rute untuk menampilkan form edit laboratorium berdasarkan ID
 router.get('/edit-lab/:id', async (req, res, next) => {
   try {
     await labController.getEditLab(req, res, next);
@@ -65,7 +61,6 @@ router.get('/edit-lab/:id', async (req, res, next) => {
   }
 });
 
-// Rute untuk mengedit laboratorium (dari formulir edit)
 router.post('/edit-lab/:id', async (req, res, next) => {
   try {
     await labController.editLab(req, res, next);
@@ -75,7 +70,6 @@ router.post('/edit-lab/:id', async (req, res, next) => {
   }
 });
 
-// Rute untuk menghapus laboratorium
 router.post('/lab/delete/:id', async (req, res, next) => {
   try {
     await labController.deleteLab(req, res, next);
@@ -85,7 +79,6 @@ router.post('/lab/delete/:id', async (req, res, next) => {
   }
 });
 
-// Rute untuk menampilkan daftar akun kalab
 router.get('/akunKalab', async (req, res, next) => {
   try {
     await akunKalabController.getAllAkunKalab(req, res, next);
@@ -95,10 +88,8 @@ router.get('/akunKalab', async (req, res, next) => {
   }
 });
 
-// Rute untuk menambah akun kalab baru
 router.post('/tambah-akun-kalab', akunKalabController.addAkunKalab);
 
-// Rute untuk menampilkan form edit akun kalab berdasarkan ID
 router.get('/edit-akun-kalab/:id', async (req, res, next) => {
   try {
     await akunKalabController.getEditAkunKalab(req, res, next);
@@ -108,7 +99,6 @@ router.get('/edit-akun-kalab/:id', async (req, res, next) => {
   }
 });
 
-// Rute untuk mengedit akun kalab (dari formulir edit)
 router.post('/edit-akun-kalab/:id', async (req, res, next) => {
   try {
     await akunKalabController.editAkunKalab(req, res, next);
@@ -118,7 +108,6 @@ router.post('/edit-akun-kalab/:id', async (req, res, next) => {
   }
 });
 
-// Rute untuk menghapus akun kalab
 router.post('/akunKalab/delete/:id', async (req, res, next) => {
   try {
     await akunKalabController.deleteAkunKalab(req, res, next);

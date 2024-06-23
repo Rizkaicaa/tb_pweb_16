@@ -38,7 +38,6 @@ router.post('/edit-profil', cek('Kepala Departemen'), async (req, res,next)=> {
 
 })
 
-// Rute untuk menampilkan daftar laboratorium
 router.get('/lab', cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await labController.getAllLabsKadep(req, res, next);
@@ -57,7 +56,6 @@ router.get('/dataaset', cek('Kepala Departemen'), async (req, res, next) => {
   }
 });
 
-// Rute untuk menampilkan aset dari lab tertentu
 router.get('/lihataset/:labId',cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await labController.getDataasetsByLabId(req, res, next);
@@ -69,8 +67,6 @@ router.get('/lihataset/:labId',cek('Kepala Departemen'), async (req, res, next) 
 
 router.get('/pengajuan', pengajuanasetController.getAllPengajuanKadep);
 
-
-// Rute untuk mendapatkan data aset berdasarkan ID (untuk form edit)
 router.get('/edit-pengajuan/:id', cek('Kepala Departemen'), async (req, res, next) => {
   try {
     await pengajuanasetController.getEditPengajuan(req, res, next);

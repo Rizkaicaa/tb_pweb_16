@@ -3,7 +3,6 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Perbaikan extends Model {
     static associate(models) {
-      // Define association here
       Perbaikan.belongsTo(models.Dataaset, {
         foreignKey: "id_aset",
         as: "aset",

@@ -1,14 +1,12 @@
 <%- include("../layouts/header.ejs") %>
     <%- include("../layouts/sidebarKalab.ejs") %>
 
-        <!-- ========== MAIN ========== -->
         <main class="content">
             <div class="header-content">
                 <h3>Data Perbaikan Aset</h3>
                 <button class="button-tambah" onclick="openModalTambah()">Tambah Perbaikan</button>
             </div>
 
-            <!-- Notifikasi -->
             <div id="notification" style="display: none;"></div>
 
             <table>
@@ -127,26 +125,21 @@
                 document.getElementById("tambahModal").style.display = "none";
             }
 
-
-  
-            // Fungsi untuk menampilkan notifikasi
             function showNotification(message) {
                 const notification = document.getElementById('notification');
                 notification.innerText = message;
                 notification.style.display = 'block';
-                notification.style.backgroundColor = '#f8d7da'; // Warna latar belakang merah
-                notification.style.color = '#721c24'; // Warna teks merah gelap
+                notification.style.backgroundColor = '#f8d7da'; 
+                notification.style.color = '#721c24'; 
                 notification.style.padding = '10px';
                 notification.style.margin = '10px 0';
                 notification.style.borderRadius = '5px';
             }
 
-            // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 5000);
 
-            // Cek parameter query untuk pesan kesalahan
             const urlParams = new URLSearchParams(window.location.search);
             const errorMessage = urlParams.get('error');
             if (errorMessage) {

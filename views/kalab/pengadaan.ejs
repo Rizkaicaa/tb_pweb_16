@@ -1,7 +1,6 @@
 <%- include("../layouts/header.ejs") %>
 <%- include("../layouts/sidebarKalab.ejs") %>
 
-<!-- ========== MAIN ========== -->
 <main class="content">
     <div class="header-content">
         <h3>Data Pengadaan Aset </h3>
@@ -10,7 +9,7 @@
     <div class="header-content">
         <p>Pengadaan Aset hanya dapat dilakukan apabila pengajuan pembelian telah disetujui oleh Kepala Departemen </p>
     </div>
-    <!-- Notifikasi -->
+
     <div id="notification" style="display: none;"></div>
 
     <table>
@@ -46,7 +45,6 @@
         </tbody>
     </table>
 
-    <!-- The Modal untuk Tambah Data Aset -->
     <div id="tambahModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeModalTambah()">&times;</span>
@@ -88,7 +86,7 @@
 
 <script>
     document.getElementById('harga_beli').addEventListener('input', updateTotalHarga);
-    document.getElementById('id_pengajuan').addEventListener('change', updateTotalHarga);  // Tambahkan event listener untuk change event pada dropdown
+    document.getElementById('id_pengajuan').addEventListener('change', updateTotalHarga);  
 
     function updateTotalHarga() {
         const hargaBeli = parseFloat(document.getElementById('harga_beli').value) || 0;
@@ -116,7 +114,6 @@
         notification.style.borderRadius = '5px';
     }
 
-    // Sembunyikan notifikasi setelah 5 detik (5000 milidetik)
     setTimeout(() => {
             notification.style.display = 'none';
         }, 5000);
