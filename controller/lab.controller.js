@@ -49,7 +49,7 @@ exports.getDataasetsByLabId = async (req, res, next) => {
 
       if (!lab) {
           console.error('Lab not found');
-          return res.status(404).json({ error: 'Lab tidak ditemukan' });
+          return res.status(404).json({ error: 'Maaf, Lab tidak ditemukan' });
       }
 
       const nama_lab = lab.nama_lab; 
@@ -77,17 +77,17 @@ exports.addLab = async (req, res) => {
     const id_user = kepalaLabUser.id;
 
     if (existingLab) {
-      return res.redirect('/admin/lab?error=Gagal, nama lab sudah ada');
+      return res.redirect('/admin/lab?error=Gagal, Nama lab sudah ada');
     }
 
     const existingKepalaLab = await Lab.findOne({ where: { nama_kepala: kepalaLab } });
     if (existingKepalaLab) {
-      return res.redirect('/admin/lab?error=Nama kepala lab sudah ada');
+      return res.redirect('/admin/lab?error=Gagal, Nama kepala lab sudah ada');
     }
 
     const existingNamaKordas = await Lab.findOne({ where: { nama_kordas: namaKordas } });
     if (existingNamaKordas) {
-      return res.redirect('/admin/lab?error=Nama kordas sudah ada');
+      return res.redirect('/admin/lab?error=Gagal, Nama kordas sudah ada');
     }
 
     await Lab.create({
@@ -109,7 +109,7 @@ exports.getEditLab = async (req, res, next) => {
   try {
     const lab = await Lab.findByPk(req.params.id);
     if (!lab) {
-      return res.status(404).json({ error: 'Lab not found' });
+      return res.status(404).json({ error: 'Maaf, Lab tidak ditemukan' });
     }
     res.json(lab); 
   } catch (error) {
@@ -125,28 +125,28 @@ exports.editLab = async (req, res, next) => {
 
     const kepalaLabUser = await User.findOne({ where: { nama: kepalaLab } });
     if (!kepalaLabUser) {
-      return res.redirect(`/admin/lab?error=Kepala lab not found`);
+      return res.redirect(`/admin/lab?error=Maaf, data kepala lab tidak ditemukan`);
     }
     const id_user = kepalaLabUser.id;
 
     const existingLab = await Lab.findOne({ where: { [Op.and]: [{ id: { [Op.ne]: labId } }, { nama_lab: namaLab }] } });
     if (existingLab) {
-      return res.redirect(`/admin/lab?error=Nama lab sudah ada`);
+      return res.redirect(`/admin/lab?error=Gagal, Nama lab sudah ada`);
     }
 
     const existingKepalaLab = await Lab.findOne({ where: { [Op.and]: [{ id: { [Op.ne]: labId } }, { nama_kepala: kepalaLab }] } });
     if (existingKepalaLab) {
-      return res.redirect(`/admin/lab?error=Nama kepala lab sudah ada`);
+      return res.redirect(`/admin/lab?error=Gagal, Nama kepala lab sudah ada`);
     }
 
     const existingNamaKordas = await Lab.findOne({ where: { [Op.and]: [{ id: { [Op.ne]: labId } }, { nama_kordas: namaKordas }] } });
     if (existingNamaKordas) {
-      return res.redirect(`/admin/lab?error=Nama kordas sudah ada`);
+      return res.redirect(`/admin/lab?error=Gagal, Nama kordas sudah ada`);
     }
 
     const lab = await Lab.findByPk(labId);
     if (!lab) {
-      return res.status(404).send('Lab tidak ditemukan');
+      return res.status(404).send('Maaf, Lab tidak ditemukan');
     }
 
     lab.nama_lab = namaLab;
@@ -167,7 +167,7 @@ exports.deleteLab = async (req, res, next) => {
   try {
     const lab = await Lab.findByPk(req.params.id);
     if (!lab) {
-      return res.status(404).send('Lab not found');
+      return res.status(404).send('Maaf, Lab tidak ditemukan');
     }
     await lab.destroy();
     res.redirect('/admin/lab'); 

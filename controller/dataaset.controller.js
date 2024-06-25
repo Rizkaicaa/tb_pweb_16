@@ -8,7 +8,7 @@ exports.getAllDataasets = async (req, res, next) => {
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
-            return res.status(404).json({ error: 'Lab tidak ditemukan' });
+            return res.status(404).json({ error: 'Maaf, tidak bisa melihat aset, Lab tidak ditemukan' });
         }
 
         const labId = lab.id; 
@@ -58,7 +58,7 @@ exports.addDataaset = async (req, res, next) => {
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
-            return res.status(404).json({ error: 'Lab tidak ditemukan' });
+            return res.status(404).json({ error: 'Gagal, Lab tidak ditemukan' });
         }
 
         await Dataaset.create({
@@ -73,7 +73,7 @@ exports.addDataaset = async (req, res, next) => {
         res.redirect('/kalab/dataaset'); 
     } catch (error) {
         console.error('Error adding dataaset:', error);
-        res.redirect('/kalab/dataaset?error=Failed to add dataaset');
+        res.redirect('/kalab/dataaset?error=Gagal menambahkan data aset');
     }
 };
 
@@ -81,7 +81,7 @@ exports.getEditDataaset = async (req, res, next) => {
     try {
         const dataaset = await Dataaset.findByPk(req.params.id);
         if (!dataaset) {
-            return res.status(404).json({ error: 'Data Aset tidak ditemukan' });
+            return res.status(404).json({ error: 'Gagal, Data Aset tidak ditemukan' });
         }
         res.json(dataaset); 
     } catch (error) {
@@ -101,16 +101,16 @@ exports.editDataaset = async (req, res, next) => {
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
-            return res.status(404).json({ error: 'Lab tidak ditemukan' });
+            return res.status(404).json({ error: 'Gagal, Lab tidak ditemukan' });
         }
 
         const dataaset = await Dataaset.findByPk(dataasetId);
         if (!dataaset) {
-            return res.status(404).send('Dataaset tidak ditemukan');
+            return res.status(404).send('Gagal, Dataaset tidak ditemukan');
         }
 
         if (dataaset.id_lab !== lab.id) {
-            return res.status(403).send('Anda tidak memiliki izin untuk mengedit dataaset ini');
+            return res.status(403).send('Gagal, Anda tidak memiliki izin untuk mengedit dataaset ini');
         }
 
         let fotoAset = dataaset.foto;
@@ -141,16 +141,16 @@ exports.deleteDataaset = async (req, res, next) => {
         const lab = await Lab.findOne({ where: { id_user: userId } });
 
         if (!lab) {
-            return res.status(404).json({ error: 'Lab tidak ditemukan untuk pengguna yang sedang login' });
+            return res.status(404).json({ error: 'Gagal, Lab tidak ditemukan untuk pengguna yang sedang login' });
         }
 
         const dataaset = await Dataaset.findByPk(dataasetId);
         if (!dataaset) {
-            return res.status(404).send('Dataaset tidak ditemukan');
+            return res.status(404).send('Gagal, Dataaset tidak ditemukan');
         }
 
         if (dataaset.id_lab !== lab.id) {
-            return res.status(403).send('Anda tidak memiliki izin untuk menghapus dataaset ini');
+            return res.status(403).send('Gagal, Anda tidak memiliki izin untuk menghapus dataaset ini');
         }
 
         await dataaset.destroy();

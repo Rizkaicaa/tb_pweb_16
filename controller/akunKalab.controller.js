@@ -24,17 +24,17 @@ if (!email || !password || !confirm_password || !nama || !nip || !tanggal_lahir 
 }
 
 if (password !== confirm_password) {
-    return res.redirect('/admin/akunKalab?error=Password dan Konfirmasi Password tidak sesuai');
+    return res.redirect('/admin/akunKalab?error=Password saat ini dan Password baru tidak sesuai');
 }
 
 let existingUser = await User.findOne({ where: { email } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Email sudah ada');
+    return res.redirect('/admin/akunKalab?error=Gagal, Email sudah terdaftar untuk kepala lab lain');
 }
 
 existingUser = await User.findOne({ where: { nip } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=NIP sudah terdaftar pada lab lain');
+    return res.redirect('/admin/akunKalab?error=Gagal, NIP tidak boleh sama');
 }
 
 existingUser = await User.findOne({ where: { nama } });
@@ -44,7 +44,7 @@ if (existingUser) {
 
 existingUser = await User.findOne({ where: { no_hp } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=No HP sudah ada');
+    return res.redirect('/admin/akunKalab?error=Gagal, No HP tidak boleh sama');
 }
 
 const hashedPassword = await bcrypt.hash(password, 10);
@@ -72,7 +72,7 @@ exports.getEditAkunKalab = async (req, res, next) => {
 try {
 const user = await User.findByPk(req.params.id);
 if (!user) {
-    return res.status(404).json({ error: 'Akun Kalab tidak ditemukan' });
+    return res.status(404).json({ error: 'Maaf, Akun Kalab tidak ditemukan' });
 }
 res.json(user); 
 } catch (error) {
@@ -92,27 +92,27 @@ if (!email || !nama || !nip || !tanggal_lahir || !jenis_kelamin || !no_hp || !al
 const user = await User.findByPk(req.params.id);
 
 if (!user) {
-    return res.status(404).send('Akun Kalab tidak ditemukan');
+    return res.status(404).send('Gagal, Akun Kalab tidak ditemukan');
 }
 
 let existingUser = await User.findOne({ where: { email, id: { [Op.ne]: user.id } } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Email sudah ada');
+    return res.redirect('/admin/akunKalab?error=Gagal, Email sudah terdaftar untuk kepala lab lain');
 }
 
 existingUser = await User.findOne({ where: { nip, id: { [Op.ne]: user.id } } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=NIP sudah ada');
+    return res.redirect('/admin/akunKalab?error=Gagal, NIP tidak boleh sama');
 }
 
 existingUser = await User.findOne({ where: { nama, id: { [Op.ne]: user.id } } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=Nama Kepala Lab sama dengan lab lain');
+    return res.redirect('/admin/akunKalab?error=Gagal, Nama Kepala Lab sudah terdaftar di Lab lain');
 }
 
 existingUser = await User.findOne({ where: { no_hp, id: { [Op.ne]: user.id } } });
 if (existingUser) {
-    return res.redirect('/admin/akunKalab?error=No HP sudah ada');
+    return res.redirect('/admin/akunKalab?error=Gagal, No Hp tidak boleh sama');
 }
 
 user.email = email;

@@ -65,7 +65,6 @@ function logout(req, res) {
   res.redirect('/auth/login');
 }
 
-
 function checkUserLoggedIn(req) {
   const token = req.cookies.token;
   let user = null;
