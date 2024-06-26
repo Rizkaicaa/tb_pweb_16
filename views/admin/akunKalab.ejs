@@ -39,7 +39,7 @@
                         <div style="display: flex;">
                             <button class="button-edit" onclick="openModalEdit('<%= user.id %>')">Edit</button>
                             <form id="deleteKalabForm-<%= user.id %>" action="/admin/akunKalab/delete/<%= user.id %>" method="post" style="margin-left: 5px;">
-                                <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus akun Kalab ini?')">Hapus</button>
+                                <button class="button-hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data kepala lab?')">Hapus</button>
                             </form>
                         </div>
                     </td>
@@ -105,11 +105,11 @@
                 <div class="form-row">
                     <div class="form-group form-group-half">
                         <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" required oninput="validatePasswordInput(this)">
                     </div> 
                     <div class="form-group form-group-half">
                         <label for="confirm_password">Konfirmasi Password:</label>
-                        <input type="password" id="confirm_password" name="confirm_password" required>
+                        <input type="password" id="confirm_password" name="confirm_password" required oninput="validatePasswordInput(this)">
                     </div>  
                 </div>
                 <button type="submit">Tambah</button>
@@ -202,6 +202,21 @@
             input.value = input.value.replace(/[^0-9]/g, '');
         }
 
+        function validatePasswordInput(input) {
+        const password = input.value;
+        const confirmPassword = document.getElementById("confirm_password").value;
+
+        if (password !== confirmPassword) {
+            input.setCustomValidity("Password dan Konfirmasi Password tidak sesuai.");
+        } else {
+            input.setCustomValidity("");
+        }
+
+        const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            input.setCustomValidity("Password harus memiliki minimal 8 karakter dan setidaknya satu huruf besar.");
+        }
+    }
         function openModalTambah() {
             document.getElementById("tambahModal").style.display = "block";
         }
